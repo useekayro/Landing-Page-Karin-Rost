@@ -1,0 +1,28 @@
+# ── Configuração local do Claude / editor ─────────────────────────
+# Contém caminhos e usuário da sua máquina — não deve ir para o repositório.
+.claude/
+.vscode/
+
+# ── Imagens soltas na raiz (duplicadas) ───────────────────────────
+# O site usa apenas as imagens em assets/img/. Os PNGs soltos na raiz
+# são cópias antigas e só pesam no repositório.
+# (a barra no início trava a regra na raiz — não afeta assets/img/)
+/*.png
+/*.jpg
+/*.jpeg
+/*.webp
+
+# ── Sistema operacional ───────────────────────────────────────────
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# ── Node / dependências (caso venha a usar) ───────────────────────
+node_modules/
+npm-debug.log*
+.env
+.env.*
+
+# ── Deploy Vercel ─────────────────────────────────────────────────
+.vercel
