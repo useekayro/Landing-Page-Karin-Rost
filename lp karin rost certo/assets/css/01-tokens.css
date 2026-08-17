@@ -1,0 +1,97 @@
+/* ════════════════════════════════════════════════════════════════
+   TOKENS — Karin Rost Advocacia
+   Os fundos de seção são hex EXATO amostrado dos PNGs. Precisam
+   bater pixel a pixel com a borda de cada foto para que a imagem
+   dissolva na página sem corte nem máscara — por isso não passam
+   por conversão de espaço de cor. Os tons derivados (que eu
+   escolhi, não amostrei) são OKLCH.
+   ════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Fundos amostrados ────────────────────────────────────── */
+  --ardosia:       #151D28;   /* cinza azulado opaco — campo da página */
+  --azul:          #19212C;   /* bordas de karin-azul.png (média das 8) */
+  --luz:           #F2EFED;   /* campo claro: sobre, diferenciais, CTA */
+
+  /* ── Superfícies derivadas ────────────────────────────────── */
+  --ardosia-alto:  oklch(0.274 0.021 252);
+  --ardosia-topo:  oklch(0.316 0.023 252);
+  --luz-alto:      oklch(0.972 0.003 250);
+  --azul-alto:     oklch(0.330 0.030 252);
+
+  /* ── Ouro (amostrado de logo.png e do traçado de emblema.png) ─
+     O ouro é claro o bastante para carregar texto sobre o escuro
+     (7,8:1) — ao contrário do rosa que ele substituiu, que exigia
+     um tom claro só para as letras. Por isso a pílula voltou a ser
+     ouro com tinta quase preta, e não branco sobre cor. */
+  --ouro:          #D8A94E;   /* corpo do dourado do logo          */
+  --ouro-claro:    #FDD45C;   /* realce do logo (amostra 180,870)  */
+  --ouro-fundo:    #7C5A2A;   /* bronze para o campo claro, 5,4:1  */
+  --tinta-pilula:  #1A1006;   /* sobre ouro = 8,7:1                */
+
+  /* ── Tinta ────────────────────────────────────────────────── */
+  --tinta-clara:   oklch(0.945 0.008 250);   /* sobre escuro  16:1 */
+  --tinta-media:   oklch(0.760 0.012 250);   /* sobre escuro   8:1 */
+  --tinta-fraca:   oklch(0.640 0.012 250);   /* sobre escuro 4.9:1 */
+  --tinta-escura:  oklch(0.185 0.012 252);   /* sobre claro   14:1 */
+  --tinta-suave:   oklch(0.430 0.010 252);   /* sobre claro  6.4:1 */
+
+  /* ── Traços ───────────────────────────────────────────────── */
+  --linha-clara:   color-mix(in oklab, var(--tinta-clara) 16%, transparent);
+  --linha-forte:   color-mix(in oklab, var(--ouro) 42%, transparent);
+  --linha-escura:  color-mix(in oklab, var(--tinta-escura) 15%, transparent);
+
+  /* ── Tipografia ───────────────────────────────────────────── */
+  --display: "Bodoni Moda", "Didot", "Bodoni MT", "Playfair Display", Georgia, serif;
+  --texto:   "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* Letra emendada, usada só no subtítulo do hero. A pilha de
+     reserva é toda de scripts que existem nativamente no Mac e no
+     Windows — se a fonte de rede falhar, o traço continua ligado. */
+  --escrita: "Great Vibes", "Snell Roundhand", "Apple Chancery",
+             "Segoe Script", "Brush Script MT", cursive;
+
+  --t--1: clamp(0.8125rem, 0.79rem + 0.11vw, 0.875rem);
+  --t-0:  clamp(1rem,      0.96rem + 0.20vw, 1.125rem);
+  --t-1:  clamp(1.1875rem, 1.12rem + 0.34vw, 1.375rem);
+  --t-2:  clamp(1.5rem,    1.36rem + 0.68vw, 2rem);
+  --t-3:  clamp(1.9375rem, 1.68rem + 1.24vw, 2.875rem);
+  --t-4:  clamp(2.375rem,  1.90rem + 2.30vw, 4rem);
+  --t-5:  clamp(3rem,      2.16rem + 4.05vw, 5.75rem);
+
+  /* ── Espaço ───────────────────────────────────────────────── */
+  --s1: 0.5rem;  --s2: 0.75rem; --s3: 1rem;   --s4: 1.5rem;
+  --s5: 2rem;    --s6: 3rem;    --s7: 4.5rem; --s8: 6.5rem;
+  --sec:   clamp(5rem, 9.5vw, 10.5rem);
+  --gutter: clamp(1.25rem, 5vw, 5.5rem);
+  --wrap:  76rem;
+
+  /* ── Raios ────────────────────────────────────────────────── */
+  --raio:    16px;    /* cards                       */
+  --raio-sm: 10px;    /* elementos menores, painéis  */
+  --pilula:  999px;   /* botões                      */
+
+  /* ── Camadas ──────────────────────────────────────────────── */
+  /* deco(1) < véu do hero(2) < conteúdo(3) — o gradiente escurece a
+     foto, nunca o texto que está sobre ela. */
+  --z-deco: 1; --z-conteudo: 3; --z-pop: 30;
+  /* a navbar fica ACIMA do sheet: é ela que carrega o botão de
+     fechar, e atrás do painel ele seria inalcançável */
+  --z-sheet: 70; --z-nav: 80; --z-skip: 100;
+
+  /* ── Curvas ───────────────────────────────────────────────── */
+  --expo:  cubic-bezier(0.16, 1, 0.30, 1);
+  --quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --mola:  cubic-bezier(0.34, 1.42, 0.42, 1);
+
+  /* ── Marca-texto e sublinhado ──────────────────────────────
+     SVG colorido em background-image (não máscara): assim o traço
+     é pintado por fragmento de linha via box-decoration-break,
+     e uma frase que quebra em 3 linhas ganha 3 traços — não um
+     retângulo só cobrindo o parágrafo inteiro.
+     Traçado com wobble de propósito: borda irregular, segunda
+     passada deslocada, nada de retângulo perfeito.             */
+  --hl-ouro: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 8 300 19' preserveAspectRatio='none'%3E%3Cpath d='M4,20 C50,11 120,15 180,11 C230,8 292,12 296,17 C299,21 250,26 190,25 C130,24 55,27 12,24 C3,23 1,21 4,20 Z' fill='%23D8A94E' fill-opacity='0.5'/%3E%3C/svg%3E");
+  --hl-ouro-forte: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 8 300 19' preserveAspectRatio='none'%3E%3Cpath d='M4,20 C50,11 120,15 180,11 C230,8 292,12 296,17 C299,21 250,26 190,25 C130,24 55,27 12,24 C3,23 1,21 4,20 Z' fill='%23D8A94E' fill-opacity='0.62'/%3E%3C/svg%3E");
+  --ul-ouro: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 22' preserveAspectRatio='none'%3E%3Cpath d='M5,11 C70,4 145,15 296,7' fill='none' stroke='%23D8A94E' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M14,18.5 C95,12 180,20 288,13.5' fill='none' stroke='%23D8A94E' stroke-width='2.4' stroke-linecap='round' opacity='0.5'/%3E%3C/svg%3E");
+  --ul-ouro-fundo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 22' preserveAspectRatio='none'%3E%3Cpath d='M5,11 C70,4 145,15 296,7' fill='none' stroke='%237C5A2A' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M14,18.5 C95,12 180,20 288,13.5' fill='none' stroke='%237C5A2A' stroke-width='2.4' stroke-linecap='round' opacity='0.45'/%3E%3C/svg%3E");
+}

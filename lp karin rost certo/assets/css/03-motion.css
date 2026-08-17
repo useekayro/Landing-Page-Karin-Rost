@@ -1,0 +1,102 @@
+/* ════════════════════════════════════════════════════════════════
+   MOVIMENTO
+   Regra de ouro: o conteúdo é visível POR PADRÃO. O estado inicial
+   da animação só existe quando o JS confirma que vai animar
+   (html.js-anim). Sem JS, aba em segundo plano, print ou crawler:
+   a página aparece inteira, nada fica preso atrás de uma classe.
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Reveal ───────────────────────────────────────────────────── */
+.js-anim .reveal {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+}
+.js-anim .reveal.is-in {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.62s var(--expo), transform 0.62s var(--expo);
+}
+.js-anim [data-reveal-delay="1"].is-in { transition-delay: 0.07s; }
+.js-anim [data-reveal-delay="2"].is-in { transition-delay: 0.14s; }
+.js-anim [data-reveal-delay="3"].is-in { transition-delay: 0.21s; }
+.js-anim [data-reveal-delay="4"].is-in { transition-delay: 0.28s; }
+.js-anim [data-reveal-delay="5"].is-in { transition-delay: 0.35s; }
+
+/* ── Marca-texto ──────────────────────────────────────────────── */
+/* Altura da faixa calculada pelas métricas: a caixa de fundo de um
+   elemento inline começa em (linha-de-base − ascendente ≈ 0.93em).
+   A altura-x fica em ~0.46em abaixo desse topo. Então 0.40em → 1.02em
+   cobre o corpo das letras e morre logo abaixo da linha de base —
+   marcador, não sublinhado grosso. */
+.mk-hl {
+  background-image: var(--hl-ouro);
+  background-repeat: no-repeat;
+  background-position: 0 0.40em;
+  background-size: 100% 0.62em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding-inline: 0.14em;
+  margin-inline: -0.14em;
+}
+.mk-hl--luz  { background-image: var(--hl-ouro-forte); }
+.mk-hl--wide { background-position: 0 0.32em; background-size: 100% 0.78em; }
+
+.js-anim .mk-hl { background-size: 0% 0.62em; }
+.js-anim .mk-hl--wide { background-size: 0% 0.78em; }
+.js-anim .mk-hl.is-drawn       { background-size: 100% 0.62em; transition: background-size 0.72s var(--quint) 0.12s; }
+.js-anim .mk-hl--wide.is-drawn { background-size: 100% 0.78em; }
+
+/* ── Sublinhado desenhado à mão ───────────────────────────────── */
+.mk-ul {
+  background-image: var(--ul-ouro);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 0.42em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding-bottom: 0.16em;
+}
+.mk-ul--dark { background-image: var(--ul-ouro-fundo); }
+
+.js-anim .mk-ul { background-size: 0% 0.42em; }
+.js-anim .mk-ul.is-drawn {
+  background-size: 100% 0.42em;
+  transition: background-size 0.86s var(--expo) 0.1s;
+}
+
+/* ── Réguas que se desenham ───────────────────────────────────── */
+.js-anim .rule--draw { transform: scaleX(0); }
+.js-anim .rule--draw.is-in {
+  transform: scaleX(1);
+  transition: transform 1.05s var(--expo);
+}
+
+/* ── Parallax ─────────────────────────────────────────────────── */
+[data-parallax] { will-change: transform; }
+
+/* ── Respeito total a quem pediu menos movimento ──────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  .js-anim .reveal { opacity: 0; transform: none; }
+  .js-anim .reveal.is-in {
+    opacity: 1;
+    transition: opacity 0.01ms;
+    transition-delay: 0ms !important;
+  }
+
+  /* traço aparece pronto, sem varredura */
+  .js-anim .mk-hl,  .js-anim .mk-hl.is-drawn  { background-size: 100% 0.62em; transition: none; }
+  .js-anim .mk-hl--wide, .js-anim .mk-hl--wide.is-drawn { background-size: 100% 0.78em; }
+  .js-anim .mk-ul,  .js-anim .mk-ul.is-drawn  { background-size: 100% 0.42em; transition: none; }
+
+  .js-anim .rule--draw, .js-anim .rule--draw.is-in { transform: none; transition: none; }
+
+  [data-parallax] { transform: none !important; will-change: auto; }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
