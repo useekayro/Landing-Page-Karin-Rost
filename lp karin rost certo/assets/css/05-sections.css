@@ -1,0 +1,1001 @@
+/* ════════════════════════════════════════════════════════════════
+   SEÇÕES
+   Nenhuma foto usa object-fit: cover. Nenhuma tem máscara, filtro
+   ou proporção forçada. Onde a borda da foto é uma cor chapada
+   (hero, processo) o fundo da seção é aquele hex exato e a imagem
+   dissolve. Onde a borda tem gradiente (sobre, contato) a foto
+   assume um retângulo deliberado sobre o campo claro — melhor uma
+   aresta intencional que uma fusão malfeita.
+   ════════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════ HERO ═══════════════════════ */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex; align-items: center;
+  background: var(--ardosia);
+  overflow: hidden;
+  padding-block: var(--s7);
+}
+
+.hero__art { position: absolute; inset: 0; z-index: var(--z-deco); }
+/* Única foto da página em cover, e por um motivo medido: as bordas
+   de hero-colunas.png não são cor chapada (topo #24334B, base
+   #091830), então em contain as barras de 49px viravam duas faixas
+   horizontais visíveis. Aqui não há ninguém para cortar — é a
+   fachada, não a cliente. As fotos da Karin seguem intocadas. */
+.hero__art img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: 88% center;
+}
+/* O vazio ao redor recebe o cinza azulado da própria borda da
+   imagem, então a composição lê como sangria total sem recorte. */
+/* Sem véu: a foto entra como está no arquivo, sem uma camada de
+   cor por cima. O contraste do texto passou a ser resolvido no
+   próprio texto (ver .hero__name/.hero__role), não na imagem. */
+
+.hero__grid {
+  position: relative; z-index: var(--z-conteudo);
+  width: min(100% - (var(--gutter) * 2), var(--wrap));
+  margin-inline: auto;
+}
+/* Centralizado nos dois eixos: o vertical vem do align-items do
+   .hero, o horizontal daqui. A caixa cresceu de 34rem para 54rem
+   junto com o nome — em 34rem ele quebraria em duas linhas. */
+.hero__type {
+  max-width: min(100%, 54rem);
+  margin-inline: auto;
+  text-align: center;
+}
+
+/* Fora da escala: o nome tem clamp próprio, inclinação de 9,4vw
+   (quase três vezes a do --t-5) e teto de 10,5rem. O piso de
+   3,5rem não é estético — é o maior corpo em que "Karin Rost"
+   ainda cabe numa linha na tela de 320px (274 de 280px úteis). */
+.hero__name {
+  font-family: var(--display);
+  font-size: clamp(3.5rem, 0.8rem + 9.4vw, 10.5rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  margin-bottom: 0.25rem;
+}
+
+/* Letra emendada sob o nome: onde antes havia versal com entreletra
+   larga, agora há uma única palavra escrita de traço contínuo. Duas
+   coisas saíram junto por obrigação da forma — a caixa alta, que
+   desliga as ligaduras do script, e a entreletra, que literalmente
+   corta a emenda entre as letras. Em troca o corpo subiu: o
+   contorno fino de um script precisa de tamanho para não sumir
+   sobre a fotografia. */
+.hero__role {
+  font-family: var(--escrita);
+  font-size: clamp(2.5rem, 0.85rem + 5.7vw, 6.5rem);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: 0;
+  /* tinta clara, não ouro: sem o véu, a coluna iluminada da foto
+     passa exatamente nesta faixa (pior pixel #5d6980), onde o ouro
+     daria 3,4:1. A tinta clara dá 4,7:1 sobre o mesmo pixel. */
+  color: var(--tinta-clara);
+  margin-top: 0;
+}
+
+.hero__sentinel { position: absolute; left: 0; bottom: 0; width: 1px; height: 1px; }
+
+/* ═══════════ FICHA — credencial e escopo ═══════════
+   Saiu do hero para cá: na primeira dobra competia com a
+   fotografia; aqui abre o manifesto como ficha técnica. */
+.ficha {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s4) var(--s5);
+  margin-bottom: var(--s6);
+  padding-bottom: var(--s5);
+  border-bottom: 1px solid var(--linha-clara);
+}
+@media (min-width: 48rem) {
+  .ficha { grid-template-columns: minmax(0, 0.75fr) minmax(0, 0.6fr) minmax(0, 1.5fr); }
+}
+.ficha dt {
+  font-size: 0.8125rem; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ouro-claro);
+  margin-bottom: 0.6rem;
+}
+.ficha dd {
+  font-size: var(--t-0);
+  line-height: 1.65;
+  color: var(--tinta-media);
+}
+.ficha__item:not(.ficha__item--largo) dd {
+  font-family: var(--display);
+  font-size: var(--t-1); font-weight: 700;
+  line-height: 1.3;
+  color: var(--tinta-clara);
+}
+
+/* ═══════════════════════ MANIFESTO ═══════════════════════ */
+.manifesto {
+  position: relative;
+  background: var(--ardosia);
+  padding-block: var(--sec);
+  overflow: hidden;
+}
+.manifesto .rule { margin-bottom: var(--s6); }
+
+.manifesto__h {
+  font-family: var(--display);
+  font-size: var(--t-4);
+  font-weight: 700; line-height: 1.13;
+  letter-spacing: -0.03em;
+  margin-bottom: var(--s6);
+}
+
+/* Alinhado à esquerda, na mesma margem do título — antes ficava
+   empurrado para a direita e as duas colunas não batiam com nada. */
+.manifesto__body {
+  display: grid;
+  gap: var(--s4) var(--s6);
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  align-items: start;
+  max-width: 56rem;
+  margin-right: auto;
+  color: var(--tinta-media);
+  font-size: var(--t-0);
+  line-height: 1.75;
+  text-align: left;
+  text-wrap: pretty;
+}
+
+.deco--arc {
+  position: absolute; z-index: var(--z-deco);
+  right: -14vw; top: 18%;
+  width: 34vw; aspect-ratio: 1;
+  border: 1px solid color-mix(in oklab, var(--ouro) 16%, transparent);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* ═══════════════════════ EMBLEMA ═══════════════════════
+   A marca em seção inteira, com texto nas TRÊS janelas escuras do
+   arquivo — nenhuma delas encosta no traço dourado. Varri o PNG em
+   células de 38×43px: as colunas 0-29% e 73-100% estão livres em
+   toda a altura, e a tira y 86-100% cruza a imagem inteira por
+   baixo do círculo. É onde os três blocos moram. */
+.cena--emblema { background: var(--ardosia); }
+
+.emblema__h {
+  font-family: var(--display);
+  font-size: var(--t-3);
+  font-weight: 700; line-height: 1.14;
+  letter-spacing: -0.026em;
+}
+/* Um degrau acima do corpo padrão: o texto vive dentro da foto, e
+   14px sobre fotografia lê como legenda, não como argumento. */
+.emblema__p,
+.emblema__gloss {
+  font-size: var(--t-0);
+  line-height: 1.75;
+  color: var(--tinta-media);
+}
+.emblema__gloss { text-wrap: pretty; }
+.emblema__gloss + .emblema__gloss,
+.emblema__p + .emblema__p { margin-top: var(--s3); }
+.cena--emblema .rule { margin-block: var(--s3); }
+
+.emblema__assinatura { line-height: 1.6; }
+.emblema__assinatura b {
+  display: block;
+  font-family: var(--display);
+  font-size: var(--t-1); font-weight: 700;
+  color: var(--tinta-clara);
+}
+.emblema__assinatura span {
+  display: block;
+  font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ouro-claro);
+  margin-top: 0.5rem;
+}
+
+/* Empilhado (abaixo de 75rem): os três blocos viram uma coluna só,
+   na ordem em que se leem — declaração, glosa, assinatura. */
+.cena--emblema .cena__texto { display: grid; gap: var(--s6); }
+.emb__bloco { max-width: 44rem; margin-inline: auto; width: 100%; }
+.emb__bloco--meio { text-align: center; }
+
+/* ═══════════════════════ ÁREAS ═══════════════════════ */
+.areas {
+  background: var(--ardosia);
+  padding-block: var(--sec);
+  border-top: 1px solid var(--linha-clara);
+}
+.areas__head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  flex-wrap: wrap; gap: var(--s4);
+  margin-bottom: var(--s7);
+}
+.areas__hint {
+  font-size: var(--t--1);
+  color: var(--tinta-fraca);
+  letter-spacing: 0.02em;
+}
+
+.areas__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17.5rem, 1fr));
+  gap: var(--s3);
+}
+/* Fixo em 3 no desktop: com auto-fit, telas largas abriam 4 colunas
+   e as seis áreas viravam 4+2, com duas células vazias. São seis
+   itens — o ritmo é 3+3. */
+@media (min-width: 64rem) {
+  .areas__grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.area {
+  position: relative;
+  background: var(--ardosia-alto);
+  border: 1px solid var(--linha-clara);
+  border-radius: var(--raio);
+  padding: var(--s5) var(--s4) var(--s6);
+  cursor: default;
+  transition: background-color 0.45s var(--expo), border-color 0.45s var(--expo),
+              transform 0.45s var(--expo), box-shadow 0.45s var(--expo);
+}
+.area:hover, .area:focus-visible {
+  background: var(--ardosia-topo);
+  border-color: var(--linha-forte);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 42px -28px rgb(0 0 0 / 0.9);
+}
+.area:focus-visible { outline-offset: 3px; }
+
+.area__n {
+  display: block;
+  font-family: var(--texto);
+  font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--ouro-claro);
+  margin-bottom: var(--s5);
+  transition: color 0.4s var(--expo);
+}
+.area__t {
+  font-family: var(--display);
+  font-size: var(--t-1);
+  font-weight: 700; line-height: 1.18;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.55rem;
+  transition: transform 0.45s var(--expo);
+}
+.area__l {
+  font-size: var(--t--1);
+  line-height: 1.65;
+  color: var(--tinta-fraca);
+  transition: color 0.4s var(--expo);
+}
+.area:hover .area__t, .area:focus-visible .area__t { transform: translateX(4px); }
+.area:hover .area__l, .area:focus-visible .area__l { color: var(--tinta-media); }
+
+/* Sinal fino que se estende na borda inferior */
+.area::after {
+  content: ""; position: absolute;
+  left: var(--s4); bottom: var(--s5);
+  width: 0; height: 1px;
+  background: var(--ouro);
+  transition: width 0.5s var(--expo);
+}
+.area:hover::after, .area:focus-visible::after { width: 2.6rem; }
+
+/* O painel de explicação (no lugar do preview de imagem) */
+.area__pop {
+  position: absolute; z-index: var(--z-pop);
+  bottom: calc(100% - var(--s3));
+  left: 50%;
+  width: min(21rem, 78vw);
+  padding: var(--s4);
+  background: var(--ardosia-topo);
+  border: 1px solid var(--linha-forte);
+  border-radius: var(--raio-sm);
+  box-shadow: 0 22px 48px -26px rgb(0 0 0 / 0.9);
+  opacity: 0; visibility: hidden;
+  transform: translate3d(calc(-50% + var(--pop-x, 0px)), 14px, 0) scale(0.94);
+  transition: opacity 0.24s var(--expo), transform 0.42s var(--mola),
+              visibility 0s linear 0.3s;
+}
+.area:hover .area__pop, .area:focus-within .area__pop {
+  opacity: 1; visibility: visible;
+  transform: translate3d(calc(-50% + var(--pop-x, 0px)), 0, 0) scale(1);
+  transition: opacity 0.24s var(--expo), transform 0.42s var(--mola),
+              visibility 0s linear 0s;
+}
+.area__pop::after {
+  content: ""; position: absolute;
+  top: 100%; left: 50%; translate: -50% -1px;
+  border: 7px solid transparent;
+  border-top-color: var(--ardosia-topo);
+}
+
+/* Sem espaço acima (primeira fileira colada na navbar), o painel
+   abre para baixo e a seta vira junto. */
+.area__pop.is-below {
+  bottom: auto;
+  top: calc(100% - var(--s3));
+  transform: translate3d(calc(-50% + var(--pop-x, 0px)), -14px, 0) scale(0.94);
+}
+.area:hover .area__pop.is-below,
+.area:focus-within .area__pop.is-below {
+  transform: translate3d(calc(-50% + var(--pop-x, 0px)), 0, 0) scale(1);
+}
+.area__pop.is-below::after {
+  top: auto; bottom: 100%; translate: -50% 1px;
+  border-top-color: transparent;
+  border-bottom-color: var(--ardosia-topo);
+}
+.area__pop p {
+  font-size: 0.875rem; line-height: 1.68;
+  color: var(--tinta-media);
+}
+.area__pop strong { color: var(--ouro-claro); font-weight: 600; }
+
+/* ═══════════════════════ BANDA EDITORIAL ═══════════════════════ */
+.banda { position: relative; background: var(--ardosia); }
+.banda__art { overflow: hidden; }
+.banda__art img { width: 100%; }
+
+/* A placa é o único elemento da página que flutua de verdade: ela
+   sobe 6% por cima da fotografia, então ganhou a sombra em quatro
+   camadas (contato curta, corpo, difusa e um halo dourado quase
+   imperceptível) mais o fio de luz no topo e a sombra interna na
+   base. É o que dá espessura à borda sem desenhar borda nenhuma. */
+.banda__slab {
+  position: relative;
+  z-index: var(--z-conteudo);
+  width: min(100% - (var(--gutter) * 2), 52rem);
+  margin: -6% auto 0;
+  padding: var(--s7) clamp(1.5rem, 4vw, 3.5rem) var(--s6);
+  background: var(--ardosia);
+  border-top: 1px solid var(--linha-forte);
+  border-radius: var(--raio);
+  box-shadow:
+    0 1px 0 color-mix(in oklab, var(--tinta-clara) 10%, transparent) inset,
+    0 -18px 24px -24px rgb(0 0 0 / 0.9) inset,
+    0 10px 18px -12px rgb(0 0 0 / 0.75),
+    0 38px 60px -30px rgb(0 0 0 / 0.85),
+    0 90px 120px -60px rgb(0 0 0 / 0.7),
+    0 0 90px -40px color-mix(in oklab, var(--ouro) 55%, transparent);
+  transition: box-shadow 0.6s var(--expo);
+}
+.banda__slab:hover {
+  box-shadow:
+    0 1px 0 color-mix(in oklab, var(--tinta-clara) 14%, transparent) inset,
+    0 -18px 24px -24px rgb(0 0 0 / 0.9) inset,
+    0 12px 20px -12px rgb(0 0 0 / 0.8),
+    0 46px 70px -30px rgb(0 0 0 / 0.9),
+    0 110px 140px -60px rgb(0 0 0 / 0.75),
+    0 0 110px -34px color-mix(in oklab, var(--ouro) 70%, transparent);
+}
+
+/* ── As setas ──────────────────────────────────────────────
+   Quatro cópias do mesmo traçado, giradas/espelhadas por CSS —
+   uma curva com a ponta calculada na tangente do fim do arco, não
+   um triângulo colado no fim da linha. Elas cercam a placa e
+   apontam para dentro. Somem abaixo de 64rem, onde a placa toma a
+   largura toda e não sobra margem para elas. */
+.banda__setas { position: absolute; inset: 0; pointer-events: none; }
+.banda__setas .seta {
+  position: absolute;
+  width: clamp(5rem, 8vw, 7.5rem);
+  aspect-ratio: 120 / 90;
+  stroke: var(--ouro);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.85;
+  filter: drop-shadow(0 6px 14px rgb(0 0 0 / 0.55));
+}
+.seta--no { top: -8%;  left: -18%; }
+.seta--ne { top: -8%;  right: -18%; scale: -1 1; }
+.seta--so { bottom: -6%; left: -18%; }
+.seta--se { bottom: -6%; right: -18%; scale: -1 1; }
+
+/* traço que se desenha junto com o resto da seção */
+.js-anim .banda__setas .seta path {
+  stroke-dasharray: 190;
+  stroke-dashoffset: 190;
+}
+.js-anim .banda__setas.is-in .seta path {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1.1s var(--expo);
+}
+.js-anim .banda__setas.is-in .seta--ne path { transition-delay: 0.08s; }
+.js-anim .banda__setas.is-in .seta--so path { transition-delay: 0.16s; }
+.js-anim .banda__setas.is-in .seta--se path { transition-delay: 0.24s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js-anim .banda__setas .seta path,
+  .js-anim .banda__setas.is-in .seta path { stroke-dashoffset: 0; transition: none; }
+}
+
+/* Abaixo de 75rem a placa encosta nas margens e as setas ficariam
+   metade fora da tela — some tudo em vez de cortar pela metade. */
+@media (max-width: 75rem) {
+  .banda__setas { display: none; }
+}
+.banda__h {
+  font-family: var(--display);
+  font-size: var(--t-4);
+  font-weight: 800; line-height: 1.08;
+  letter-spacing: -0.032em;
+  margin-bottom: var(--s4);
+}
+.banda__p {
+  max-width: 42ch;
+  color: var(--tinta-media);
+  line-height: 1.75;
+}
+
+/* ═══════════════ CENA — foto em sangria total ═══════════════
+   A fotografia ocupa a largura inteira da seção, em proporção
+   natural e sem um pixel de corte. O texto é composto DENTRO da
+   própria foto, numa zona de silêncio medida pixel a pixel — por
+   isso os percentuais são diferentes em cada cena:
+
+     escritório  x 50-100%, y 20-90%  tinta escura  pior  5,9:1
+     azul        x  0-50%,  y  0-60%  tinta clara   pior  6,5:1
+     retrato     x  0-30%,  altura toda, tinta escura pior 13,0:1
+
+   Abaixo de 75rem a sobreposição não cabe sem apertar o texto
+   contra a Karin: a foto continua sangrando de ponta a ponta e o
+   texto desce para logo abaixo dela.                          */
+
+.cena { position: relative; }
+.cena__foto { margin: 0; }
+.cena__foto img { width: 100%; }
+
+.cena__texto { padding: var(--sec) var(--gutter); }
+.cena__caixa {
+  max-width: 44rem;
+  margin-inline: auto;
+  display: grid;
+  gap: var(--s3);
+}
+.cena__lead { font-size: var(--t-1); line-height: 1.55; }
+.cena .sec-h { margin-bottom: var(--s2); }
+
+.cena--sobre, .cena--cta { background: var(--luz); color: var(--tinta-escura); }
+.cena--proc { background: var(--azul); }
+
+.cena--sobre p { color: var(--tinta-suave); line-height: 1.78; }
+.cena--sobre strong { color: var(--tinta-escura); font-weight: 600; }
+.cena--sobre .cena__lead { color: var(--tinta-escura); }
+/* tinta clara, não média: medido sobre os pixels reais, o texto cai
+   sobre a silhueta clara da Justiça, onde --tinta-media daria 3,4:1.
+   Vale para o lead e para os parágrafos que vieram depois dele. */
+.cena--proc .cena__lead { color: var(--tinta-clara); max-width: 34ch; }
+.cena--proc .cena__p {
+  color: var(--tinta-clara);
+  font-size: var(--t--1);
+  line-height: 1.75;
+  max-width: 42ch;
+  opacity: 0.92;
+}
+
+@media (min-width: 75rem) {
+  .cena__texto { position: absolute; inset: 0; padding: 0; }
+  .cena__caixa {
+    position: absolute;
+    max-width: none; margin: 0;
+    align-content: center;
+  }
+
+  .cena--sobre .cena__caixa {
+    left: 50%; right: 0; top: 20%; bottom: 10%;
+    padding-right: var(--gutter);
+  }
+  .cena--proc .cena__caixa {
+    left: 0; right: 50%; top: 0; bottom: 40%;
+    padding-left: var(--gutter);
+  }
+  /* As três janelas medidas no arquivo. A da direita começa em 73%
+     porque é onde o arco de ouro termina; a de baixo fica sob o
+     círculo, dentro da tira que a varredura mostrou vazia. */
+  .cena--emblema .cena__texto { display: block; }
+  .emb__bloco {
+    position: absolute;
+    max-width: none; margin: 0;
+    display: grid; align-content: center;
+    gap: var(--s2);
+  }
+  /* As colunas laterais são livres em toda a altura do arquivo (a
+     varredura não achou um pixel de ouro fora de 29-73%), então os
+     blocos podem crescer no eixo vertical à vontade — o limite é a
+     tira de baixo, onde mora a assinatura. */
+  .emb__bloco--esq {
+    left: 0; width: 29%; top: 5%; bottom: 16%;
+    padding-left: var(--gutter);
+  }
+  .emb__bloco--dir {
+    right: 0; width: 27%; top: 5%; bottom: 16%;
+    padding-right: var(--gutter);
+  }
+  .emb__bloco--meio {
+    left: 50%; translate: -50% 0;
+    bottom: 5%; width: min(48%, 32rem);
+    align-content: end;
+  }
+  .cena--emblema .emblema__h { font-size: clamp(2rem, 2.9vw, 2.75rem); }
+
+  /* A CTA é a exceção: não há texto para pousar dentro da foto —
+     a chamada já está gravada nela —, então o botão volta ao fluxo,
+     centrado no campo claro logo abaixo. */
+  .cena--cta .cena__texto { position: static; padding: var(--s7) var(--gutter); }
+  .cena--cta .cena__caixa { position: static; max-width: 44rem; margin-inline: auto; }
+}
+
+/* No limite de 1200px a coluna lateral fica com 290px: o texto de
+   apoio some antes de virar uma torre de duas palavras por linha. */
+@media (min-width: 75rem) and (max-width: 82rem) {
+  .emblema__p { display: none; }
+}
+
+/* ═══════════ CTA — a foto já traz a chamada ═══════════
+   "Vamos conversar?" está gravado no próprio arquivo, então a
+   seção não repete nada: a foto sangra e o botão vem logo abaixo,
+   centrado no campo claro. Sem texto sobre a foto, não há zona de
+   silêncio a respeitar aqui. */
+.cena--cta .cena__texto { padding-block: var(--s7); }
+.cena--cta .cena__caixa { justify-items: center; }
+
+/* ═══════════════════════ DIFERENCIAIS ═══════════════════════ */
+.dif {
+  background: var(--luz);
+  color: var(--tinta-escura);
+  padding-block: var(--sec);
+}
+.dif .sec-h { margin-bottom: var(--s6); max-width: 18ch; }
+
+.dif__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: clamp(1.5rem, 3vw, 3rem);
+}
+.dif__card {
+  position: relative;
+  padding: var(--s5) var(--s4);
+  background: var(--luz-alto);
+  border: 1px solid var(--linha-escura);
+  border-radius: var(--raio);
+  transition: border-color 0.45s var(--expo), transform 0.45s var(--expo),
+              box-shadow 0.45s var(--expo);
+}
+.dif__card:hover {
+  border-color: color-mix(in oklab, var(--ouro-fundo) 34%, transparent);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -30px rgb(26 18 12 / 0.55);
+}
+.dif__card h3 {
+  position: relative;
+  font-family: var(--display);
+  font-size: var(--t-1); font-weight: 700;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.9rem;
+  padding-bottom: 0.6rem;
+}
+/* o traço vive sob o título: na borda superior arredondada ele
+   escaparia pelos cantos */
+.dif__card h3::after {
+  content: ""; position: absolute;
+  left: 0; bottom: 0; height: 2px; width: 0;
+  background: var(--ouro-fundo); border-radius: 2px;
+  transition: width 0.55s var(--expo);
+}
+.dif__card:hover h3::after { width: 2.6rem; }
+.dif__card p { color: var(--tinta-suave); line-height: 1.72; }
+
+/* ═══════════════════════ PROCESSO ═══════════════════════ */
+/* mesmo hex da borda de karin-azul.png — a foto dissolve no
+   fundo e as etapas abaixo parecem a continuação da fotografia */
+.proc { background: var(--azul); }
+
+.proc__passos {
+  position: relative;
+  padding: var(--sec) var(--gutter);
+  overflow: hidden;
+}
+
+/* ── Elementos gráficos do fundo ─────────────────────── */
+.proc__grade {
+  position: absolute; inset: 0;
+  z-index: var(--z-deco);
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--ouro) 30%, transparent) 1px, transparent 1px);
+  background-size: 34px 34px;
+  opacity: 0.28;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000, transparent 72%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000, transparent 72%);
+  pointer-events: none;
+}
+.proc__arco {
+  position: absolute; z-index: var(--z-deco);
+  right: -12vw; top: -6vw;
+  width: 38vw; aspect-ratio: 1;
+  border: 1px solid color-mix(in oklab, var(--ouro) 22%, transparent);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.proc__arco::after {
+  content: ""; position: absolute; inset: 14%;
+  border: 1px solid color-mix(in oklab, var(--ouro) 12%, transparent);
+  border-radius: 50%;
+}
+
+/* A seção era quatro títulos e quatro linhas soltas num campo azul
+   grande demais. A intro abre o método antes dos cards, e cada card
+   ganhou uma nota — o detalhe prático que o título não cabe. */
+.proc__intro {
+  position: relative; z-index: var(--z-conteudo);
+  max-width: 60rem; margin: 0 auto var(--s6);
+  font-family: var(--display);
+  font-size: var(--t-2);
+  font-weight: 400; line-height: 1.4;
+  letter-spacing: -0.015em;
+  color: var(--tinta-clara);
+  text-wrap: pretty;
+}
+
+/* 2×2 fixo: com auto-fit as quatro etapas abriam 3+1 e sobrava
+   um card órfão na segunda fileira. */
+.proc__steps {
+  position: relative; z-index: var(--z-conteudo);
+  display: grid; gap: var(--s3);
+  grid-template-columns: 1fr;
+  max-width: 60rem; margin-inline: auto;
+}
+@media (min-width: 48rem) {
+  .proc__steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.step {
+  position: relative;
+  overflow: hidden;
+  padding: var(--s5) var(--s4);
+  background: color-mix(in oklab, var(--azul-alto) 62%, transparent);
+  border: 1px solid color-mix(in oklab, var(--ouro) 16%, transparent);
+  border-radius: var(--raio);
+  transition: border-color 0.45s var(--expo), transform 0.45s var(--expo),
+              background-color 0.45s var(--expo), box-shadow 0.45s var(--expo);
+}
+.step:hover {
+  border-color: var(--linha-forte);
+  background: var(--azul-alto);
+  transform: translateY(-4px);
+  box-shadow: 0 22px 46px -30px rgb(0 0 0 / 0.9);
+}
+
+.step__corpo { position: relative; z-index: 2; }
+.step h3 {
+  font-family: var(--display);
+  font-size: var(--t-1); font-weight: 700;
+  letter-spacing: -0.015em;
+  margin: 0 0 0.5rem;
+}
+.step p { color: var(--tinta-media); font-size: var(--t--1); line-height: 1.7; }
+
+/* A nota é o detalhe prático: fica um degrau abaixo na hierarquia,
+   atrás de um filete dourado, para não competir com o corpo. */
+.step__nota {
+  margin-top: var(--s3);
+  padding-left: var(--s3);
+  border-left: 2px solid color-mix(in oklab, var(--ouro) 40%, transparent);
+  color: var(--tinta-fraca) !important;
+  font-size: 0.8125rem !important;
+  line-height: 1.6 !important;
+}
+
+/* número fantasma: massa tipográfica no canto, puro grafismo */
+.step__eco {
+  position: absolute; z-index: 1;
+  right: -0.5rem; bottom: -2.2rem;
+  font-family: var(--display);
+  font-size: 7rem; font-weight: 900;
+  line-height: 1; letter-spacing: -0.04em;
+  color: color-mix(in oklab, var(--ouro) 9%, transparent);
+  pointer-events: none;
+  transition: color 0.5s var(--expo), transform 0.6s var(--expo);
+}
+.step:hover .step__eco {
+  color: color-mix(in oklab, var(--ouro) 16%, transparent);
+  transform: translate3d(-4px, -4px, 0);
+}
+
+.proc__fecho {
+  position: relative; z-index: var(--z-conteudo);
+  max-width: 60rem; margin: var(--s6) auto 0;
+  font-family: var(--display);
+  font-size: var(--t-2);
+  font-weight: 700; line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--tinta-clara);
+}
+
+/* ═══════════════════════ CTA ═══════════════════════ */
+.cena--cta .btn {
+  justify-self: center;
+  font-size: 0.9375rem;
+  padding: 1.15rem 2rem;
+}
+
+/* ═══════════════════ ONDE NOS ACHAR ═══════════════════
+   Versão enxuta: nenhuma caixa, nenhuma sombra, nenhum ícone. Três
+   linhas de uma pauta, separadas por filete — o canal à esquerda, o
+   dado à direita, a seta no fim. O que era três cartões virou uma
+   lista que se lê de cima a baixo em dois segundos. */
+.onde {
+  background: var(--ardosia);
+  padding-block: var(--sec);
+  border-top: 1px solid var(--linha-clara);
+}
+.onde__h {
+  font-family: var(--display);
+  font-size: var(--t-2);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--tinta-media);
+  margin-bottom: var(--s4);
+}
+
+.onde__lista { border-top: 1px solid var(--linha-clara); }
+.onde__lista li { border-bottom: 1px solid var(--linha-clara); }
+
+.canal {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 0.35rem var(--s5);
+  padding: var(--s5) 2.5rem var(--s5) 0;
+  transition: padding-left 0.45s var(--expo);
+}
+.canal:hover, .canal:focus-visible { padding-left: 0.75rem; }
+
+.canal__rotulo {
+  font-family: var(--display);
+  font-size: var(--t-2);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  transition: color 0.4s var(--expo);
+}
+.canal:hover .canal__rotulo, .canal:focus-visible .canal__rotulo { color: var(--ouro-claro); }
+
+.canal__valor {
+  font-size: var(--t-0);
+  line-height: 1.5;
+  color: var(--tinta-fraca);
+  transition: color 0.4s var(--expo);
+}
+.canal:hover .canal__valor, .canal:focus-visible .canal__valor { color: var(--tinta-media); }
+
+.canal__seta {
+  position: absolute; right: 0; top: 50%;
+  translate: 0 -50%;
+  width: 1.25rem; height: 1.25rem;
+  fill: none; stroke: var(--ouro); stroke-width: 1.7;
+  stroke-linecap: round; stroke-linejoin: round;
+  opacity: 0.55;
+  transition: transform 0.45s var(--expo), opacity 0.4s var(--expo);
+}
+.canal:hover .canal__seta, .canal:focus-visible .canal__seta { transform: translateX(5px); opacity: 1; }
+
+/* Abaixo de 40rem o endereço não cabe na mesma linha do rótulo:
+   as duas colunas viram duas linhas, ainda sem caixa nenhuma. */
+@media (max-width: 40rem) {
+  .canal {
+    grid-template-columns: 1fr;
+    padding-right: 2rem;
+  }
+  .canal__valor { grid-column: 1; }
+}
+
+/* ── Prévia do destino ─────────────────────────────────────
+   Um painel só, reaproveitado pelas três linhas, que persegue o
+   ponteiro por interpolação (ver canais.js). O JS escreve APENAS
+   o transform do container externo; a caixa interna guarda a
+   entrada em escala e opacidade. Separar as duas camadas é o que
+   evita a transição de CSS brigando com o quadro do rAF — se as
+   duas mexessem no mesmo transform, o painel andaria aos trancos. */
+.canal-pop {
+  position: fixed; top: 0; left: 0;
+  z-index: var(--z-pop);
+  pointer-events: none;
+  will-change: transform;
+}
+.canal-pop__caixa {
+  width: 20.5rem;
+  padding: 0.55rem 0.55rem 0.15rem;
+  background: var(--ardosia-topo);
+  border: 1px solid var(--linha-forte);
+  border-radius: var(--raio-sm);
+  box-shadow: 0 26px 60px -30px rgb(0 0 0 / 0.95),
+              0 0 70px -40px color-mix(in oklab, var(--ouro) 60%, transparent);
+  opacity: 0;
+  transform: scale(0.94) translateY(10px);
+  transition: opacity 0.26s var(--expo), transform 0.42s var(--mola);
+}
+.canal-pop.is-on .canal-pop__caixa { opacity: 1; transform: none; }
+
+.canal-pop__quadro { display: none; margin: 0; }
+.canal-pop[data-pv="whatsapp"]  .canal-pop__quadro[data-pv="whatsapp"],
+.canal-pop[data-pv="instagram"] .canal-pop__quadro[data-pv="instagram"],
+.canal-pop[data-pv="mapa"]      .canal-pop__quadro[data-pv="mapa"] { display: block; }
+
+.canal-pop__quadro svg {
+  width: 100%; height: auto;
+  border-radius: 8px;
+  display: block;
+}
+.canal-pop__quadro figcaption {
+  padding: 0.6rem 0.35rem 0.55rem;
+  font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--tinta-media);
+}
+
+/* Peças dos esquemas. Tudo em token: a prévia envelhece junto com
+   o resto da paleta em vez de virar uma imagem congelada. */
+.pv-tela        { fill: color-mix(in oklab, var(--ardosia) 80%, black); }
+.pv-tela-cheia  { fill: color-mix(in oklab, var(--ardosia) 80%, black); }
+.pv-linha       { stroke: color-mix(in oklab, var(--tinta-clara) 14%, transparent); stroke-width: 1; }
+.pv-tinta       { fill: color-mix(in oklab, var(--tinta-clara) 55%, transparent); }
+.pv-fraca       { fill: color-mix(in oklab, var(--tinta-clara) 24%, transparent); }
+.pv-bolha       { fill: color-mix(in oklab, var(--tinta-clara) 9%, transparent); }
+.pv-bolha-ouro  { fill: color-mix(in oklab, var(--ouro) 30%, transparent); }
+.pv-ouro-tinta  { fill: color-mix(in oklab, var(--ouro-claro) 62%, transparent); }
+.pv-ouro-fraco  { fill: color-mix(in oklab, var(--ouro) 34%, transparent); }
+.pv-ouro-cheio  { fill: var(--ouro); }
+.pv-anel        { fill: none; stroke: var(--ouro); stroke-width: 2; opacity: 0.55; }
+.pv-quadro-img  { fill: color-mix(in oklab, var(--tinta-clara) 11%, transparent); }
+.pv-quadro-ouro { fill: color-mix(in oklab, var(--ouro) 22%, transparent); }
+.pv-mapa        { fill: color-mix(in oklab, var(--azul) 82%, black); }
+.pv-rua         { fill: none; stroke: color-mix(in oklab, var(--tinta-clara) 13%, transparent); stroke-width: 8; }
+.pv-rua-fina    { fill: none; stroke: color-mix(in oklab, var(--tinta-clara) 8%, transparent); stroke-width: 4; }
+.pv-avenida     { fill: none; stroke: color-mix(in oklab, var(--ouro) 20%, transparent); stroke-width: 9; }
+.pv-quadra      { fill: color-mix(in oklab, var(--tinta-clara) 7%, transparent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .canal-pop__caixa { transition: opacity 0.01ms; transform: none; }
+}
+
+/* ═══════════════════════ RODAPÉ ═══════════════════════ */
+.foot {
+  background: var(--ardosia);
+  padding-block: var(--s8) var(--s5);
+  border-top: 1px solid var(--linha-clara);
+}
+/* Colunas explícitas: a da marca é naturalmente mais larga que as
+   outras e, no auto-fit, empurrava o total além da linha, jogando
+   "Navegação" para uma segunda fileira órfã. */
+.foot__grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1.1fr 1.1fr 0.9fr;
+  gap: var(--s6) var(--s5);
+  padding-bottom: var(--s7);
+}
+@media (max-width: 60rem) {
+  .foot__grid { grid-template-columns: 1fr 1fr; }
+  .foot__brand { grid-column: 1 / -1; }
+}
+@media (max-width: 30rem) {
+  .foot__grid { grid-template-columns: 1fr; }
+}
+.foot__brand { display: flex; align-items: center; gap: 0.85rem; }
+.foot__logo { width: auto; height: 3.4rem; }
+.foot__name {
+  font-family: var(--display);
+  font-size: 1.25rem; font-weight: 700;
+  line-height: 1.2;
+}
+.foot__name span {
+  display: block;
+  font-family: var(--texto);
+  font-size: 0.5625rem; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ouro-claro);
+  margin-top: 0.25rem;
+}
+.foot__col h2 {
+  font-size: 0.625rem; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ouro-claro);
+  margin-bottom: var(--s3);
+}
+.foot__col address,
+.foot__col p { color: var(--tinta-media); font-size: var(--t--1); line-height: 1.85; }
+.foot__col a {
+  display: block;
+  color: var(--tinta-media);
+  font-size: var(--t--1); line-height: 1.95;
+  transition: color 0.3s var(--expo);
+}
+.foot__col a:hover { color: var(--ouro-claro); }
+.foot__col address a { line-height: 1.85; }
+.foot__oab { margin-top: var(--s2); color: var(--tinta-fraca) !important; }
+
+.foot__base {
+  display: flex; flex-wrap: wrap;
+  justify-content: space-between; gap: var(--s3);
+  padding-top: var(--s4);
+  border-top: 1px solid var(--linha-clara);
+  font-size: 0.6875rem; line-height: 1.7;
+  color: var(--tinta-fraca);
+}
+.foot__legal { max-width: 46ch; }
+
+/* ════════════════════════════════════════════════════════════════
+   RESPONSIVO
+   O mobile não é o desktop encolhido: o hero vira composição
+   empilhada, as fotos ganham largura total em proporção natural
+   e os painéis de hover viram texto sempre visível.
+   ════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 64rem) {
+  .banda__slab { margin-top: -3%; }
+}
+
+@media (max-width: 60rem) {
+  .nav { --nav-h: 4.25rem; }
+  .nav__links, .nav__cta { display: none; }
+  .nav__burger { display: block; }
+  .nav__logo { height: 2.1rem; }
+
+  /* Hero empilhado: a imagem ocupa a largura toda na proporção
+     original e a tipografia recebe o campo cinza azulado abaixo. */
+  .hero {
+    min-height: 0;
+    display: block;
+    padding-block: 0 var(--s7);
+    overflow: visible;
+  }
+  .hero__art { position: static; }
+  .hero__art img { height: auto; object-fit: fill; object-position: center; }
+  .hero__grid { padding-top: var(--s6); }
+  .hero__type { max-width: none; }
+  .hero__sentinel { position: static; }
+
+  .deco--arc { display: none; }
+}
+
+@media (max-width: 48rem) {
+  .areas__grid { grid-template-columns: 1fr; }
+  .foot__base { flex-direction: column; }
+  .banda__slab {
+    width: 100%;
+    margin-top: 0;
+    padding-inline: var(--gutter);
+  }
+}
+
+/* Sem hover (toque): a explicação vira texto corrido, sempre
+   visível. Ninguém deve caçar informação com o dedo. */
+@media (hover: none) {
+  .areas__hint { display: none; }
+  .area { padding-bottom: var(--s4); }
+  .area__pop {
+    position: static;
+    opacity: 1; visibility: visible;
+    transform: none;
+    width: auto;
+    margin-top: var(--s3);
+    padding: var(--s3) 0 0;
+    background: none;
+    border: 0; border-top: 1px solid var(--linha-clara);
+    border-radius: 0;
+    box-shadow: none;
+    transition: none;
+  }
+  .area__pop::after { display: none; }
+  .area::after { display: none; }
+}
