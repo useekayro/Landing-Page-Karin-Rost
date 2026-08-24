@@ -980,10 +980,15 @@
   .hero__grid {
     position: absolute;
     left: 0; right: 0;
-    bottom: 5rem;                 /* encosta na base da fotografia */
+    bottom: 5rem;                 /* base da fotografia */
     width: auto;
     margin: 0;
-    padding: 0 var(--gutter) var(--s4);
+    /* O recuo sobe o bloco para dentro do terço inferior. Em vw
+       porque a altura da foto é função direta da largura da tela
+       (941:1672 => 177,7vw): 20vw equivale a ~11% da fotografia em
+       qualquer aparelho, e o texto sai da borda sem entrar nas
+       colunas iluminadas do meio, onde o contraste despenca. */
+    padding: 0 var(--gutter) calc(var(--s4) + 20vw);
   }
   .hero__type { max-width: none; }
   .hero__sentinel { position: static; }
@@ -1067,6 +1072,67 @@
     background-color: var(--ardosia);
     background-image: linear-gradient(to bottom, #010100, transparent 4rem);
   }
+
+  /* ── O título do emblema sobe para dentro da fotografia ──────
+     No desktop os três blocos ficam nas faixas escuras medidas no
+     PNG horizontal (ver @media min-width 75rem, intocado). No mobile
+     eles caíam todos abaixo da foto e a imagem ficava muda.
+
+     Mapeada célula a célula, a vertical do emblema tem duas faixas
+     largas para texto claro — topo 0-30% (pior 9,2:1) e base 70-100%
+     (pior 12,6:1). O miolo é o traço dourado, onde cai para 0,9:1.
+     O título vai para o topo: assim as duas fotos de sangria seguidas
+     não repetem a mesma composição, já que no hero ele está embaixo.
+
+     O deslocamento é negativo a partir de .cena__texto, que começa
+     exatamente na base da foto. Nada aqui muda o posicionamento dos
+     ancestrais: tentei antes tornar .emb__bloco relativo e foi pior —
+     ele virou o bloco de contenção e o título passou a se ancorar no
+     bloco de texto abaixo da foto, não na seção.
+
+     Contas em vw porque a altura da foto é função da largura:
+       altura da foto      = 177,7vw   (941:1672)
+       alvo: topo em 9%    =  16vw
+       recuo a partir dela = 177,7 − 16 ≈ 162vw acima */
+  .cena--emblema .emblema__h {
+    position: absolute;
+    z-index: var(--z-conteudo);
+    top: -162vw;
+    left: var(--gutter);
+    right: var(--gutter);
+    margin: 0;
+    text-align: center;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   TOQUE — nenhum estado de hover pode DESLOCAR nada
+
+   Em tela de toque o :hover não é um estado momentâneo: ele gruda no
+   elemento tocado e só solta quando o dedo encosta em outro. Rolando
+   a página, o navegador aplica e retira esse estado sozinho — e cada
+   uma dessas regras tem transição, então o elemento desliza.
+
+   Era isso que fazia "as escritas dos cards irem para a esquerda":
+   .area:hover .area__t empurra o título 4px em X, e ao soltar ele
+   volta deslizando por 0,45s. A linha de contato era pior: 12px de
+   padding-left entrando e saindo.
+
+   Só os deslocamentos são anulados. Cor e sombra podem continuar —
+   não movem nada e o rastro do toque até ajuda a mostrar o que foi
+   tocado. :focus-visible fica de fora de propósito: quem navega por
+   teclado precisa enxergar onde está.
+   ════════════════════════════════════════════════════════════════ */
+@media (hover: none) {
+  .area:hover                { transform: none; }
+  .area:hover .area__t       { transform: none; }
+  .area:hover::after         { width: 0; }
+  .dif__card:hover           { transform: none; }
+  .dif__card:hover h3::after { width: 0; }
+  .step:hover                { transform: none; }
+  .step:hover .step__eco     { transform: none; }
+  .canal:hover               { padding-left: 0; }
+  .canal:hover .canal__seta  { transform: none; }
 }
 
 /* Sem hover (toque): a explicação vira texto corrido, sempre
