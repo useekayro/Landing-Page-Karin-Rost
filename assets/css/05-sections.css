@@ -289,50 +289,68 @@
 }
 .area:hover::after, .area:focus-visible::after { width: 2.6rem; }
 
-/* O painel de explicação (no lugar do preview de imagem) */
-.area__pop {
-  position: absolute; z-index: var(--z-pop);
-  bottom: calc(100% - var(--s3));
-  left: 50%;
-  width: min(21rem, 78vw);
-  padding: var(--s4);
-  background: var(--ardosia-topo);
-  border: 1px solid var(--linha-forte);
-  border-radius: var(--raio-sm);
-  box-shadow: 0 22px 48px -26px rgb(0 0 0 / 0.9);
-  opacity: 0; visibility: hidden;
-  transform: translate3d(calc(-50% + var(--pop-x, 0px)), 14px, 0) scale(0.94);
-  transition: opacity 0.24s var(--expo), transform 0.42s var(--mola),
-              visibility 0s linear 0.3s;
-}
-.area:hover .area__pop, .area:focus-within .area__pop {
-  opacity: 1; visibility: visible;
-  transform: translate3d(calc(-50% + var(--pop-x, 0px)), 0, 0) scale(1);
-  transition: opacity 0.24s var(--expo), transform 0.42s var(--mola),
-              visibility 0s linear 0s;
-}
-.area__pop::after {
-  content: ""; position: absolute;
-  top: 100%; left: 50%; translate: -50% -1px;
-  border: 7px solid transparent;
-  border-top-color: var(--ardosia-topo);
-}
+/* O painel de explicação (no lugar do preview de imagem)
 
-/* Sem espaço acima (primeira fileira colada na navbar), o painel
-   abre para baixo e a seta vira junto. */
-.area__pop.is-below {
-  bottom: auto;
-  top: calc(100% - var(--s3));
-  transform: translate3d(calc(-50% + var(--pop-x, 0px)), -14px, 0) scale(0.94);
-}
-.area:hover .area__pop.is-below,
-.area:focus-within .area__pop.is-below {
-  transform: translate3d(calc(-50% + var(--pop-x, 0px)), 0, 0) scale(1);
-}
-.area__pop.is-below::after {
-  top: auto; bottom: 100%; translate: -50% 1px;
-  border-top-color: transparent;
-  border-bottom-color: var(--ardosia-topo);
+   TODO o comportamento flutuante vive dentro de @media (hover: hover).
+   Não é preferência de organização — é correção de um vazamento real.
+
+   Antes, estas regras valiam em qualquer ponteiro e o bloco de toque
+   lá embaixo tentava desfazê-las com `.area__pop { transform: none }`.
+   Nunca venceu: as regras de hover têm especificidade (0,2,1) e
+   (0,3,1) contra (0,1,0) do reset. Em tela de toque o :hover gruda no
+   card tocado, então o painel — que ali é um bloco ESTÁTICO de largura
+   inteira — recebia translate3d(-50%) e saltava metade da própria
+   largura para a esquerda. Num card de 350px são 175px para fora, o
+   texto atravessando a borda esquerda da tela.
+
+   Fechar por media query em vez de aumentar especificidade: no toque
+   estas regras simplesmente não existem, e não há disputa para perder.
+   O JS acompanha — areas.js já sai cedo quando não há hover fino. */
+@media (hover: hover) {
+  .area__pop {
+    position: absolute; z-index: var(--z-pop);
+    bottom: calc(100% - var(--s3));
+    left: 50%;
+    width: min(21rem, 78vw);
+    padding: var(--s4);
+    background: var(--ardosia-topo);
+    border: 1px solid var(--linha-forte);
+    border-radius: var(--raio-sm);
+    box-shadow: 0 22px 48px -26px rgb(0 0 0 / 0.9);
+    opacity: 0; visibility: hidden;
+    transform: translate3d(calc(-50% + var(--pop-x, 0px)), 14px, 0) scale(0.94);
+    transition: opacity 0.24s var(--expo), transform 0.42s var(--mola),
+                visibility 0s linear 0.3s;
+  }
+  .area:hover .area__pop, .area:focus-within .area__pop {
+    opacity: 1; visibility: visible;
+    transform: translate3d(calc(-50% + var(--pop-x, 0px)), 0, 0) scale(1);
+    transition: opacity 0.24s var(--expo), transform 0.42s var(--mola),
+                visibility 0s linear 0s;
+  }
+  .area__pop::after {
+    content: ""; position: absolute;
+    top: 100%; left: 50%; translate: -50% -1px;
+    border: 7px solid transparent;
+    border-top-color: var(--ardosia-topo);
+  }
+
+  /* Sem espaço acima (primeira fileira colada na navbar), o painel
+     abre para baixo e a seta vira junto. */
+  .area__pop.is-below {
+    bottom: auto;
+    top: calc(100% - var(--s3));
+    transform: translate3d(calc(-50% + var(--pop-x, 0px)), -14px, 0) scale(0.94);
+  }
+  .area:hover .area__pop.is-below,
+  .area:focus-within .area__pop.is-below {
+    transform: translate3d(calc(-50% + var(--pop-x, 0px)), 0, 0) scale(1);
+  }
+  .area__pop.is-below::after {
+    top: auto; bottom: 100%; translate: -50% 1px;
+    border-top-color: transparent;
+    border-bottom-color: var(--ardosia-topo);
+  }
 }
 .area__pop p {
   font-size: 0.875rem; line-height: 1.68;
@@ -977,19 +995,24 @@
   .hero__art { position: relative; }
   .hero__art img { height: auto; object-fit: fill; object-position: center; }
 
+  /* Tipografia no ALTO da fotografia, centrada.
+     A faixa não é escolha de gosto: mapeada célula a célula, a
+     vertical do hero só sustenta texto claro no topo (0-10%, pior
+     6,5:1) e na base (90-100%, pior 7,9:1). O miolo são as colunas
+     iluminadas, onde despenca para 2,9:1.
+     O recuo é em vw porque a altura da foto é função direta da
+     largura (941:1672 => 177,7vw), então vale o mesmo em qualquer
+     aparelho. */
   .hero__grid {
     position: absolute;
     left: 0; right: 0;
-    bottom: 5rem;                 /* base da fotografia */
+    top: 8vw;                     /* ~4,5% da altura da fotografia */
+    bottom: auto;
     width: auto;
     margin: 0;
-    /* O recuo sobe o bloco para dentro do terço inferior. Em vw
-       porque a altura da foto é função direta da largura da tela
-       (941:1672 => 177,7vw): 20vw equivale a ~11% da fotografia em
-       qualquer aparelho, e o texto sai da borda sem entrar nas
-       colunas iluminadas do meio, onde o contraste despenca. */
-    padding: 0 var(--gutter) calc(var(--s4) + 20vw);
+    padding: 0 var(--gutter);
   }
+  .hero__type { text-align: center; margin-inline: auto; }
   .hero__type { max-width: none; }
   .hero__sentinel { position: static; }
 
@@ -1140,19 +1163,15 @@
 @media (hover: none) {
   .areas__hint { display: none; }
   .area { padding-bottom: var(--s4); }
+  /* Só a aparência. Nada de desfazer posicionamento: o painel
+     flutuante inteiro mora em @media (hover: hover) e aqui nem chega
+     a existir, então não há position, transform nem visibility para
+     reverter. Era justamente essa reversão que não vencia a
+     especificidade e deixava o texto saltar para fora do card. */
   .area__pop {
-    position: static;
-    opacity: 1; visibility: visible;
-    transform: none;
-    width: auto;
     margin-top: var(--s3);
     padding: var(--s3) 0 0;
-    background: none;
-    border: 0; border-top: 1px solid var(--linha-clara);
-    border-radius: 0;
-    box-shadow: none;
-    transition: none;
+    border-top: 1px solid var(--linha-clara);
   }
-  .area__pop::after { display: none; }
   .area::after { display: none; }
 }
