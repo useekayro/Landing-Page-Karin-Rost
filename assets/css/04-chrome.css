@@ -102,7 +102,8 @@
 }
 .nav[data-hidden="false"] .nav__brand { opacity: 1; transform: none; }
 
-/* Logo oficial: proporção 1276×1233 preservada, só a altura muda. */
+/* Logo oficial: proporção 1276×1233 preservada, só a altura muda.
+   O arquivo servido é a variante de 256px; a proporção é a mesma. */
 .nav__logo {
   width: auto; height: 2.5rem;
   transition: transform 0.5s var(--expo);

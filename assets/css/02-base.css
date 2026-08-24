@@ -26,6 +26,12 @@ p  { margin: 0; text-wrap: pretty; }
 ul, ol, dl, dd { margin: 0; padding: 0; list-style: none; }
 img, svg { display: block; max-width: 100%; }
 img { height: auto; }          /* nenhuma foto é esticada, jamais */
+
+/* <picture> não deve gerar caixa própria: introduzi-lo em volta de um
+   <img> não pode mudar layout nenhum. Sem isto ele entraria como
+   elemento inline — viraria o filho do flex em .nav__brand, e nas
+   figuras deixaria uma folga de linha-base sob a foto. */
+picture { display: contents; }
 address { font-style: normal; }
 
 a { color: inherit; text-decoration: none; }
