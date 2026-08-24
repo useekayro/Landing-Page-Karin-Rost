@@ -17,7 +17,11 @@
   --ardosia-alto:  oklch(0.274 0.021 252);
   --ardosia-topo:  oklch(0.316 0.023 252);
   --luz-alto:      oklch(0.972 0.003 250);
-  --azul-alto:     oklch(0.330 0.030 252);
+  /* 0.318, não 0.330: é a superfície elevada dos cards de etapa, e em
+     0.330 o corpo em --tinta-media dava 4,46:1 — reprovava no AA por
+     um triz. Escurecer a superfície corrige todo texto que pousa nela,
+     e a elevação sobre --azul (0.26) continua legível. */
+  --azul-alto:     oklch(0.318 0.030 252);
 
   /* ── Ouro (amostrado de logo.png e do traçado de emblema.png) ─
      O ouro é claro o bastante para carregar texto sobre o escuro
@@ -32,7 +36,12 @@
   /* ── Tinta ────────────────────────────────────────────────── */
   --tinta-clara:   oklch(0.945 0.008 250);   /* sobre escuro  16:1 */
   --tinta-media:   oklch(0.760 0.012 250);   /* sobre escuro   8:1 */
-  --tinta-fraca:   oklch(0.640 0.012 250);   /* sobre escuro 4.9:1 */
+  /* 0.665, não 0.640. O valor antigo foi calibrado contra o campo da
+     página (--ardosia) e dava 4,9:1 ali — mas o uso principal é no lead
+     dos cards de áreas, cuja superfície é mais clara (--ardosia-alto),
+     onde caía para 4,44:1 e reprovava no AA. Todos os usos deste token
+     são sobre fundo escuro, então clarear só aumenta contraste. */
+  --tinta-fraca:   oklch(0.665 0.012 250);
   --tinta-escura:  oklch(0.185 0.012 252);   /* sobre claro   14:1 */
   --tinta-suave:   oklch(0.430 0.010 252);   /* sobre claro  6.4:1 */
 

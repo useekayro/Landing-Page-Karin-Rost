@@ -959,7 +959,9 @@
     padding-block: 0 var(--s7);
     overflow: visible;
   }
-  .hero__art { position: static; }
+  /* relative, não static: a ponte de dissolução do fim do arquivo
+     ancora nele com top: 100%. */
+  .hero__art { position: relative; }
   .hero__art img { height: auto; object-fit: fill; object-position: center; }
   .hero__grid { padding-top: var(--s6); }
   .hero__type { max-width: none; }
@@ -975,6 +977,74 @@
     width: 100%;
     margin-top: 0;
     padding-inline: var(--gutter);
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   MOBILE — ponte de dissolução sob a arte vertical
+
+   As cores de fundo das seções foram derivadas das fotos HORIZONTAIS.
+   A arte vertical 9:16 termina em outra cor, então aparece uma emenda
+   onde antes a foto dissolvia. Medido em tela, no rodapé de cada foto:
+
+     hero      #010C1D contra #151D28  = 1,16x
+     emblema   #09111C contra #151D28  = 1,12x
+     banda     #010100 contra #151D28  = 1,23x
+     sobre     #DBCEC7 contra #F2EFED  = 1,34x
+     processo  #0A121B contra #19212C  = 1,16x
+     contato   #D1B4A3 contra #F2EFED  = 1,70x   ← a mais visível
+
+   Três saídas possíveis, e por que esta:
+
+   1. Mexer na foto (máscara, fade por cima) — proibido pela regra nº 1.
+   2. Trocar a cor da seção — as seções hero/manifesto/emblema/áreas/
+      banda são TODAS #151D28 e formam um campo escuro contínuo. Mudar
+      uma criaria um degrau entre irmãs de mesmo tom: troca de emenda,
+      não conserto. (Foi o que a tabela do briefing sugeria, com um
+      agravante: a média da borda de karin-azul dá #292625, um cinza
+      quente que não existe na imagem — a média mistura o navy com o
+      bloco pêssego. A mediana da cor de campo é #0A121B.)
+   3. Fazer a transição NO ESPAÇO DA SEÇÃO, logo abaixo da foto. ✅
+
+   A foto fica intocada; o degradê ocupa a faixa da seção que vem
+   depois dela. Em toda seção mobile a foto está no topo e o campo
+   continua abaixo, então basta a borda inferior.
+
+   Valores de tools/medir-bordas.mjs (mediana, não média).
+   ════════════════════════════════════════════════════════════════ */
+@media (max-width: 60rem) {
+  .hero          { --borda-base: #010C1D; --campo: var(--ardosia); }
+  .cena--emblema { --borda-base: #09111C; --campo: var(--ardosia); }
+  .cena--sobre   { --borda-base: #DBCEC7; --campo: var(--luz); --ponte: 6rem; }
+  .cena--proc    { --borda-base: #0A121B; --campo: var(--azul); }
+  .cena--cta     { --borda-base: #D1B4A3; --campo: var(--luz); --ponte: 8rem; }
+
+  .hero__art, .cena__foto { position: relative; }
+
+  .hero__art::after,
+  .cena__foto::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    left: 0; right: 0; top: 100%;
+    height: var(--ponte, 5rem);
+    background: linear-gradient(to bottom, var(--borda-base), var(--campo));
+    pointer-events: none;
+  }
+
+  /* A ponte é posicionada e o texto da cena não era: sem isto, um
+     parágrafo que caísse nos primeiros centímetros da seção ficaria
+     por baixo do degradê. Vale para qualquer texto futuro, não só
+     para os de hoje. */
+  .cena__texto { position: relative; z-index: 1; }
+
+  /* A banda não usa a ponte: .banda__art tem overflow hidden, que
+     recortaria o pseudo-elemento. E a placa encosta na foto, então o
+     degradê entra nela mesma — curto o bastante para terminar antes
+     do texto, que começa em 4,5rem. */
+  .banda__slab {
+    background-color: var(--ardosia);
+    background-image: linear-gradient(to bottom, #010100, transparent 4rem);
   }
 }
 
