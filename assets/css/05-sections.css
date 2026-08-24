@@ -951,19 +951,40 @@
   .nav__burger { display: block; }
   .nav__logo { height: 2.1rem; }
 
-  /* Hero empilhado: a imagem ocupa a largura toda na proporção
-     original e a tipografia recebe o campo cinza azulado abaixo. */
+  /* Hero sobreposto, não empilhado.
+
+     Empilhado, num 390x844, a conta não fechava: a arte vertical
+     mede 693px de altura, o nome começava em 757 e a assinatura em
+     811 — ou seja, a primeira tela era só fotografia e "Advocacia"
+     era cortada ao meio pela dobra de 844. Lia como defeito.
+
+     Agora a tipografia pousa sobre a base da fotografia. A escolha
+     da faixa não é estética: medido célula a célula, o texto claro
+     só sobrevive no topo (pior 6,5:1) e na base (pior 7,9:1) — o
+     miolo são as colunas iluminadas, onde cai para 2,9:1.
+
+     A altura da seção é a foto mais 5rem, que é exatamente o curso
+     da ponte de dissolução. Total 773px, dentro da dobra. */
   .hero {
+    position: relative;
     min-height: 0;
     display: block;
-    padding-block: 0 var(--s7);
+    padding-block: 0 5rem;
     overflow: visible;
   }
   /* relative, não static: a ponte de dissolução do fim do arquivo
      ancora nele com top: 100%. */
   .hero__art { position: relative; }
   .hero__art img { height: auto; object-fit: fill; object-position: center; }
-  .hero__grid { padding-top: var(--s6); }
+
+  .hero__grid {
+    position: absolute;
+    left: 0; right: 0;
+    bottom: 5rem;                 /* encosta na base da fotografia */
+    width: auto;
+    margin: 0;
+    padding: 0 var(--gutter) var(--s4);
+  }
   .hero__type { max-width: none; }
   .hero__sentinel { position: static; }
 
