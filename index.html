@@ -13,7 +13,7 @@
 <meta property="og:locale" content="pt_BR">
 <meta property="og:title" content="Karin Rost — Advocacia estratégica em Direito Previdenciário">
 <meta property="og:description" content="Aposentadoria não se improvisa. Planejamento previdenciário, aposentadorias, BPC/LOAS e pensão por morte, com atendimento humanizado em Parobé/RS.">
-<meta property="og:image" content="assets/img/hero-colunas.png">
+<meta property="og:image" content="assets/img/karin-escritorio.png">
 <meta property="og:url" content="https://karinrostadvocacia.com/">
 
 <link rel="icon" href="assets/img/logo-256.png" type="image/png">
@@ -21,18 +21,14 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Preload casado com o <picture> do hero. Sem o media, o celular
-     baixaria 1,8 MB da arte horizontal que ele nem vai exibir. As duas
-     queries são complementares e cobrem toda largura, sem vão. -->
-<!-- type="image/webp": navegador sem suporte simplesmente ignora o
-     preload e carrega o PNG pelo <picture>, sem baixar nada à toa. -->
-<link rel="preload" as="image" type="image/webp" media="(max-width: 60rem)" fetchpriority="high"
-      imagesrcset="assets/img/hero-colunas-m-640.webp 640w,
-                   assets/img/hero-colunas-m-941.webp 941w"
-      imagesizes="100vw">
-<link rel="preload" as="image" type="image/webp" media="not all and (max-width: 60rem)" fetchpriority="high"
-      href="assets/img/hero-colunas.webp">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..700&amp;family=Bodoni+Moda:opsz,wght@6..96,400..900&amp;family=Great+Vibes&amp;display=swap">
+<!-- O recorte da Karin é a única imagem da primeira dobra e pesa 40 KB
+     em webp: um preload só, sem media query, porque agora a mesma arte
+     serve celular e desktop. O logo vem junto — ele abre a página. -->
+<link rel="preload" as="image" type="image/webp" fetchpriority="high"
+      href="assets/img/hero-karin.webp">
+<link rel="preload" as="image" type="image/webp" fetchpriority="high"
+      href="assets/img/logo-hero.webp">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..700&amp;family=Bodoni+Moda:opsz,wght@6..96,400..900&amp;display=swap">
 
 <link rel="stylesheet" href="assets/css/01-tokens.css">
 <link rel="stylesheet" href="assets/css/02-base.css">
@@ -121,40 +117,62 @@
 
 <main id="conteudo">
 
-<!-- ══════════════════════════ HERO ══════════════════════════ -->
+<!-- ══════════════════════════ HERO ══════════════════════════
+     Primeira dobra reconstruída conforme a referência: faixa da marca
+     em noite, campo marfim, tipografia à esquerda e o recorte da Karin
+     à direita, pousado direto no campo — o arquivo tem canal alfa,
+     então não existe retângulo de foto nenhum. -->
 <section class="hero" id="hero">
-  <div class="hero__art" data-parallax="0.06">
-    <picture>
-      <!-- PONTO DE VIRADA MOBILE: max-width: 60rem.
-           Casado de propósito com o bloco @media da linha ~948, onde
-           .hero__art img deixa de usar object-fit: cover. Este hero é a
-           única foto do site em cover; se a arte vertical casasse acima
-           de 60rem, ela entraria cortada. Nunca troque por
-           max-aspect-ratio: uma janela retrato de 1120px cairia
-           justamente na faixa perigosa. -->
-      <source media="(max-width: 60rem)" type="image/webp" width="941" height="1672"
-              srcset="assets/img/hero-colunas-m-640.webp 640w,
-                      assets/img/hero-colunas-m-941.webp 941w"
-              sizes="100vw">
-      <source media="(max-width: 60rem)" width="941" height="1672"
-              srcset="assets/img/hero-colunas-m-640.png 640w,
-                      assets/img/hero-colunas-m-941.png 941w"
-              sizes="100vw">
-      <!-- Cada fonte carrega a própria proporção: 941x1672 no <source>,
-           1672x941 no <img>. Sem isso o navegador reservaria a caixa
-           pela proporção do <img> e o layout saltaria ~470px quando a
-           vertical chegasse — seis vezes ao longo da página. -->
-      <source type="image/webp" srcset="assets/img/hero-colunas.webp">
-      <img src="assets/img/hero-colunas.png"
-           alt="Fachada de tribunal em colunas coríntias vista de baixo, sob céu noturno azul profundo."
-           width="1672" height="941" fetchpriority="high" decoding="async">
-    </picture>
+
+  <div class="hero__marca">
+    <a class="hero__marca-link" href="#hero" aria-label="Karin Rost Advocacia e Assessoria — início">
+      <picture>
+        <source type="image/webp" srcset="assets/img/logo-hero.webp">
+        <img class="hero__logo"
+             src="assets/img/logo-hero.png"
+             srcset="assets/img/logo-hero.png 429w, assets/img/logo-hero@2x.png 858w"
+             sizes="(max-width: 40rem) 11rem, 14.5rem"
+             alt="Karin Rost — Advocacia e Assessoria"
+             width="429" height="338" fetchpriority="high" decoding="async">
+      </picture>
+    </a>
+
+    <a class="hero__marca-nota" href="#processo">Aposentadoria não se improvisa</a>
   </div>
 
-  <div class="hero__grid">
-    <div class="hero__type">
-      <h1 class="hero__name reveal">Karin Rost</h1>
-      <p class="hero__role reveal" data-reveal-delay="1">Advocacia</p>
+  <div class="hero__campo">
+    <div class="hero__wrap">
+      <div class="hero__texto">
+        <p class="hero__kicker reveal">Karin Rost Advocacia e Assessoria</p>
+
+        <h1 class="hero__titulo reveal" data-reveal-delay="1">
+          Advocacia estratégica<br class="br-lg">
+          em Direito Previdenciário.
+        </h1>
+
+        <p class="hero__lead reveal" data-reveal-delay="2">
+          Atuação jurídica especializada para orientar, proteger e defender
+          os seus direitos previdenciários com ética, transparência e
+          atendimento personalizado.
+        </p>
+
+        <div class="hero__acoes reveal" data-reveal-delay="3">
+          <a class="btn btn--marca" href="https://wa.me/5551993965299" target="_blank" rel="noopener">
+            Agendar atendimento
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn--linha" href="#areas">Ver áreas de atuação</a>
+        </div>
+      </div>
+
+      <figure class="hero__retrato">
+        <picture>
+          <source type="image/webp" srcset="assets/img/hero-karin.webp">
+          <img src="assets/img/hero-karin.png"
+               alt="Karin Rost, advogada, de blazer claro, apoiada no encosto de uma cadeira de madeira."
+               width="375" height="550" fetchpriority="high" decoding="async">
+        </picture>
+      </figure>
     </div>
   </div>
 

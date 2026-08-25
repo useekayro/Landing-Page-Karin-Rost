@@ -115,6 +115,19 @@ a { color: inherit; text-decoration: none; }
 .btn--ghost { color: var(--tinta-clara); border-color: var(--linha-clara); }
 .btn--ghost:hover { border-color: var(--ouro); color: var(--ouro-claro); }
 
+/* Dupla do hero: o ouro da marca é mais pálido que o --ouro da
+   página, então também carrega tinta quase preta (7,8:1) — branco
+   sobre ele daria 2,4:1, que é o que a referência fazia. */
+.btn--marca { background: var(--ouro-marca); color: var(--tinta-pilula); border-color: var(--ouro-marca); }
+.btn--marca:hover {
+  background: color-mix(in oklab, var(--ouro-marca) 78%, white);
+  border-color: color-mix(in oklab, var(--ouro-marca) 78%, white);
+}
+
+/* contorno para campo claro: o --ghost é de campo escuro e sumiria */
+.btn--linha { color: var(--tinta-escura); border-color: color-mix(in oklab, var(--tinta-escura) 26%, transparent); }
+.btn--linha:hover { background: var(--tinta-escura); color: var(--marfim); border-color: var(--tinta-escura); }
+
 .btn--dark { background: var(--tinta-escura); color: var(--luz); border-color: var(--tinta-escura); }
 .btn--dark:hover { background: var(--ardosia); border-color: var(--ardosia); }
 

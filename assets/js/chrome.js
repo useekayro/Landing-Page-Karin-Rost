@@ -82,7 +82,7 @@
      encosta 9px na faixa enquanto o rodapé escuro ocupa o resto, e
      a barra invertia sem motivo. Três leituras de rect por quadro
      é barato e não tem estado para dessincronizar. */
-  var claras = Array.prototype.slice.call(document.querySelectorAll('.cena--sobre, .dif, .cena--cta'));
+  var claras = Array.prototype.slice.call(document.querySelectorAll('.hero__campo, .cena--sobre, .dif, .cena--cta'));
 
   function pintarNav() {
     if (!nav) return;

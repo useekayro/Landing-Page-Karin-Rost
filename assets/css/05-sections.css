@@ -8,78 +8,147 @@
    aresta intencional que uma fusão malfeita.
    ════════════════════════════════════════════════════════════════ */
 
-/* ═══════════════════════ HERO ═══════════════════════ */
+/* ═══════════════════════ HERO ═══════════════════════
+   A primeira dobra não segue a paleta do resto da página: campo
+   marfim, faixa da marca em noite, tipografia à esquerda e o
+   recorte da Karin à direita. É a única seção clara antes do
+   manifesto, e é ela que apresenta a marca — por isso carrega o
+   logo grande em vez de depender da navbar, que só desce no hover.
+   ════════════════════════════════════════════════════════════════ */
 .hero {
   position: relative;
   min-height: 100svh;
-  display: flex; align-items: center;
-  background: var(--ardosia);
-  overflow: hidden;
-  padding-block: var(--s7);
+  display: flex;
+  flex-direction: column;
+  background: var(--marfim);
+  color: var(--tinta-escura);
 }
 
-.hero__art { position: absolute; inset: 0; z-index: var(--z-deco); }
-/* Única foto da página em cover, e por um motivo medido: as bordas
-   de hero-colunas.png não são cor chapada (topo #24334B, base
-   #091830), então em contain as barras de 49px viravam duas faixas
-   horizontais visíveis. Aqui não há ninguém para cortar — é a
-   fachada, não a cliente. As fotos da Karin seguem intocadas. */
-.hero__art img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: 88% center;
+/* ── Faixa da marca ───────────────────────────────────────── */
+/* Três colunas com o logo na do meio, não flex centrado: assim a
+   linha da direita entra sem empurrar a marca para fora do eixo. */
+.hero__marca {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--s3);
+  padding: clamp(0.9rem, 1.5vw, 1.5rem) var(--gutter);
+  background: var(--noite);
 }
-/* O vazio ao redor recebe o cinza azulado da própria borda da
-   imagem, então a composição lê como sangria total sem recorte. */
-/* Sem véu: a foto entra como está no arquivo, sem uma camada de
-   cor por cima. O contraste do texto passou a ser resolvido no
-   próprio texto (ver .hero__name/.hero__role), não na imagem. */
+.hero__marca-link { grid-column: 2; display: block; line-height: 0; }
 
-.hero__grid {
-  position: relative; z-index: var(--z-conteudo);
+.hero__marca-nota {
+  grid-column: 3;
+  justify-self: end;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: color-mix(in oklab, white 76%, var(--noite));
+  border-bottom: 1px solid color-mix(in oklab, var(--ouro-marca) 55%, transparent);
+  padding-bottom: 3px;
+  transition: color 0.35s var(--expo), border-color 0.35s var(--expo);
+}
+.hero__marca-nota:hover,
+.hero__marca-nota:focus-visible { color: var(--ouro-marca); border-color: var(--ouro-marca); }
+
+@media (max-width: 48rem) {
+  .hero__marca { grid-template-columns: 1fr; justify-items: center; gap: var(--s2); }
+  .hero__marca-link, .hero__marca-nota { grid-column: 1; justify-self: center; }
+}
+/* 7vw ≈ 100px em 1440, que é a proporção do logo na referência
+   (100 de 1513). Em 12vw a faixa passava de 199px de altura e
+   empurrava a figura para fora da primeira dobra. */
+.hero__logo {
+  width: clamp(6.5rem, 7vw, 9rem);
+  height: auto;
+  transition: transform 0.6s var(--expo);
+}
+.hero__marca-link:hover .hero__logo { transform: translateY(-3px); }
+
+/* ── Campo claro ──────────────────────────────────────────── */
+/* flex: 1 + align-items: flex-end faz o conteúdo encostar na base
+   da dobra, que é o que deixa a figura sangrar no rodapé da seção
+   como na referência, em vez de flutuar no meio do campo. */
+.hero__campo {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: flex-end;
+  padding-top: clamp(1.5rem, 4vw, 4rem);
+}
+.hero__wrap {
   width: min(100% - (var(--gutter) * 2), var(--wrap));
   margin-inline: auto;
-}
-/* Centralizado nos dois eixos: o vertical vem do align-items do
-   .hero, o horizontal daqui. A caixa cresceu de 34rem para 54rem
-   junto com o nome — em 34rem ele quebraria em duas linhas. */
-.hero__type {
-  max-width: min(100%, 54rem);
-  margin-inline: auto;
-  text-align: center;
+  display: grid;
+  align-items: end;
+  gap: var(--s6);
 }
 
-/* Fora da escala: o nome tem clamp próprio, inclinação de 9,4vw
-   (quase três vezes a do --t-5) e teto de 10,5rem. O piso de
-   3,5rem não é estético — é o maior corpo em que "Karin Rost"
-   ainda cabe numa linha na tela de 320px (274 de 280px úteis). */
-.hero__name {
+.hero__kicker {
+  font-size: clamp(0.75rem, 0.68rem + 0.3vw, 0.875rem);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  /* bronze, não o ouro da referência: #C8A068 sobre o marfim dá
+     2,1:1 e some numa versalete de 13px. O bronze dá 5,4:1 e é o
+     mesmo tom que a página já usa para ouro sobre campo claro. */
+  color: var(--ouro-fundo);
+  margin-bottom: var(--s4);
+}
+
+/* Peso 400: na referência o título é um didone leve, não um titular
+   pesado. Aqui o contraste do Bodoni já dá a presença; engrossar
+   transformaria a frase em bloco e brigaria com a figura ao lado. */
+.hero__titulo {
   font-family: var(--display);
-  font-size: clamp(3.5rem, 0.8rem + 9.4vw, 10.5rem);
-  font-weight: 800;
-  line-height: 0.9;
-  letter-spacing: -0.045em;
-  margin-bottom: 0.25rem;
+  /* teto de 4,25rem, não 5: em 80px a frase ocupava 346px de altura
+     e a soma faixa + texto estourava a dobra de 900px. */
+  font-size: clamp(2.25rem, 1rem + 3.7vw, 4.25rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: var(--azul-neblina);
+  margin-bottom: var(--s4);
+  text-wrap: balance;
 }
 
-/* Letra emendada sob o nome: onde antes havia versal com entreletra
-   larga, agora há uma única palavra escrita de traço contínuo. Duas
-   coisas saíram junto por obrigação da forma — a caixa alta, que
-   desliga as ligaduras do script, e a entreletra, que literalmente
-   corta a emenda entre as letras. Em troca o corpo subiu: o
-   contorno fino de um script precisa de tamanho para não sumir
-   sobre a fotografia. */
-.hero__role {
-  font-family: var(--escrita);
-  font-size: clamp(2.5rem, 0.85rem + 5.7vw, 6.5rem);
-  font-weight: 400;
-  line-height: 1.15;
-  letter-spacing: 0;
-  /* tinta clara, não ouro: sem o véu, a coluna iluminada da foto
-     passa exatamente nesta faixa (pior pixel #5d6980), onde o ouro
-     daria 3,4:1. A tinta clara dá 4,7:1 sobre o mesmo pixel. */
-  color: var(--tinta-clara);
-  margin-top: 0;
+.hero__lead {
+  max-width: 46ch;
+  font-size: var(--t-0);
+  line-height: 1.75;
+  color: var(--tinta-suave);
+  margin-bottom: var(--s5);
+  text-wrap: pretty;
+}
+
+.hero__acoes { display: flex; flex-wrap: wrap; gap: var(--s3); }
+
+/* ── Retrato recortado ────────────────────────────────────── */
+/* O arquivo tem canal alfa: a figura pousa direto no marfim, sem
+   moldura, sem sombra e sem máscara. Nada de object-fit — a
+   proporção é a do arquivo, como em toda foto da página. */
+.hero__retrato {
+  margin: 0;
+  align-self: end;
+  justify-self: center;
+  width: 100%;
+}
+.hero__retrato img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (min-width: 60rem) {
+  .hero__wrap {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    column-gap: clamp(2rem, 4vw, 4rem);
+  }
+  /* o texto sobe da base; só a figura encosta no rodapé da dobra */
+  .hero__texto { padding-bottom: clamp(3rem, 6vw, 6rem); }
+  /* 26rem: em 375x550 o recorte cresce em altura 1,47x mais rápido
+     que em largura. Acima disso a figura passa da altura do campo e
+     empurra o hero para fora da dobra. */
+  .hero__retrato { justify-self: center; max-width: 26rem; }
 }
 
 .hero__sentinel { position: absolute; left: 0; bottom: 0; width: 1px; height: 1px; }
@@ -969,52 +1038,13 @@
   .nav__burger { display: block; }
   .nav__logo { height: 2.1rem; }
 
-  /* Hero sobreposto, não empilhado.
-
-     Empilhado, num 390x844, a conta não fechava: a arte vertical
-     mede 693px de altura, o nome começava em 757 e a assinatura em
-     811 — ou seja, a primeira tela era só fotografia e "Advocacia"
-     era cortada ao meio pela dobra de 844. Lia como defeito.
-
-     Agora a tipografia pousa sobre a base da fotografia. A escolha
-     da faixa não é estética: medido célula a célula, o texto claro
-     só sobrevive no topo (pior 6,5:1) e na base (pior 7,9:1) — o
-     miolo são as colunas iluminadas, onde cai para 2,9:1.
-
-     A altura da seção é a foto mais 5rem, que é exatamente o curso
-     da ponte de dissolução. Total 773px, dentro da dobra. */
-  .hero {
-    position: relative;
-    min-height: 0;
-    display: block;
-    padding-block: 0 5rem;
-    overflow: visible;
-  }
-  /* relative, não static: a ponte de dissolução do fim do arquivo
-     ancora nele com top: 100%. */
-  .hero__art { position: relative; }
-  .hero__art img { height: auto; object-fit: fill; object-position: center; }
-
-  /* Tipografia no ALTO da fotografia, centrada.
-     A faixa não é escolha de gosto: mapeada célula a célula, a
-     vertical do hero só sustenta texto claro no topo (0-10%, pior
-     6,5:1) e na base (90-100%, pior 7,9:1). O miolo são as colunas
-     iluminadas, onde despenca para 2,9:1.
-     O recuo é em vw porque a altura da foto é função direta da
-     largura (941:1672 => 177,7vw), então vale o mesmo em qualquer
-     aparelho. */
-  .hero__grid {
-    position: absolute;
-    left: 0; right: 0;
-    top: 8vw;                     /* ~4,5% da altura da fotografia */
-    bottom: auto;
-    width: auto;
-    margin: 0;
-    padding: 0 var(--gutter);
-  }
-  .hero__type { text-align: center; margin-inline: auto; }
-  .hero__type { max-width: none; }
-  .hero__sentinel { position: static; }
+  /* O hero desta versão não tem arte de fundo para empilhar: é
+     texto sobre campo marfim e o recorte logo abaixo. O que sobra
+     de mobile aqui é só reduzir a faixa da marca e centrar a
+     tipografia — a grade de uma coluna já vem do padrão. */
+  .hero__marca { padding-block: 1rem; }
+  .hero__texto { padding-bottom: 0; }
+  .hero__retrato { max-width: 20rem; justify-self: center; }
 
   .deco--arc { display: none; }
 }
@@ -1062,15 +1092,13 @@
    Valores de tools/medir-bordas.mjs (mediana, não média).
    ════════════════════════════════════════════════════════════════ */
 @media (max-width: 60rem) {
-  .hero          { --borda-base: #010C1D; --campo: var(--ardosia); }
   .cena--emblema { --borda-base: #09111C; --campo: var(--ardosia); }
   .cena--sobre   { --borda-base: #DBCEC7; --campo: var(--luz); --ponte: 6rem; }
   .cena--proc    { --borda-base: #0A121B; --campo: var(--azul); }
   .cena--cta     { --borda-base: #D1B4A3; --campo: var(--luz); --ponte: 8rem; }
 
-  .hero__art, .cena__foto { position: relative; }
+  .cena__foto { position: relative; }
 
-  .hero__art::after,
   .cena__foto::after {
     content: "";
     position: absolute;

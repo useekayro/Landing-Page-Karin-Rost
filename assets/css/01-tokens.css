@@ -13,6 +13,19 @@
   --azul:          #19212C;   /* bordas de karin-azul.png (média das 8) */
   --luz:           #F2EFED;   /* campo claro: sobre, diferenciais, CTA */
 
+  /* ── Hero (amostrados da referência entregue) ──────────────
+     A primeira dobra tem paleta própria: campo marfim, faixa da
+     marca em noite e um ouro mais pálido que o do resto da página,
+     porque é o ouro do próprio arquivo do logo (#C0A070 é o tom
+     dominante dos 7.916 pixels de traço). */
+  --marfim:        #F8F7F4;   /* campo claro do hero            */
+  --noite:         #0E0D2F;   /* faixa da marca, topo do hero   */
+  --ouro-marca:    #C8A068;   /* ouro do logo e do botão        */
+  /* O título da referência é #809098, que sobre o marfim dá 2,9:1 e
+     reprova até como texto grande. Um degrau mais fundo mantém o
+     azul-neblina e passa a 3,9:1. */
+  --azul-neblina:  #6B7887;
+
   /* ── Superfícies derivadas ────────────────────────────────── */
   --ardosia-alto:  oklch(0.274 0.021 252);
   --ardosia-topo:  oklch(0.316 0.023 252);
@@ -53,11 +66,6 @@
   /* ── Tipografia ───────────────────────────────────────────── */
   --display: "Bodoni Moda", "Didot", "Bodoni MT", "Playfair Display", Georgia, serif;
   --texto:   "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  /* Letra emendada, usada só no subtítulo do hero. A pilha de
-     reserva é toda de scripts que existem nativamente no Mac e no
-     Windows — se a fonte de rede falhar, o traço continua ligado. */
-  --escrita: "Great Vibes", "Snell Roundhand", "Apple Chancery",
-             "Segoe Script", "Brush Script MT", cursive;
 
   --t--1: clamp(0.8125rem, 0.79rem + 0.11vw, 0.875rem);
   --t-0:  clamp(1rem,      0.96rem + 0.20vw, 1.125rem);

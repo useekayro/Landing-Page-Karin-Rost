@@ -24,6 +24,10 @@ carrega, para que a imagem dissolva na página sem precisar de corte ou máscara
 | `--ouro-claro` | `#FDD45C` | realce do logo (amostra 180,870) |
 | `--ouro-fundo` | `#7C5A2A` | bronze, só sobre `--luz` |
 | `--tinta-pilula` | `#1A1006` | a tinta que anda sobre o ouro |
+| `--marfim` | `#F8F7F4` | campo do hero, amostrado da referência |
+| `--noite` | `#0E0D2F` | faixa da marca no topo do hero |
+| `--ouro-marca` | `#C8A068` | ouro do arquivo do logo, só no hero |
+| `--azul-neblina` | `#6B7887` | título do hero |
 
 O acento passou pelo rosa do blazer e voltou ao ouro; o cinza azulado ficou.
 O ouro convive com o traçado de `emblema.png`, que é a maior massa dourada da
@@ -44,7 +48,8 @@ preta (8,7:1), clareando no hover** em vez de aprofundar.
 O escuro não é uniforme; a página respira em três atos.
 
 ```
-HERO ─ MANIFESTO              ardósia      autoridade, cinematográfico
+HERO                          marfim       a apresentação da marca
+MANIFESTO                     ardósia      autoridade, cinematográfico
 EMBLEMA                       ardósia      a pausa: a marca e a frase
 ÁREAS                         ardósia      o serviço
 BANDA EDITORIAL               frio         a instituição
@@ -67,35 +72,16 @@ Eixo de contraste: didone × grotesca. Nenhuma da lista de fontes-reflexo
 
 Escala fluida `clamp()`, razão ≥1.25. Corpo em 65–72ch.
 
-- **Escrita: Great Vibes** (400), só no subtítulo do hero. Script de traço
-  emendado e alto contraste, na mesma família de gesto do Bodoni. A pilha de
-  reserva é toda de scripts nativos (Snell Roundhand, Apple Chancery, Segoe
-  Script, Brush Script): se a fonte de rede falhar, a letra continua ligada.
+O título do hero é o **único fora da escala**: `clamp(2.25rem → 4.25rem)`
+com inclinação de 3,7vw. Em 1440px fecha em **68px**, três linhas numa
+coluna de 608px — a mesma quebra da referência (`Advocacia estratégica` /
+`em Direito` / `Previdenciário.`). O teto de 4,25rem não é gosto: em 5rem
+a frase media 346px de altura e a soma faixa + texto + figura estourava a
+dobra de 900px.
 
-O nome no hero é o **único fora da escala**: tem `clamp` próprio
-(`3.5rem → 10.5rem`, inclinação de 9,4vw, quase três vezes a do `--t-5`)
-porque é a única coisa escrita na primeira dobra. Em 1440px ele fecha em
-**148px numa linha só**, com 718px de texto numa caixa de 864px.
-
-O piso de 3,5rem não é gosto, é medida: em 320px — a tela mais estreita que
-importa — "Karin Rost" ocupa **272 dos 280px úteis**. Um degrau acima e ele
-quebraria em duas linhas ali. A caixa do bloco subiu de 34rem para 54rem
-junto com o nome.
-
-### O subtítulo emendado
-
-`Advocacia` deixou de ser versal com entreletra e virou **uma palavra escrita
-de traço contínuo**. As duas coisas saíram por obrigação da forma, não por
-gosto: caixa alta desliga as ligaduras de um script, e entreletra positiva
-corta exatamente a emenda entre as letras. Em troca o corpo subiu bastante
-(`2.5rem → 6.5rem`; 96px em 1440) — o contorno fino de um script precisa de
-tamanho para não sumir sobre a fotografia.
-
-O encaixe entre as duas linhas foi medido na **tinta**, não na caixa: como
-"Karin Rost" não tem nenhuma descendente e o script tem ascendente altíssima,
-as caixas mentem sobre a distância real. Medindo `actualBoundingBox` de cada
-uma, sobram **17px** entre o pé do Bodoni e o topo do script — travessão
-apertado, sem colisão, sem margem negativa.
+Peso **400**, não 700. Na referência o título é um didone leve; o contraste
+do próprio Bodoni já dá presença, e engrossar transformaria a frase em bloco
+e brigaria com a figura ao lado.
 
 ## Imagens — a regra que governa o layout
 
@@ -103,15 +89,15 @@ Nenhuma foto da cliente é cortada, mascarada, filtrada ou forçada a uma
 proporção. Todas: `width:100%; height:auto` com `width`/`height` intrínsecos
 (1672×941) para reservar espaço e zerar layout shift.
 
-O hero é a única exceção, e medida: as bordas de `hero-colunas.png` não são
-cor chapada (topo `#24334B`, base `#091830`), então o `contain` antigo abria
-duas faixas horizontais de 49px em 1440×900 — barra visível, não sangria. A
-fachada não tem ninguém para cortar, então ela usa `cover` com
-`object-position: 88%`. As cinco fotos restantes seguem intocadas.
+O hero deixou de ter foto de fundo: a arte da primeira dobra agora é um
+**recorte com canal alfa**, que pousa direto no campo marfim. Sem retângulo,
+sem máscara, sem `object-fit` — a proporção é a do arquivo, como em toda foto
+da página. Nenhuma das outras fotos mudou.
 
 | Arquivo | Seção | Composição |
 |---|---|---|
-| `hero-colunas.png` | Hero | cover à direita; tipografia centrada, sem véu |
+| `hero-karin.webp` | Hero | recorte com alfa, encostado na base da dobra |
+| `logo-hero.webp` | Hero | lockup da marca na faixa noite, centrado |
 | `emblema.png` | Emblema | largura total; texto nas três faixas escuras |
 | `justica-direito.png` | Banda editorial | largura total; a placa flutua sobre ela |
 | `karin-escritorio.png` | Sobre | sangria total; texto sobre a foto |
@@ -161,12 +147,9 @@ Refeita a medição com as fotos novas, no mesmo método: Processo com
 do emblema ficam entre **5,4:1** e **12,9:1**. As zonas de silêncio continuam
 valendo.
 
-O hero **perdeu o véu** — a foto entra como está no arquivo, sem camada de cor
-por cima. O preço apareceu na medição: sem véu, uma coluna iluminada cruza
-exatamente a faixa do subtítulo (pior pixel `#5d6980`), onde o acento colorido
-cairia para 3,4:1 no ouro (2,1:1 quando era rosa). Então quem mudou foi a
-tinta, não a imagem: nome e subtítulo em `--tinta-clara`, **6,3:1** e
-**4,7:1** sobre o pior pixel de cada faixa, já com o nome no tamanho novo.
+O hero saiu dessa conta por completo: não há mais fotografia por baixo do
+texto dele. A tipografia pousa em campo chapado, e o contraste vira aritmética
+simples de duas cores — sem varredura de pixel, sem zona de silêncio.
 
 **Nenhuma dessas fotos tem parallax.** O texto é posicionado em percentuais da
 seção; se a foto deslizasse por baixo, as zonas seguras deixariam de coincidir
@@ -284,23 +267,68 @@ dourado dos diferenciais vivia na borda superior do card e escapava pelos
 cantos curvos — foi movido para baixo do título, onde continua se desenhando
 no hover e agora tem função tipográfica, não só decorativa.
 
-## O hero é só a fotografia
+## O hero, reconstruído sobre a referência
 
-Credencial (Parobé/RS, OAB) e a lista de áreas saíram da primeira dobra —
-disputavam atenção com a imagem. Migraram para a **ficha** que abre o
-manifesto, onde funcionam como ficha técnica antes da declaração. A ficha foi
-depois aumentada um degrau inteiro na escala (rótulos 10→13px, valores
-14→18px, os dois destacados 17→22px): ela é a primeira informação dura da
-página e estava sendo lida como rodapé.
+A primeira dobra foi refeita conforme a referência entregue pelo cliente e é
+hoje a **única seção clara antes do manifesto** — paleta própria, amostrada do
+arquivo da referência:
 
-Sobra no hero **duas linhas**, centradas nos dois eixos: `Karin Rost` em
-Bodoni de 148px e `Advocacia` logo abaixo, em letra emendada. Uma palavra
-sozinha em caixa baixa leria como sobra de frase; escrita à mão, ela vira
-assinatura — que é o que uma segunda linha de hero deve ser.
+| Peça | Hex | Origem |
+|---|---|---|
+| campo | `#F8F7F4` | fundo da referência |
+| faixa da marca | `#0E0D2F` | cabeçalho da referência |
+| ouro da marca | `#C8A068` | tom dominante dos 7.916 pixels de traço do logo |
+| título | `#6B7887` | o `#809098` da referência, um degrau mais fundo |
 
-O véu que existia ali foi removido a pedido: a fotografia entra sem nenhuma
-camada de cor por cima. A legibilidade passou a ser resolvida na tinta (ver a
-seção de imagens), não na imagem.
+Duas correções de contraste em cima da referência, medidas sobre a cor
+realmente pintada:
+
+- O título da referência (`#809098`) dá **2,9:1** sobre o marfim e reprova
+  até no critério de texto grande. Um degrau mais fundo mantém o azul-neblina
+  e sobe para **4,2:1**.
+- O botão da referência é branco sobre o ouro — **2,4:1**. Aqui ele leva a
+  mesma tinta quase preta das outras pílulas da página: **7,75:1**. Pela mesma
+  razão a versalete do kicker usa o bronze `--ouro-fundo` (5,85:1) e não o ouro
+  do logo, que sobre marfim daria 2,1:1.
+
+O lead fecha em 7,58:1 e o botão de contorno em 17,4:1.
+
+### Estrutura
+
+```
+faixa noite      logo centrado (104px) · linha da marca à direita
+campo marfim     kicker · título · lead · dois CTAs   |   recorte da Karin
+```
+
+A faixa é grade de três colunas — `1fr auto 1fr` — e não flex centrado: assim
+a linha da direita (`Aposentadoria não se improvisa`, atalho para o Processo)
+entra sem empurrar a marca para fora do eixo óptico. Abaixo de 48rem as duas
+peças empilham centradas. A linha fecha em 10,2:1 sobre a noite.
+
+O recorte é retrato **375×550**. O teto de 26rem na coluna não é estética: a
+figura cresce em altura 1,47x mais rápido que em largura, e acima disso ela
+passa da altura do campo e empurra o hero para fora da dobra. Em 1440 ele
+fica em 416×610 (1,11x de ampliação); em 375, 320×469, ainda reduzindo.
+
+A faixa é `flex` e o campo é `flex: 1` com `align-items: flex-end`: o conteúdo
+encosta na base da dobra, que é o que faz a figura sangrar no rodapé da seção
+em vez de flutuar no meio do campo. O texto sobe da base pelo próprio
+`padding-bottom`, então só a figura toca a borda.
+
+Em 1440×900 o hero fecha em **900px exatos** — faixa de 125px e campo de 775.
+Em 1024×768, 768. Abaixo de 60rem a grade vira uma coluna: texto e depois
+figura, com os dois CTAs ainda acima da dobra em 375×812.
+
+O credencial (Parobé/RS, OAB) e a lista de áreas seguem fora daqui, na
+**ficha** que abre o manifesto — onde funcionam como ficha técnica antes da
+declaração.
+
+### A navbar sobre o campo claro
+
+`.hero__campo` entrou na lista de seções claras do `chrome.js`. O recorte é
+proposital: a barra só inverte para o tema claro quando o **campo** cruza a
+linha média dela. Parada no topo, quem está sob a barra é a faixa noite, e o
+tema escuro é o certo.
 
 ## A pausa do emblema
 
