@@ -47,13 +47,41 @@
     return !!(nav && nav.contains(document.activeElement));
   }
 
+  /* ── Enquanto o hero estiver na tela, não há barra ────────
+     A primeira dobra já carrega a marca; a barra ali era a segunda
+     marca na mesma faixa. Passado o hero, o ponteiro volta a
+     chamá-la.
+
+     A leitura é a posição da sentinela no pé do hero, medida na
+     hora — não um estado guardado por IntersectionObserver. Uma
+     leitura de rect no evento é barata, e o estado nunca fica
+     dessincronizado (recarregar no meio da página, âncora, voltar
+     pelo histórico: tudo já entra com a resposta certa). */
+  function passouHero() {
+    if (!sentinel) return true;                 /* sem sentinela, sem trava */
+    return sentinel.getBoundingClientRect().top < 0;
+  }
+
+  function sincronizarAlca(passou) {
+    document.documentElement.classList.toggle('sem-alca', !(pontoFino && passou));
+  }
+
   if (pontoFino) {
     mostrarChrome(false);
+    sincronizarAlca(passouHero());
 
     document.addEventListener('mousemove', function (ev) {
-      if (ev.clientY <= FAIXA) { mostrarChrome(true); return; }
+      if (ev.clientY <= FAIXA) { if (passouHero()) mostrarChrome(true); return; }
       if (presa()) return;
       if (ev.clientY > (nav ? nav.offsetHeight : 76) + 16) mostrarChrome(false);
+    }, { passive: true });
+
+    /* Uma leitura por evento de rolagem, e só ela: recolhe a barra
+       ao voltar para o hero e acerta a alça no caminho. */
+    window.addEventListener('scroll', function () {
+      var passou = passouHero();
+      sincronizarAlca(passou);
+      if (!passou && !presa()) mostrarChrome(false);
     }, { passive: true });
 
     /* ponteiro saiu da janela pela lateral ou por baixo */
@@ -62,12 +90,17 @@
     });
 
     if (nav) {
+      /* O teclado é a exceção: quem chega na barra por Tab não tem
+         ponteiro para chamá-la, e deixá-la inalcançável no hero
+         quebraria a navegação. */
       nav.addEventListener('focusin', function () { mostrarChrome(true); });
       nav.addEventListener('focusout', function () {
         window.setTimeout(function () { if (!presa()) mostrarChrome(false); }, 0);
       });
     }
   } else if (sentinel && 'IntersectionObserver' in window) {
+    /* No toque não existe hover para chamar nada: vale a regra
+       antiga — a barra entra sozinha quando o hero termina. */
     new IntersectionObserver(function (entries) {
       var e = entries[0];
       mostrarChrome(!e.isIntersecting && e.boundingClientRect.top < 0);

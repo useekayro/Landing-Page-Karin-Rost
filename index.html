@@ -25,7 +25,9 @@
      em webp: um preload só, sem media query, porque agora a mesma arte
      serve celular e desktop. O logo vem junto — ele abre a página. -->
 <link rel="preload" as="image" type="image/webp" fetchpriority="high"
-      href="assets/img/hero-karin.webp">
+      imagesrcset="assets/img/hero-secao-940.webp 940w,
+                   assets/img/hero-secao.webp 1672w"
+      imagesizes="100vw">
 <link rel="preload" as="image" type="image/webp" fetchpriority="high"
       href="assets/img/logo-hero.webp">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..700&amp;family=Bodoni+Moda:opsz,wght@6..96,400..900&amp;display=swap">
@@ -119,9 +121,8 @@
 
 <!-- ══════════════════════════ HERO ══════════════════════════
      Primeira dobra reconstruída conforme a referência: faixa da marca
-     em noite, campo marfim, tipografia à esquerda e o recorte da Karin
-     à direita, pousado direto no campo — o arquivo tem canal alfa,
-     então não existe retângulo de foto nenhum. -->
+     no azul da página, campo marfim vindo da própria fotografia e a
+     tipografia pousada na metade clara dela. -->
 <section class="hero" id="hero">
 
   <div class="hero__marca">
@@ -141,6 +142,22 @@
   </div>
 
   <div class="hero__campo">
+    <!-- A fotografia É a seção: sangria total por baixo do texto, que
+         mora na metade clara do arquivo (0-67% da largura, medido). -->
+    <div class="hero__foto">
+      <picture>
+        <source type="image/webp" sizes="100vw"
+                srcset="assets/img/hero-secao-940.webp 940w,
+                        assets/img/hero-secao.webp 1672w">
+        <img src="assets/img/hero-secao.png"
+             srcset="assets/img/hero-secao-940.png 940w,
+                     assets/img/hero-secao.png 1672w"
+             sizes="100vw"
+             alt="Advogada de preto, em preto e branco, segurando um volume de Direito Civil junto ao rosto."
+             width="1672" height="941" fetchpriority="high" decoding="async">
+      </picture>
+    </div>
+
     <div class="hero__wrap">
       <div class="hero__texto">
         <p class="hero__kicker reveal">Karin Rost Advocacia e Assessoria</p>
@@ -164,15 +181,6 @@
           <a class="btn btn--linha" href="#areas">Ver áreas de atuação</a>
         </div>
       </div>
-
-      <figure class="hero__retrato">
-        <picture>
-          <source type="image/webp" srcset="assets/img/hero-karin.webp">
-          <img src="assets/img/hero-karin.png"
-               alt="Karin Rost, advogada, de blazer claro, apoiada no encosto de uma cadeira de madeira."
-               width="375" height="550" fetchpriority="high" decoding="async">
-        </picture>
-      </figure>
     </div>
   </div>
 

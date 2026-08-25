@@ -25,7 +25,6 @@ carrega, para que a imagem dissolva na página sem precisar de corte ou máscara
 | `--ouro-fundo` | `#7C5A2A` | bronze, só sobre `--luz` |
 | `--tinta-pilula` | `#1A1006` | a tinta que anda sobre o ouro |
 | `--marfim` | `#F8F7F4` | campo do hero, amostrado da referência |
-| `--noite` | `#0E0D2F` | faixa da marca no topo do hero |
 | `--ouro-marca` | `#C8A068` | ouro do arquivo do logo, só no hero |
 | `--azul-neblina` | `#6B7887` | título do hero |
 
@@ -96,7 +95,7 @@ da página. Nenhuma das outras fotos mudou.
 
 | Arquivo | Seção | Composição |
 |---|---|---|
-| `hero-karin.webp` | Hero | recorte com alfa, encostado na base da dobra |
+| `hero-secao.webp` | Hero | sangria total; texto na metade clara do arquivo |
 | `logo-hero.webp` | Hero | lockup da marca na faixa noite, centrado |
 | `emblema.png` | Emblema | largura total; texto nas três faixas escuras |
 | `justica-direito.png` | Banda editorial | largura total; a placa flutua sobre ela |
@@ -276,7 +275,7 @@ arquivo da referência:
 | Peça | Hex | Origem |
 |---|---|---|
 | campo | `#F8F7F4` | fundo da referência |
-| faixa da marca | `#0E0D2F` | cabeçalho da referência |
+| faixa da marca | `#151D28` | o `--ardosia` do resto da página |
 | ouro da marca | `#C8A068` | tom dominante dos 7.916 pixels de traço do logo |
 | título | `#6B7887` | o `#809098` da referência, um degrau mais fundo |
 
@@ -296,19 +295,39 @@ O lead fecha em 7,58:1 e o botão de contorno em 17,4:1.
 ### Estrutura
 
 ```
-faixa noite      logo centrado (104px) · linha da marca à direita
-campo marfim     kicker · título · lead · dois CTAs   |   recorte da Karin
+faixa da marca   logo centrado (80px) · linha da marca à direita
+foto inteira     kicker · título · lead · dois CTAs sobre a metade clara
 ```
 
-A faixa é grade de três colunas — `1fr auto 1fr` — e não flex centrado: assim
+A faixa saiu do azul-arroxeado da referência (`#0E0D2F`) e usa o **mesmo
+`--ardosia` das seções escuras**: o topo do site deixou de ser uma cor que só
+existia ali. Encolheu junto — de 125 para **92px** em 1440 e de 143 para
+**124px** em 375 —, porque ela é assinatura, não cabeçalho: cada pixel que
+não rouba da fotografia é lucro. A linha à direita fecha em 9,58:1 sobre o
+novo fundo.
+
+A grade da faixa é de três colunas — `1fr auto 1fr` — e não flex centrado: assim
 a linha da direita (`Aposentadoria não se improvisa`, atalho para o Processo)
 entra sem empurrar a marca para fora do eixo óptico. Abaixo de 48rem as duas
 peças empilham centradas. A linha fecha em 10,2:1 sobre a noite.
 
-O recorte é retrato **375×550**. O teto de 26rem na coluna não é estética: a
-figura cresce em altura 1,47x mais rápido que em largura, e acima disso ela
-passa da altura do campo e empurra o hero para fora da dobra. Em 1440 ele
-fica em 416×610 (1,11x de ampliação); em 375, 320×469, ainda reduzindo.
+A fotografia ocupa a seção inteira, em `cover` — a segunda e última exceção
+à regra do projeto, pelo mesmo motivo da primeira: uma imagem 16:9 numa dobra
+de 100svh deixaria barras. O `object-position: 100%` faz o corte comer sempre
+o campo vazio da esquerda, nunca a figura da direita.
+
+O texto mora na **metade clara do arquivo**. Varrido em células, o campo é
+plano (#F5F0EC) de 0 a 67% da largura; o texto fecha em 45% em 1440, com
+folga antes da transição. Medido sobre o pixel renderizado: kicker 5,44:1,
+título 3,91:1, lead 7,09:1 — o mesmo trio de tintas do campo marfim continua
+valendo porque o campo *é* a cor do arquivo.
+
+No celular a foto vira faixa 2:1 no topo, recortada em 78% para manter a
+figura no quadro, e o texto desce para o campo — que é o hex exato da metade
+clara, então do lado esquerdo a emenda some. As alturas ali são orçamento de
+dobra, não gosto: em 375×812 a faixa fecha em 143, a foto em 188 e os **dois
+CTAs entram na primeira tela** (o principal com 88px de folga). Uma faixa 4:3
+custava 70px e jogava o botão para fora.
 
 A faixa é `flex` e o campo é `flex: 1` com `align-items: flex-end`: o conteúdo
 encosta na base da dobra, que é o que faz a figura sangrar no rodapé da seção
@@ -329,6 +348,20 @@ declaração.
 proposital: a barra só inverte para o tema claro quando o **campo** cruza a
 linha média dela. Parada no topo, quem está sob a barra é a faixa noite, e o
 tema escuro é o certo.
+
+### E, durante o hero, barra nenhuma
+
+O hero já carrega a marca; a barra ali era a segunda marca na mesma faixa.
+Agora o hover só chama a barra **depois** que a primeira dobra sai — e a alça
+do topo, que é a pista visual do gesto, some junto: ela não anuncia um gesto
+que não funciona.
+
+A trava é uma leitura de posição da sentinela no pé do hero, feita na hora do
+evento, e não um estado guardado por `IntersectionObserver`. Custa um
+`getBoundingClientRect` por evento e nunca dessincroniza: recarregar no meio
+da página, chegar por âncora ou voltar pelo histórico já entra com a resposta
+certa. O teclado segue sendo exceção — `focusin` chama a barra em qualquer
+ponto, porque quem navega por Tab não tem ponteiro para chamá-la.
 
 ## A pausa do emblema
 

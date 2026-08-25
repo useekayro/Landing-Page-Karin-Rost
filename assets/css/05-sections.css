@@ -10,8 +10,8 @@
 
 /* ═══════════════════════ HERO ═══════════════════════
    A primeira dobra não segue a paleta do resto da página: campo
-   marfim, faixa da marca em noite, tipografia à esquerda e o
-   recorte da Karin à direita. É a única seção clara antes do
+   marfim vindo da própria fotografia e tipografia à esquerda. Só a
+   faixa da marca volta ao azul do site. É a única seção clara antes do
    manifesto, e é ela que apresenta a marca — por isso carrega o
    logo grande em vez de depender da navbar, que só desce no hover.
    ════════════════════════════════════════════════════════════════ */
@@ -32,8 +32,10 @@
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: var(--s3);
-  padding: clamp(0.9rem, 1.5vw, 1.5rem) var(--gutter);
-  background: var(--noite);
+  /* Faixa baixa: 1,1rem de respiro e logo de 5vw. Ela é assinatura,
+     não cabeçalho — quanto menos altura roubar da fotografia, melhor. */
+  padding: clamp(0.6rem, 1vw, 1.05rem) var(--gutter);
+  background: var(--ardosia);
 }
 .hero__marca-link { grid-column: 2; display: block; line-height: 0; }
 
@@ -43,7 +45,7 @@
   font-size: 0.8125rem;
   font-weight: 500;
   letter-spacing: 0.04em;
-  color: color-mix(in oklab, white 76%, var(--noite));
+  color: color-mix(in oklab, white 76%, var(--ardosia));
   border-bottom: 1px solid color-mix(in oklab, var(--ouro-marca) 55%, transparent);
   padding-bottom: 3px;
   transition: color 0.35s var(--expo), border-color 0.35s var(--expo);
@@ -59,7 +61,7 @@
    (100 de 1513). Em 12vw a faixa passava de 199px de altura e
    empurrava a figura para fora da primeira dobra. */
 .hero__logo {
-  width: clamp(6.5rem, 7vw, 9rem);
+  width: clamp(5rem, 5vw, 6.75rem);
   height: auto;
   transition: transform 0.6s var(--expo);
 }
@@ -70,18 +72,33 @@
    da dobra, que é o que deixa a figura sangrar no rodapé da seção
    como na referência, em vez de flutuar no meio do campo. */
 .hero__campo {
+  position: relative;
   flex: 1 1 auto;
   display: flex;
-  align-items: flex-end;
-  padding-top: clamp(1.5rem, 4vw, 4rem);
+  align-items: center;
 }
+
+/* A foto ocupa a seção inteira e o texto pousa nela. É a única
+   imagem da página em cover — sem ele, uma foto 16:9 numa dobra de
+   100svh deixaria barras. object-position 100%: quando a janela é
+   mais alta que a proporção do arquivo, o corte come o campo vazio
+   da esquerda e nunca a figura da direita. */
+.hero__foto { position: absolute; inset: 0; z-index: var(--z-deco); }
+.hero__foto img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: 100% center;
+}
+
 .hero__wrap {
+  position: relative;
+  z-index: var(--z-conteudo);
   width: min(100% - (var(--gutter) * 2), var(--wrap));
   margin-inline: auto;
-  display: grid;
-  align-items: end;
-  gap: var(--s6);
 }
+/* 34rem: a metade clara do arquivo vai até 67% da largura e o texto
+   fecha em 45% em 1440 — sobra folga antes da transição. */
+.hero__texto { max-width: min(100%, 34rem); }
 
 .hero__kicker {
   font-size: clamp(0.75rem, 0.68rem + 0.3vw, 0.875rem);
@@ -122,34 +139,7 @@
 
 .hero__acoes { display: flex; flex-wrap: wrap; gap: var(--s3); }
 
-/* ── Retrato recortado ────────────────────────────────────── */
-/* O arquivo tem canal alfa: a figura pousa direto no marfim, sem
-   moldura, sem sombra e sem máscara. Nada de object-fit — a
-   proporção é a do arquivo, como em toda foto da página. */
-.hero__retrato {
-  margin: 0;
-  align-self: end;
-  justify-self: center;
-  width: 100%;
-}
-.hero__retrato img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
 
-@media (min-width: 60rem) {
-  .hero__wrap {
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-    column-gap: clamp(2rem, 4vw, 4rem);
-  }
-  /* o texto sobe da base; só a figura encosta no rodapé da dobra */
-  .hero__texto { padding-bottom: clamp(3rem, 6vw, 6rem); }
-  /* 26rem: em 375x550 o recorte cresce em altura 1,47x mais rápido
-     que em largura. Acima disso a figura passa da altura do campo e
-     empurra o hero para fora da dobra. */
-  .hero__retrato { justify-self: center; max-width: 26rem; }
-}
 
 .hero__sentinel { position: absolute; left: 0; bottom: 0; width: 1px; height: 1px; }
 
@@ -1042,9 +1032,31 @@
      texto sobre campo marfim e o recorte logo abaixo. O que sobra
      de mobile aqui é só reduzir a faixa da marca e centrar a
      tipografia — a grade de uma coluna já vem do padrão. */
-  .hero__marca { padding-block: 1rem; }
-  .hero__texto { padding-bottom: 0; }
-  .hero__retrato { max-width: 20rem; justify-self: center; }
+  /* Empilhado: a foto vira faixa 4:3 no topo, recortada em 78% para
+     manter a figura no quadro, e o texto desce para o campo — que é
+     o hex exato da metade clara do arquivo, então do lado esquerdo a
+     emenda some. */
+  /* Cada altura aqui é orçamento da primeira tela, não estética. Em
+     375x812: faixa 135 + foto 211 + texto 396 fecha em ~775, e os
+     dois CTAs entram na dobra. Uma faixa 4:3 (281px) custava 70px e
+     empurrava o botão principal para fora. */
+  .hero__marca { padding-block: 0.85rem; gap: var(--s1); }
+  .hero__campo { display: block; }
+  .hero__foto { position: relative; inset: auto; }
+  .hero__foto img {
+    height: auto;
+    aspect-ratio: 2 / 1;
+    object-position: 78% center;
+  }
+  .hero__wrap { padding-block: var(--s5) var(--s6); }
+  .hero__texto { max-width: none; }
+  /* O orçamento da dobra é apertado: cada um destes recortes vale
+     entre 8 e 24px, e juntos são o que traz o botão principal para
+     dentro dos 812px de um iPhone SE. */
+  .hero__titulo { font-size: 2rem; }
+  .hero__kicker { margin-bottom: var(--s3); }
+  .hero__lead   { margin-bottom: var(--s4); }
+  .hero__acoes .btn { padding: 0.95rem 1.4rem; }
 
   .deco--arc { display: none; }
 }

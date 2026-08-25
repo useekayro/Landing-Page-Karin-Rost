@@ -80,6 +80,10 @@
 }
 .nav[data-hidden="false"] ~ .nav__alca { opacity: 0; width: 6rem; }
 
+/* Durante o hero não há barra para chamar, então a alça também não
+   se anuncia — ela só existe onde o gesto funciona. */
+.sem-alca .nav__alca { opacity: 0; }
+
 /* No toque não há hover para chamar a barra: ela volta a entrar
    sozinha depois do hero (ver chrome.js) e a alça não faz sentido. */
 @media (hover: none) {

@@ -13,13 +13,14 @@
   --azul:          #19212C;   /* bordas de karin-azul.png (média das 8) */
   --luz:           #F2EFED;   /* campo claro: sobre, diferenciais, CTA */
 
-  /* ── Hero (amostrados da referência entregue) ──────────────
-     A primeira dobra tem paleta própria: campo marfim, faixa da
-     marca em noite e um ouro mais pálido que o do resto da página,
-     porque é o ouro do próprio arquivo do logo (#C0A070 é o tom
-     dominante dos 7.916 pixels de traço). */
-  --marfim:        #F8F7F4;   /* campo claro do hero            */
-  --noite:         #0E0D2F;   /* faixa da marca, topo do hero   */
+  /* ── Hero ─────────────────────────────────────────────────
+     O campo claro é amostrado da própria fotografia; o ouro é mais
+     pálido que o --ouro da página porque é o ouro do arquivo do
+     logo (#C0A070, tom dominante dos 7.916 pixels de traço).
+     A faixa da marca NÃO tem cor própria: usa o --ardosia do resto
+     da página, para o topo do site ser o mesmo azul das seções
+     escuras em vez de um roxo isolado. */
+  --marfim:        #F5F0EC;   /* metade clara de hero-secao.png */
   --ouro-marca:    #C8A068;   /* ouro do logo e do botão        */
   /* O título da referência é #809098, que sobre o marfim dá 2,9:1 e
      reprova até como texto grande. Um degrau mais fundo mantém o
