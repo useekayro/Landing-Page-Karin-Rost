@@ -1036,17 +1036,23 @@
      manter a figura no quadro, e o texto desce para o campo — que é
      o hex exato da metade clara do arquivo, então do lado esquerdo a
      emenda some. */
-  /* Cada altura aqui é orçamento da primeira tela, não estética. Em
-     375x812: faixa 135 + foto 211 + texto 396 fecha em ~775, e os
-     dois CTAs entram na dobra. Uma faixa 4:3 (281px) custava 70px e
-     empurrava o botão principal para fora. */
+  /* A arte aqui é a vertical 9:16, não um recorte da horizontal: a
+     coluna clara dela ocupa só 42% da largura, estreita demais para
+     receber texto, então a composição continua empilhada — arte em
+     cima, tipografia embaixo no campo.
+
+     A janela é 4:5. Cover sobre a arte 9:16 mostra 80% da altura do
+     arquivo, e o object-position em 20% traz o corte para o alto,
+     onde estão o rosto e o livro. Custa 281px a mais que a faixa 2:1
+     anterior; é o preço de mostrar a foto que foi enquadrada para o
+     celular em vez de uma fatia dela. */
   .hero__marca { padding-block: 0.85rem; gap: var(--s1); }
   .hero__campo { display: block; }
   .hero__foto { position: relative; inset: auto; }
   .hero__foto img {
     height: auto;
-    aspect-ratio: 2 / 1;
-    object-position: 78% center;
+    aspect-ratio: 4 / 5;
+    object-position: center 20%;
   }
   .hero__wrap { padding-block: var(--s5) var(--s6); }
   .hero__texto { max-width: none; }

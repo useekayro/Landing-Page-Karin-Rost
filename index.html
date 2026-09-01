@@ -24,7 +24,14 @@
 <!-- O recorte da Karin é a única imagem da primeira dobra e pesa 40 KB
      em webp: um preload só, sem media query, porque agora a mesma arte
      serve celular e desktop. O logo vem junto — ele abre a página. -->
-<link rel="preload" as="image" type="image/webp" fetchpriority="high"
+<!-- Duas queries complementares: o celular baixa só a arte vertical
+     e o desktop só a horizontal. Sem o media, um dos dois arquivos
+     viria de graça e nunca seria exibido. -->
+<link rel="preload" as="image" type="image/webp" media="(max-width: 60rem)" fetchpriority="high"
+      imagesrcset="assets/img/hero-secao-m-640.webp 640w,
+                   assets/img/hero-secao-m-941.webp 941w"
+      imagesizes="100vw">
+<link rel="preload" as="image" type="image/webp" media="not all and (max-width: 60rem)" fetchpriority="high"
       imagesrcset="assets/img/hero-secao-940.webp 940w,
                    assets/img/hero-secao.webp 1672w"
       imagesizes="100vw">
@@ -146,6 +153,17 @@
          mora na metade clara do arquivo (0-67% da largura, medido). -->
     <div class="hero__foto">
       <picture>
+        <!-- PONTO DE VIRADA MOBILE: 60rem, casado com o bloco @media
+             das seções. Cada fonte declara a PRÓPRIA proporção
+             (941x1672 aqui, 1672x941 no <img>): sem isso o navegador
+             reservaria a caixa pela proporção do <img> e o layout
+             saltaria quando a vertical entrasse. -->
+        <source media="(max-width: 60rem)" type="image/webp" width="941" height="1672" sizes="100vw"
+                srcset="assets/img/hero-secao-m-640.webp 640w,
+                        assets/img/hero-secao-m-941.webp 941w">
+        <source media="(max-width: 60rem)" width="941" height="1672" sizes="100vw"
+                srcset="assets/img/hero-secao-m-640.png 640w,
+                        assets/img/hero-secao-m-941.png 941w">
         <source type="image/webp" sizes="100vw"
                 srcset="assets/img/hero-secao-940.webp 940w,
                         assets/img/hero-secao.webp 1672w">

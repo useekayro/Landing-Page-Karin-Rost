@@ -322,12 +322,24 @@ folga antes da transição. Medido sobre o pixel renderizado: kicker 5,44:1,
 título 3,91:1, lead 7,09:1 — o mesmo trio de tintas do campo marfim continua
 valendo porque o campo *é* a cor do arquivo.
 
-No celular a foto vira faixa 2:1 no topo, recortada em 78% para manter a
-figura no quadro, e o texto desce para o campo — que é o hex exato da metade
-clara, então do lado esquerdo a emenda some. As alturas ali são orçamento de
-dobra, não gosto: em 375×812 a faixa fecha em 143, a foto em 188 e os **dois
-CTAs entram na primeira tela** (o principal com 88px de folga). Uma faixa 4:3
-custava 70px e jogava o botão para fora.
+No celular entra **outra arte, não um recorte da mesma**:
+`hero-secao-m-941`, enquadrada 9:16 para a tela vertical. A coluna clara dela
+ocupa só 42% da largura — estreita demais para receber texto —, então a
+composição continua empilhada: arte em cima, tipografia embaixo no campo, que
+é o hex exato da metade clara e faz a emenda sumir do lado esquerdo.
+
+A janela é 4:5 com `object-position: center 20%`: sobre uma arte 9:16 o cover
+mostra 80% da altura do arquivo e o recuo puxa o corte para o alto, onde estão
+o rosto e o livro. Em 375×812 a faixa fecha em 124, a arte em 469 e o hero em
+1.080 — o CTA principal fica **175px abaixo da dobra**, uma rolagem curta. É o
+preço de mostrar a foto que foi enquadrada para o celular em vez de uma fatia
+de 188px dela; uma janela 1:1 devolveria 94px desses 175.
+
+O `<picture>` vira a arte em **60rem**, o mesmo ponto do bloco @media, e cada
+fonte declara a própria proporção (941×1672 no `<source>`, 1672×941 no
+`<img>`): sem isso o navegador reservaria a caixa pela proporção errada e o
+layout saltaria quando a vertical entrasse. Os dois preloads são
+complementares, então cada aparelho baixa só a arte que vai exibir.
 
 A faixa é `flex` e o campo é `flex: 1` com `align-items: flex-end`: o conteúdo
 encosta na base da dobra, que é o que faz a figura sangrar no rodapé da seção
