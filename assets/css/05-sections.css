@@ -1036,33 +1036,84 @@
      manter a figura no quadro, e o texto desce para o campo — que é
      o hex exato da metade clara do arquivo, então do lado esquerdo a
      emenda some. */
-  /* A arte aqui é a vertical 9:16, não um recorte da horizontal: a
-     coluna clara dela ocupa só 42% da largura, estreita demais para
-     receber texto, então a composição continua empilhada — arte em
-     cima, tipografia embaixo no campo.
+  /* MESMA COMPOSIÇÃO DO DESKTOP, e não uma versão empilhada: a arte
+     ocupa a seção inteira e a tipografia pousa nela, à esquerda.
 
-     A janela é 4:5. Cover sobre a arte 9:16 mostra 80% da altura do
-     arquivo, e o object-position em 20% traz o corte para o alto,
-     onde estão o rosto e o livro. Custa 281px a mais que a faixa 2:1
-     anterior; é o preço de mostrar a foto que foi enquadrada para o
-     celular em vez de uma fatia dela. */
+     Só é possível porque a coluna clara da arte vertical é chapada
+     — medida em 20 pontos, fica entre #EFE9E5 e #F1EBE6 — e vai de
+     0 a 41-46% da largura, de cima a baixo. O campo da seção repete
+     esse hex, e um degradê da MESMA cor estende a coluna por cima da
+     faixa de sombra (42-64%). Onde ele é opaco a foto já era aquela
+     cor: não é véu sobre fotografia, é a continuação do campo dela.
+
+     O preço é a caixa de texto: 375px de tela dão 200px de coluna,
+     então a tipografia inteira desce um degrau. Não é possível ter
+     ao mesmo tempo a figura em tamanho digno e um titular de 32px
+     ao lado dela nessa largura. */
+  .hero { --campo-hero: #F0EAE5; background: var(--campo-hero); }
   .hero__marca { padding-block: 0.85rem; gap: var(--s1); }
-  .hero__campo { display: block; }
-  .hero__foto { position: relative; inset: auto; }
-  .hero__foto img {
-    height: auto;
-    aspect-ratio: 4 / 5;
-    object-position: center 20%;
+
+  .hero__campo {
+    position: relative;
+    display: flex;
+    align-items: center;
   }
-  .hero__wrap { padding-block: var(--s5) var(--s6); }
-  .hero__texto { max-width: none; }
-  /* O orçamento da dobra é apertado: cada um destes recortes vale
-     entre 8 e 24px, e juntos são o que traz o botão principal para
-     dentro dos 812px de um iPhone SE. */
-  .hero__titulo { font-size: 2rem; }
-  .hero__kicker { margin-bottom: var(--s3); }
-  .hero__lead   { margin-bottom: var(--s4); }
-  .hero__acoes .btn { padding: 0.95rem 1.4rem; }
+  .hero__foto { position: absolute; inset: 0; }
+  .hero__foto img {
+    width: 100%; height: 100%;
+    aspect-ratio: auto;
+    object-fit: cover;
+    object-position: 100% center;
+  }
+  /* Opaco até 46% e some em 62%: medido no perfil de luminância da
+     arte, a coluna clara aguenta texto até 39% sozinha, a sombra da
+     parede vai de 40% a 50% e o livro começa em ~50%. O degradê
+     cobre a sombra — nunca o livro nem o rosto. */
+  .hero__foto::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg,
+      var(--campo-hero) 0 46%,
+      color-mix(in srgb, var(--campo-hero) 45%, transparent) 56%,
+      transparent 62%);
+    pointer-events: none;
+  }
+
+  .hero__wrap { padding-block: var(--s5); }
+  /* A caixa termina em 44vw, dentro da parte opaca do degradê. É o
+     limite físico: com a figura em tamanho digno, 375px de tela
+     deixam ~145px de coluna para o texto. */
+  .hero__texto { max-width: calc(44vw - var(--gutter)); }
+
+  .hero__kicker {
+    font-size: 0.625rem;
+    letter-spacing: 0.14em;
+    margin-bottom: var(--s2);
+  }
+  .hero__titulo {
+    font-size: 1.3125rem;
+    line-height: 1.16;
+    letter-spacing: -0.01em;
+    margin-bottom: var(--s3);
+  }
+  .hero__lead {
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    margin-bottom: var(--s3);
+  }
+  /* As pílulas são opacas: carregam o próprio contraste e não
+     dependem do campo claro atrás. Por isso elas — e só elas —
+     passam dos 44vw do texto e vão até 62vw, onde o rótulo cabe em
+     uma linha. Pelo mesmo motivo a secundária vira sólida aqui: um
+     contorno precisaria de fundo claro atrás, e ali já é sombra. */
+  .hero__acoes { gap: var(--s2); width: min(62vw, 18rem); max-width: none; }
+  .hero__acoes .btn { justify-content: center; }
+  .hero__acoes .btn--linha {
+    background: var(--tinta-escura);
+    color: var(--marfim);
+    border-color: var(--tinta-escura);
+  }
+  .hero__acoes .btn { padding: 0.75rem 0.7rem; font-size: 0.625rem; letter-spacing: 0.03em; gap: 0.4rem; }
 
   .deco--arc { display: none; }
 }
