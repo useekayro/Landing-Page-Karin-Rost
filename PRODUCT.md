@@ -47,7 +47,13 @@ Uma conversa iniciada no WhatsApp. Tudo na página existe para tornar esse passo
 1. **As fotografias não podem ser modificadas** — sem corte, sem mudança de
    proporção, sem filtro, sem `object-fit: cover`. O layout se adapta à imagem.
 2. **O logo é usado exatamente como fornecido** — só o tamanho de exibição muda.
-3. **Sem marquees**, carrosséis automáticos ou scroll infinito.
+3. **Sem marquees**, carrosséis automáticos ou scroll infinito — **com uma
+   exceção decidida pelo cliente em 2026-09-19**: o marquee *vertical* da banda
+   "A lei é a mesma para todos", que lista as seis áreas de atuação. Ele é
+   lento (26s por volta), decorativo (`aria-hidden`, repete conteúdo que já
+   está na seção de áreas) e para por completo sob `prefers-reduced-motion`.
+   A regra continua valendo para todo o resto: nada correndo na horizontal,
+   nenhum carrossel.
 4. A navbar e o dock **não aparecem durante o hero**.
 5. Removidos a pedido: "Atendimento presencial e online", "Contato direto com a
    advogada", "Análise antes de qualquer contrato".

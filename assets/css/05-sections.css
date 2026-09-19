@@ -417,90 +417,32 @@
 }
 .area__pop strong { color: var(--ouro-claro); font-weight: 600; }
 
-/* ═══════════════════════ BANDA EDITORIAL ═══════════════════════ */
-.banda { position: relative; background: var(--ardosia); }
-.banda__art { overflow: hidden; }
-.banda__art img { width: 100%; }
+/* ═══════════════════════ BANDA EDITORIAL ═══════════════════════
+   Sem fotografia desde a troca por marquee: fundo --ardosia, o campo
+   padrão da página. Saíram junto a placa flutuante (sombra em quatro
+   camadas, margem negativa, parallax) e as quatro setas — tudo isso
+   só existia para a placa pairar sobre a foto. Sem a foto, virava
+   ruído sobre um fundo liso.
 
-/* A placa é o único elemento da página que flutua de verdade: ela
-   sobe 6% por cima da fotografia, então ganhou a sombra em quatro
-   camadas (contato curta, corpo, difusa e um halo dourado quase
-   imperceptível) mais o fio de luz no topo e a sombra interna na
-   base. É o que dá espessura à borda sem desenhar borda nenhuma. */
-.banda__slab {
+   Texto à esquerda, as seis áreas rolando na vertical à direita. */
+.banda {
   position: relative;
-  z-index: var(--z-conteudo);
-  width: min(100% - (var(--gutter) * 2), 52rem);
-  margin: -6% auto 0;
-  padding: var(--s7) clamp(1.5rem, 4vw, 3.5rem) var(--s6);
   background: var(--ardosia);
-  border-top: 1px solid var(--linha-forte);
-  border-radius: var(--raio);
-  box-shadow:
-    0 1px 0 color-mix(in oklab, var(--tinta-clara) 10%, transparent) inset,
-    0 -18px 24px -24px rgb(0 0 0 / 0.9) inset,
-    0 10px 18px -12px rgb(0 0 0 / 0.75),
-    0 38px 60px -30px rgb(0 0 0 / 0.85),
-    0 90px 120px -60px rgb(0 0 0 / 0.7),
-    0 0 90px -40px color-mix(in oklab, var(--ouro) 55%, transparent);
-  transition: box-shadow 0.6s var(--expo);
+  padding-block: var(--sec);
+  overflow: hidden;
 }
-.banda__slab:hover {
-  box-shadow:
-    0 1px 0 color-mix(in oklab, var(--tinta-clara) 14%, transparent) inset,
-    0 -18px 24px -24px rgb(0 0 0 / 0.9) inset,
-    0 12px 20px -12px rgb(0 0 0 / 0.8),
-    0 46px 70px -30px rgb(0 0 0 / 0.9),
-    0 110px 140px -60px rgb(0 0 0 / 0.75),
-    0 0 110px -34px color-mix(in oklab, var(--ouro) 70%, transparent);
+.banda__grade {
+  display: grid;
+  gap: var(--s6);
+  align-items: center;
 }
-
-/* ── As setas ──────────────────────────────────────────────
-   Quatro cópias do mesmo traçado, giradas/espelhadas por CSS —
-   uma curva com a ponta calculada na tangente do fim do arco, não
-   um triângulo colado no fim da linha. Elas cercam a placa e
-   apontam para dentro. Somem abaixo de 64rem, onde a placa toma a
-   largura toda e não sobra margem para elas. */
-.banda__setas { position: absolute; inset: 0; pointer-events: none; }
-.banda__setas .seta {
-  position: absolute;
-  width: clamp(5rem, 8vw, 7.5rem);
-  aspect-ratio: 120 / 90;
-  stroke: var(--ouro);
-  stroke-width: 2.4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  opacity: 0.85;
-  filter: drop-shadow(0 6px 14px rgb(0 0 0 / 0.55));
+@media (min-width: 64rem) {
+  .banda__grade {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--s8);
+  }
 }
-.seta--no { top: -8%;  left: -18%; }
-.seta--ne { top: -8%;  right: -18%; scale: -1 1; }
-.seta--so { bottom: -6%; left: -18%; }
-.seta--se { bottom: -6%; right: -18%; scale: -1 1; }
-
-/* traço que se desenha junto com o resto da seção */
-.js-anim .banda__setas .seta path {
-  stroke-dasharray: 190;
-  stroke-dashoffset: 190;
-}
-.js-anim .banda__setas.is-in .seta path {
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset 1.1s var(--expo);
-}
-.js-anim .banda__setas.is-in .seta--ne path { transition-delay: 0.08s; }
-.js-anim .banda__setas.is-in .seta--so path { transition-delay: 0.16s; }
-.js-anim .banda__setas.is-in .seta--se path { transition-delay: 0.24s; }
-
-@media (prefers-reduced-motion: reduce) {
-  .js-anim .banda__setas .seta path,
-  .js-anim .banda__setas.is-in .seta path { stroke-dashoffset: 0; transition: none; }
-}
-
-/* Abaixo de 75rem a placa encosta nas margens e as setas ficariam
-   metade fora da tela — some tudo em vez de cortar pela metade. */
-@media (max-width: 75rem) {
-  .banda__setas { display: none; }
-}
+.banda__texto { max-width: 34rem; }
 .banda__h {
   font-family: var(--display);
   font-size: var(--t-4);
@@ -512,6 +454,62 @@
   max-width: 42ch;
   color: var(--tinta-media);
   line-height: 1.75;
+  margin-bottom: var(--s5);
+}
+
+/* ── Marquee vertical ───────────────────────────────────────
+   Exceção registrada no PRODUCT.md (a regra geral continua: nada
+   correndo na horizontal, nenhum carrossel).
+
+   Duas cópias da lista empilhadas; cada trilho sobe 100% da própria
+   altura em loop linear. Como são idênticos, quando o primeiro sai o
+   segundo está exatamente onde ele começou e a emenda não aparece.
+   Só transform — roda no compositor, sem layout por quadro.
+
+   As bordas somem por máscara, não por camada de cor por cima: vale
+   sobre qualquer fundo e não depende de acertar o tom do gradiente.
+   O esmaecimento item a item (1 no centro, 0,25 nas bordas) vem do
+   marquee.js. */
+.marquee {
+  --dur: 26s;
+  position: relative;
+  height: 36rem;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 24%, #000 76%, transparent);
+          mask-image: linear-gradient(to bottom, transparent, #000 24%, #000 76%, transparent);
+}
+.marquee__trilho {
+  display: flex;
+  flex-direction: column;
+  animation: marquee-sobe var(--dur) linear infinite;
+}
+.marquee__item {
+  display: block;
+  padding-block: 0.42em;
+  font-family: var(--display);
+  font-size: clamp(2rem, 1.1rem + 2.6vw, 3.6rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--tinta-clara);
+  text-wrap: balance;
+}
+@keyframes marquee-sobe {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(0, -100%, 0); }
+}
+
+/* Empilhado, a faixa encolhe: aqui ela acompanha o texto, não o
+   disputa. */
+@media (max-width: 63.99rem) {
+  .marquee { height: 22rem; }
+}
+
+/* Movimento reduzido: a lista para e a segunda cópia sai — parada,
+   ela só repetiria as mesmas áreas logo abaixo. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee__trilho { animation: none; }
+  .marquee__trilho + .marquee__trilho { display: none; }
 }
 
 /* ═══════════════ CENA — foto em sangria total ═══════════════
@@ -673,8 +671,9 @@
 .dif__card p { color: var(--tinta-suave); line-height: 1.72; }
 
 /* ═══════════════════════ PROCESSO ═══════════════════════ */
-/* mesmo hex da borda de karin-azul.png — a foto dissolve no
-   fundo e as etapas abaixo parecem a continuação da fotografia */
+/* --azul nasceu da borda de karin-azul.png; com a arte nova
+   (karin-processo) a base fica a 1,06x dele, perto o bastante para
+   a foto seguir dissolvendo e as etapas parecerem continuação dela */
 .proc { background: var(--azul); }
 
 .proc__passos {
@@ -712,6 +711,35 @@
 /* A seção era quatro títulos e quatro linhas soltas num campo azul
    grande demais. A intro abre o método antes dos cards, e cada card
    ganhou uma nota — o detalhe prático que o título não cabe. */
+/* Lead e parágrafo que antes ficavam sobre a foto. Os valores são os
+   mesmos de .cena--proc .cena__lead / .cena__p — só a posição mudou,
+   não a tipografia. Motivo: na arte nova o emblema cinza cai na faixa
+   deles, e o contraste desce para 3,5:1. */
+.proc__abertura {
+  position: relative; z-index: var(--z-conteudo);
+  max-width: 60rem; margin: 0 auto var(--s5);
+  display: grid; gap: var(--s3);
+}
+.proc__lead {
+  font-size: var(--t-1); line-height: 1.55;
+  color: var(--tinta-clara);
+  max-width: 34ch;
+}
+.proc__texto {
+  color: var(--tinta-clara);
+  font-size: var(--t--1); line-height: 1.75;
+  max-width: 52ch;
+  opacity: 0.92;
+}
+
+/* Empilhado (abaixo de 75rem) o título vem logo depois da foto e a
+   abertura logo depois dele. Sem isto, o recuo inferior da cena e o
+   superior das etapas se somavam e o título ficava ilhado. */
+@media (max-width: 74.99rem) {
+  .cena--proc .cena__texto { padding-bottom: var(--s4); }
+  .proc__passos { padding-top: 0; }
+}
+
 .proc__intro {
   position: relative; z-index: var(--z-conteudo);
   max-width: 60rem; margin: 0 auto var(--s6);
@@ -1018,10 +1046,6 @@
    e os painéis de hover viram texto sempre visível.
    ════════════════════════════════════════════════════════════════ */
 
-@media (max-width: 64rem) {
-  .banda__slab { margin-top: -3%; }
-}
-
 @media (max-width: 60rem) {
   .nav { --nav-h: 4.25rem; }
   .nav__links, .nav__cta { display: none; }
@@ -1121,11 +1145,6 @@
 @media (max-width: 48rem) {
   .areas__grid { grid-template-columns: 1fr; }
   .foot__base { flex-direction: column; }
-  .banda__slab {
-    width: 100%;
-    margin-top: 0;
-    padding-inline: var(--gutter);
-  }
 }
 
 /* ════════════════════════════════════════════════════════════════
@@ -1137,10 +1156,11 @@
 
      hero      #010C1D contra #151D28  = 1,16x
      emblema   #09111C contra #151D28  = 1,12x
-     banda     #010100 contra #151D28  = 1,23x
      sobre     #DBCEC7 contra #F2EFED  = 1,34x
-     processo  #0A121B contra #19212C  = 1,16x
+     processo  #0B131B contra #19212C  = 1,16x   (karin-processo)
      contato   #D1B4A3 contra #F2EFED  = 1,70x   ← a mais visível
+
+   (A banda saiu da tabela quando trocou a foto pelo marquee.)
 
    Três saídas possíveis, e por que esta:
 
@@ -1163,7 +1183,7 @@
 @media (max-width: 60rem) {
   .cena--emblema { --borda-base: #09111C; --campo: var(--ardosia); }
   .cena--sobre   { --borda-base: #DBCEC7; --campo: var(--luz); --ponte: 6rem; }
-  .cena--proc    { --borda-base: #0A121B; --campo: var(--azul); }
+  .cena--proc    { --borda-base: #0B131B; --campo: var(--azul); }   /* base de karin-processo-m */
   .cena--cta     { --borda-base: #D1B4A3; --campo: var(--luz); --ponte: 8rem; }
 
   .cena__foto { position: relative; }
@@ -1183,15 +1203,6 @@
      por baixo do degradê. Vale para qualquer texto futuro, não só
      para os de hoje. */
   .cena__texto { position: relative; z-index: 1; }
-
-  /* A banda não usa a ponte: .banda__art tem overflow hidden, que
-     recortaria o pseudo-elemento. E a placa encosta na foto, então o
-     degradê entra nela mesma — curto o bastante para terminar antes
-     do texto, que começa em 4,5rem. */
-  .banda__slab {
-    background-color: var(--ardosia);
-    background-image: linear-gradient(to bottom, #010100, transparent 4rem);
-  }
 
   /* ── O título do emblema sobe para dentro da fotografia ──────
      No desktop os três blocos ficam nas faixas escuras medidas no

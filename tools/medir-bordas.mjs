@@ -19,9 +19,8 @@ const img = join(raiz, 'assets', 'img')
 const FOTOS = [
   ['karin foto 6 9,16.png', 'hero-colunas',     '.hero'],
   ['karin foto 4 9,16.png', 'emblema',          '.cena--emblema'],
-  ['karin foto 7 9,16.png', 'justica-direito',  '.banda'],
   ['karin foto 3 9,16.png', 'karin-escritorio', '.cena--sobre'],
-  ['karin foto 1 9,16.png', 'karin-azul',       '.cena--proc'],
+  ['karin processo 9,16.png', 'karin-processo', '.cena--proc'],
   ['karin foto 2 9,16.png', 'karin-conversa',   '.cena--cta'],
 ]
 

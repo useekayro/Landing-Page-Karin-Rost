@@ -10,7 +10,9 @@
 :root {
   /* ── Fundos amostrados ────────────────────────────────────── */
   --ardosia:       #151D28;   /* cinza azulado opaco — campo da página */
-  --azul:          #19212C;   /* bordas de karin-azul.png (média das 8) */
+  --azul:          #19212C;   /* nasceu das bordas de karin-azul.png; mantido com
+                                 karin-processo, cuja base (#151B24) fica a 1,06x
+                                 dele — mudar o token alteraria os cards das etapas */
   --luz:           #F2EFED;   /* campo claro: sobre, diferenciais, CTA */
 
   /* ── Hero ─────────────────────────────────────────────────

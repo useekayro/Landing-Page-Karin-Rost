@@ -98,9 +98,9 @@ da página. Nenhuma das outras fotos mudou.
 | `hero-secao.webp` | Hero | sangria total; texto na metade clara do arquivo |
 | `logo-hero.webp` | Hero | lockup da marca na faixa noite, centrado |
 | `emblema.png` | Emblema | largura total; texto nas três faixas escuras |
-| `justica-direito.png` | Banda editorial | largura total; a placa flutua sobre ela |
+| ~~`justica-direito.png`~~ | ~~Banda editorial~~ | removida em 2026-09-19: a banda virou marquee vertical sobre `--ardosia` |
 | `karin-escritorio.png` | Sobre | sangria total; texto sobre a foto |
-| `karin-azul.png` | Processo | sangria total; texto sobre a foto |
+| `karin-processo.png` | Processo | sangria total; **só o título** sobre a foto (substituiu `karin-azul.png` em 2026-09-19) |
 | `karin-conversa.png` | CTA | sangria total; a chamada já vem gravada no arquivo |
 
 Uma única imagem foi **editada**, e por coerência de paleta: o ponto de
@@ -145,6 +145,14 @@ Refeita a medição com as fotos novas, no mesmo método: Processo com
 `karin-azul.png` dá **6,21:1** no título e **6,41:1** no lead; os três blocos
 do emblema ficam entre **5,4:1** e **12,9:1**. As zonas de silêncio continuam
 valendo.
+
+**2026-09-19 — `karin-processo.png` no lugar de `karin-azul.png`.** Mesma
+composição, fundo navy, mas o emblema cinza caiu dentro da zona de texto
+(x 0–50%): as células x20–x40 descem de 6,1–6,9:1 para **3,5–3,9:1**. O
+título, por ser grande (mínimo 3:1), fica sobre a foto — medido nos pixels
+reais a 1440px: pior **3,29:1**, folga pequena. Lead e parágrafo (mínimo 4,5:1)
+desceram para `.proc__abertura`, no início das etapas, com a mesma tipografia.
+`--azul` foi mantido: a base da arte nova (`#151B24`) fica a 1,065x dele.
 
 O hero saiu dessa conta por completo: não há mais fotografia por baixo do
 texto dele. A tipografia pousa em campo chapado, e o contraste vira aritmética
@@ -536,7 +544,7 @@ reenquadramento — decisão do cliente, não aplicada.
 
 ## Banidos neste projeto
 
-Marquee · carrossel automático · `object-fit: cover` em foto da cliente ·
+Marquee (exceção única: o vertical da banda, ver PRODUCT.md) · carrossel automático · `object-fit: cover` em foto da cliente ·
 gradient text · glassmorphism decorativo · borda lateral colorida ·
 kicker minúsculo em caixa alta acima de toda seção · grid de cards idênticos ·
 sombra pesada.

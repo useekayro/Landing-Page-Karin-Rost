@@ -10,9 +10,8 @@ const dir = await mkdtemp(join(tmpdir(), 'webp-'))
 const FOTOS = [
   ['karin foto 6 9,16.png', 'hero-colunas'],
   ['karin foto 4 9,16.png', 'emblema'],
-  ['karin foto 7 9,16.png', 'justica-direito'],
   ['karin foto 3 9,16.png', 'karin-escritorio'],
-  ['karin foto 1 9,16.png', 'karin-azul'],
+  ['karin processo 9,16.png', 'karin-processo'],
   ['karin foto 2 9,16.png', 'karin-conversa'],
 ]
 

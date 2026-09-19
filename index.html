@@ -385,53 +385,48 @@
 
 <!-- ══════════════════════════ BANDA EDITORIAL ══════════════════════════ -->
 <section class="banda" aria-labelledby="banda-h">
-  <div class="banda__art">
-    <picture>
-      <source media="(max-width: 60rem)" type="image/webp" width="941" height="1672"
-              srcset="assets/img/justica-direito-m-640.webp 640w,
-                      assets/img/justica-direito-m-941.webp 941w"
-              sizes="100vw">
-      <source media="(max-width: 60rem)" width="941" height="1672"
-              srcset="assets/img/justica-direito-m-640.png 640w,
-                      assets/img/justica-direito-m-941.png 941w"
-              sizes="100vw">
-      <source type="image/webp" srcset="assets/img/justica-direito.webp">
-      <img src="assets/img/justica-direito.png"
-           alt="Estátua de mármore da Justiça sustentando uma balança dourada, com as palavras Justiça e Direito ao fundo."
-           width="1672" height="941" loading="lazy" decoding="async">
-    </picture>
-  </div>
-  <div class="banda__slab" data-parallax="0.03">
-    <!-- Quatro setas desenhadas apontando para a placa. Puro
-         grafismo: não carregam informação e somem no mobile. -->
-    <span class="banda__setas reveal" aria-hidden="true">
-      <svg class="seta seta--ne" viewBox="0 0 120 90" fill="none">
-        <path d="M6,14 Q70,2 112,52"/>
-        <path d="M108.7,36.4 L112,52 L97.2,46"/>
-      </svg>
-      <svg class="seta seta--no" viewBox="0 0 120 90" fill="none">
-        <path d="M6,14 Q70,2 112,52"/>
-        <path d="M108.7,36.4 L112,52 L97.2,46"/>
-      </svg>
-      <svg class="seta seta--se" viewBox="0 0 120 90" fill="none">
-        <path d="M6,76 Q70,88 112,38"/>
-        <path d="M108.7,53.6 L112,38 L97.2,44"/>
-      </svg>
-      <svg class="seta seta--so" viewBox="0 0 120 90" fill="none">
-        <path d="M6,76 Q70,88 112,38"/>
-        <path d="M108.7,53.6 L112,38 L97.2,44"/>
-      </svg>
-    </span>
+  <div class="wrap banda__grade">
+    <div class="banda__texto">
+      <h2 class="banda__h reveal" id="banda-h">
+        A lei é a mesma para todos.<br class="br-lg">
+        <span class="mk-hl mk-hl--wide" data-mk>A estratégia, não.</span>
+      </h2>
+      <p class="banda__p reveal" data-reveal-delay="1">
+        Não existem histórias iguais. Por isso, cada caso é analisado em sua
+        individualidade, com atenção aos detalhes, conhecimento jurídico e
+        responsabilidade na busca pelo caminho mais adequado.
+      </p>
+      <a class="btn btn--ouro reveal" data-reveal-delay="2" href="https://wa.me/5551993965299" target="_blank" rel="noopener">
+        Falar com a Karin
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
 
-    <h2 class="banda__h reveal" id="banda-h">
-      A lei é a mesma para todos.<br class="br-lg">
-      <span class="mk-hl mk-hl--wide" data-mk>A estratégia, não.</span>
-    </h2>
-    <p class="banda__p reveal" data-reveal-delay="2">
-      Não existem histórias iguais. Por isso, cada caso é analisado em sua
-      individualidade, com atenção aos detalhes, conhecimento jurídico e
-      responsabilidade na busca pelo caminho mais adequado.
-    </p>
+    <!-- Marquee vertical com as seis áreas. aria-hidden porque repete,
+         de propósito, o que a seção "Áreas de atuação" já diz — leitor
+         de tela não precisa ouvir a lista duas vezes (nem em loop).
+         Duas cópias da lista em sequência: quando a primeira termina
+         de subir, a segunda está exatamente onde ela começou. -->
+    <div class="banda__marquee" aria-hidden="true">
+      <div class="marquee" id="marquee">
+        <div class="marquee__trilho">
+          <span class="marquee__item">Planejamento Previdenciário</span>
+          <span class="marquee__item">Aposentadorias</span>
+          <span class="marquee__item">Benefícios por Incapacidade</span>
+          <span class="marquee__item">BPC / LOAS</span>
+          <span class="marquee__item">Pensão por Morte</span>
+          <span class="marquee__item">Família e Sucessões</span>
+        </div>
+        <div class="marquee__trilho">
+          <span class="marquee__item">Planejamento Previdenciário</span>
+          <span class="marquee__item">Aposentadorias</span>
+          <span class="marquee__item">Benefícios por Incapacidade</span>
+          <span class="marquee__item">BPC / LOAS</span>
+          <span class="marquee__item">Pensão por Morte</span>
+          <span class="marquee__item">Família e Sucessões</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -502,31 +497,29 @@
     <figure class="cena__foto">
       <picture>
         <source media="(max-width: 60rem)" type="image/webp" width="941" height="1672"
-              srcset="assets/img/karin-azul-m-640.webp 640w,
-                      assets/img/karin-azul-m-941.webp 941w"
-              sizes="100vw">
-      <source media="(max-width: 60rem)" width="941" height="1672"
-                srcset="assets/img/karin-azul-m-640.png 640w,
-                        assets/img/karin-azul-m-941.png 941w"
+                srcset="assets/img/karin-processo-m-640.webp 640w,
+                        assets/img/karin-processo-m-941.webp 941w"
                 sizes="100vw">
-        <source type="image/webp" srcset="assets/img/karin-azul.webp">
-        <img src="assets/img/karin-azul.png"
-             alt="Karin Rost de blazer claro, braços cruzados, diante de um fundo azul-ardósia com a silhueta da Justiça."
-             width="1672" height="941" loading="lazy" decoding="async">
+        <source media="(max-width: 60rem)" width="941" height="1672"
+                srcset="assets/img/karin-processo-m-640.png 640w,
+                        assets/img/karin-processo-m-941.png 941w"
+                sizes="100vw">
+        <source type="image/webp" srcset="assets/img/karin-processo.webp">
+        <!-- 1671, não 1672: a arte nova tem um pixel a menos de largura. -->
+        <img src="assets/img/karin-processo.png"
+             alt="Karin Rost de blazer claro, braços cruzados, diante de um fundo azul-marinho com a silhueta da Justiça."
+             width="1671" height="941" loading="lazy" decoding="async">
       </picture>
     </figure>
 
+    <!-- Só o título fica sobre a fotografia. Na arte nova o emblema
+         cinza ocupa a faixa onde ficavam os parágrafos (3,5:1 medido,
+         abaixo dos 4,5:1 que texto corrido exige); o título, por ser
+         grande, precisa de 3:1 e passa. Lead e parágrafo descem para
+         o início das etapas, logo abaixo da imagem. -->
     <div class="cena__texto">
       <div class="cena__caixa">
         <h2 class="sec-h reveal" id="proc-h">Como funciona o <span class="mk-ul" data-mk>atendimento</span></h2>
-        <p class="cena__lead reveal" data-reveal-delay="1">
-          Cada atendimento começa pela compreensão da situação apresentada.
-        </p>
-        <p class="cena__p reveal" data-reveal-delay="2">
-          A partir de uma análise cuidadosa, avaliamos os documentos, as
-          particularidades do caso e os direitos envolvidos, definindo a forma
-          de atuação mais adequada.
-        </p>
       </div>
     </div>
   </div>
@@ -534,6 +527,17 @@
   <div class="proc__passos">
     <span class="proc__grade" aria-hidden="true"></span>
     <span class="proc__arco" data-parallax="-0.07" aria-hidden="true"></span>
+
+    <div class="proc__abertura">
+      <p class="proc__lead reveal">
+        Cada atendimento começa pela compreensão da situação apresentada.
+      </p>
+      <p class="proc__texto reveal" data-reveal-delay="1">
+        A partir de uma análise cuidadosa, avaliamos os documentos, as
+        particularidades do caso e os direitos envolvidos, definindo a forma
+        de atuação mais adequada.
+      </p>
+    </div>
 
     <p class="proc__intro reveal">
       Nenhuma das etapas começa antes de a anterior estar entendida por você.
@@ -779,5 +783,6 @@
 <script src="assets/js/chrome.js" defer></script>
 <script src="assets/js/areas.js" defer></script>
 <script src="assets/js/canais.js" defer></script>
+<script src="assets/js/marquee.js" defer></script>
 </body>
 </html>

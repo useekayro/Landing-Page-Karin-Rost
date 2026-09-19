@@ -35,18 +35,20 @@ const img = join(raiz, 'assets', 'img')
 
 /* Os nomes de origem têm espaço e vírgula — sempre por variável,
    nunca montando string de shell. */
+/* justica-direito saiu (a banda virou marquee, sem foto) e karin-azul
+   foi substituída por karin-processo, com nome novo para nenhum
+   navegador servir a foto antiga do cache. */
 const VERTICAIS = [
   ['karin foto 6 9,16.png', 'hero-colunas'],
   ['karin foto 4 9,16.png', 'emblema'],
-  ['karin foto 7 9,16.png', 'justica-direito'],
   ['karin foto 3 9,16.png', 'karin-escritorio'],
-  ['karin foto 1 9,16.png', 'karin-azul'],
+  ['karin processo 9,16.png', 'karin-processo'],
   ['karin foto 2 9,16.png', 'karin-conversa'],
 ]
 
 const HORIZONTAIS = [
-  'hero-colunas', 'emblema', 'justica-direito',
-  'karin-escritorio', 'karin-azul', 'karin-conversa',
+  'hero-colunas', 'emblema',
+  'karin-escritorio', 'karin-processo', 'karin-conversa',
 ]
 
 const NATIVA = 941
