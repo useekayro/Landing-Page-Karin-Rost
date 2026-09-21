@@ -65,6 +65,14 @@ RODAPÉ                        ardósia      assinatura
   moda encontrando gravidade jurídica. Feminina sem ser delicada; nos pesos
   altos as hastes ganham massa real ("robusta e chamativa").
 - **Texto/UI: Archivo** (400–700, variável). Grotesca de largura firme.
+- **Assinatura: Josefin Sans Light** (300, um peso só). Terceira voz, usada
+  exclusivamente na assinatura do emblema (`--assinatura`). Geométrica de
+  altura-x baixa: no mesmo corpo lê menor que o Bodoni, e o 300 tira ainda
+  mais massa, então leva `letter-spacing: 0.06em` — tratamento de logotipo,
+  não de parágrafo. O tracking devolve o porte sem alargar a pegada: a 375px
+  a linha mede 322px contra os 324px do Bodoni 700 que havia antes, e cabe
+  nos 335px disponíveis. Sem a web font, o Archivo assume e quebra em duas
+  linhas, o que é aceitável.
 
 Eixo de contraste: didone × grotesca. Nenhuma da lista de fontes-reflexo
 (Playfair, Cormorant, Fraunces, Inter, DM Serif…).
@@ -153,6 +161,28 @@ título, por ser grande (mínimo 3:1), fica sobre a foto — medido nos pixels
 reais a 1440px: pior **3,29:1**, folga pequena. Lead e parágrafo (mínimo 4,5:1)
 desceram para `.proc__abertura`, no início das etapas, com a mesma tipografia.
 `--azul` foi mantido: a base da arte nova (`#151B24`) fica a 1,065x dele.
+(Revertido em 2026-09-21 — ver abaixo.)
+
+**2026-09-21 — a abertura do Processo volta para cima da foto.** Título, lead e
+parágrafo separados liam como dois assuntos: o leitor encontrava a pergunta
+("Como funciona o atendimento") numa seção e a resposta noutra. Os três voltaram
+para `.cena__caixa`, como nas demais cenas, e o contraste foi resolvido na arte,
+não na diagramação: `.cena--proc .cena__texto::before` deita um véu do próprio
+`--azul` sobre a coluna esquerda — 62% até 30% da largura, 52% em 45%, zerando
+em 78%. Como é a cor do campo chapado, ele some no fundo e só recolhe o emblema;
+a esmaecida termina bem depois da borda do desenho (55%) para não deixar emenda
+vertical. Medido sobre os retângulos de linha reais lidos do DOM:
+
+| janela | sem véu | com véu | mínimo |
+|---|---|---|---|
+| corrido a 1200px | 3,55:1 | **7,93:1** | 4,5:1 |
+| corrido a 1440px | 3,66:1 | **8,46:1** | 4,5:1 |
+| título a 1200px  | 3,34:1 | **7,75:1** | 3:1 |
+| título a 1440px  | 3,08:1 | **7,61:1** | 3:1 |
+
+O véu só existe acima de 75rem. Empilhado, a abertura inteira fica no campo
+chapado abaixo da foto e os vãos ficaram simétricos (86px a 900px, 80px a
+375px), com `.proc__passos { padding-top: 0 }` evitando a soma dos recuos.
 
 O hero saiu dessa conta por completo: não há mais fotografia por baixo do
 texto dele. A tipografia pousa em campo chapado, e o contraste vira aritmética

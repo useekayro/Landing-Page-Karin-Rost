@@ -69,6 +69,10 @@
   /* ── Tipografia ───────────────────────────────────────────── */
   --display: "Bodoni Moda", "Didot", "Bodoni MT", "Playfair Display", Georgia, serif;
   --texto:   "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* Terceira voz, só para a assinatura do emblema: um geométrico
+     leve ao lado do serifado do título. Pedimos apenas o peso 300 ao
+     Google — é o único que a página usa. */
+  --assinatura: "Josefin Sans", "Futura", "Century Gothic", var(--texto);
 
   --t--1: clamp(0.8125rem, 0.79rem + 0.11vw, 0.875rem);
   --t-0:  clamp(1rem,      0.96rem + 0.20vw, 1.125rem);

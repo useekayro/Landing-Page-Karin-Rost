@@ -37,7 +37,7 @@
       imagesizes="100vw">
 <link rel="preload" as="image" type="image/webp" fetchpriority="high"
       href="assets/img/logo-hero.webp">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..700&amp;family=Bodoni+Moda:opsz,wght@6..96,400..900&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..700&amp;family=Bodoni+Moda:opsz,wght@6..96,400..900&amp;family=Josefin+Sans:wght@300&amp;display=swap">
 
 <link rel="stylesheet" href="assets/css/01-tokens.css">
 <link rel="stylesheet" href="assets/css/02-base.css">
@@ -512,14 +512,22 @@
       </picture>
     </figure>
 
-    <!-- Só o título fica sobre a fotografia. Na arte nova o emblema
-         cinza ocupa a faixa onde ficavam os parágrafos (3,5:1 medido,
-         abaixo dos 4,5:1 que texto corrido exige); o título, por ser
-         grande, precisa de 3:1 e passa. Lead e parágrafo descem para
-         o início das etapas, logo abaixo da imagem. -->
+    <!-- Título, lead e parágrafo de abertura juntos sobre a fotografia,
+         como nas outras cenas. O emblema cinza cai na faixa dos
+         parágrafos e dava 3,5:1 — abaixo dos 4,5:1 de texto corrido —,
+         então a cena ganhou um véu (ver .cena--proc .cena__texto::before
+         em 05-sections.css) que leva o pior caso a 7,4:1. -->
     <div class="cena__texto">
       <div class="cena__caixa">
         <h2 class="sec-h reveal" id="proc-h">Como funciona o <span class="mk-ul" data-mk>atendimento</span></h2>
+        <p class="cena__lead reveal" data-reveal-delay="1">
+          Cada atendimento começa pela compreensão da situação apresentada.
+        </p>
+        <p class="cena__p reveal" data-reveal-delay="2">
+          A partir de uma análise cuidadosa, avaliamos os documentos, as
+          particularidades do caso e os direitos envolvidos, definindo a forma
+          de atuação mais adequada.
+        </p>
       </div>
     </div>
   </div>
@@ -527,17 +535,6 @@
   <div class="proc__passos">
     <span class="proc__grade" aria-hidden="true"></span>
     <span class="proc__arco" data-parallax="-0.07" aria-hidden="true"></span>
-
-    <div class="proc__abertura">
-      <p class="proc__lead reveal">
-        Cada atendimento começa pela compreensão da situação apresentada.
-      </p>
-      <p class="proc__texto reveal" data-reveal-delay="1">
-        A partir de uma análise cuidadosa, avaliamos os documentos, as
-        particularidades do caso e os direitos envolvidos, definindo a forma
-        de atuação mais adequada.
-      </p>
-    </div>
 
     <p class="proc__intro reveal">
       Nenhuma das etapas começa antes de a anterior estar entendida por você.

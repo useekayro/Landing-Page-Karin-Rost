@@ -244,16 +244,22 @@
 .emblema__p + .emblema__p { margin-top: var(--s3); }
 .cena--emblema .rule { margin-block: var(--s3); }
 
+/* Assinatura em Josefin Sans Light. O geométrico tem altura-x baixa:
+   no mesmo corpo do Bodoni ele lê menor, e o peso 300 tira ainda mais
+   presença. A entrelinha aberta devolve o porte sem sair da escala —
+   é o tratamento de logotipo, não de parágrafo. */
 .emblema__assinatura { line-height: 1.6; }
 .emblema__assinatura b {
   display: block;
-  font-family: var(--display);
-  font-size: var(--t-1); font-weight: 700;
+  font-family: var(--assinatura);
+  font-size: var(--t-1); font-weight: 300;
+  letter-spacing: 0.06em;
   color: var(--tinta-clara);
 }
 .emblema__assinatura span {
   display: block;
-  font-size: 0.75rem; font-weight: 600;
+  font-family: var(--assinatura);
+  font-size: 0.75rem; font-weight: 300;
   letter-spacing: 0.18em; text-transform: uppercase;
   color: var(--ouro-claro);
   margin-top: 0.5rem;
@@ -574,6 +580,26 @@
     left: 0; right: 50%; top: 0; bottom: 40%;
     padding-left: var(--gutter);
   }
+  /* Véu sob a coluna de texto. O emblema cinza da arte cai justamente
+     na faixa dos parágrafos: sem véu o corrido fica em 3,55:1, abaixo
+     dos 4,5:1 que texto corrido exige. O véu é o próprio --azul, então
+     some no campo chapado e só recolhe o emblema; com ele o pior caso
+     sobe para 7,93:1. A esmaecida vai até 78% da largura, bem depois
+     da borda do emblema (55%), para não deixar uma emenda vertical
+     atravessando o desenho.
+     Mexeu nas paradas? Reproduza-as em tools/medir-proc-veu.mjs e
+     rode: ele mede os retângulos de linha reais e reprova sozinho. */
+  .cena--proc .cena__texto::before {
+    content: "";
+    position: absolute;
+    inset: 0 22% 0 0;
+    background: linear-gradient(to right,
+      color-mix(in oklab, var(--azul) 62%, transparent) 0%,
+      color-mix(in oklab, var(--azul) 62%, transparent) 38%,
+      color-mix(in oklab, var(--azul) 52%, transparent) 58%,
+      transparent 100%);
+    pointer-events: none;
+  }
   /* As três janelas medidas no arquivo. A da direita começa em 73%
      porque é onde o arco de ouro termina; a de baixo fica sob o
      círculo, dentro da tira que a varredura mostrou vazia. */
@@ -711,32 +737,11 @@
 /* A seção era quatro títulos e quatro linhas soltas num campo azul
    grande demais. A intro abre o método antes dos cards, e cada card
    ganhou uma nota — o detalhe prático que o título não cabe. */
-/* Lead e parágrafo que antes ficavam sobre a foto. Os valores são os
-   mesmos de .cena--proc .cena__lead / .cena__p — só a posição mudou,
-   não a tipografia. Motivo: na arte nova o emblema cinza cai na faixa
-   deles, e o contraste desce para 3,5:1. */
-.proc__abertura {
-  position: relative; z-index: var(--z-conteudo);
-  max-width: 60rem; margin: 0 auto var(--s5);
-  display: grid; gap: var(--s3);
-}
-.proc__lead {
-  font-size: var(--t-1); line-height: 1.55;
-  color: var(--tinta-clara);
-  max-width: 34ch;
-}
-.proc__texto {
-  color: var(--tinta-clara);
-  font-size: var(--t--1); line-height: 1.75;
-  max-width: 52ch;
-  opacity: 0.92;
-}
-
-/* Empilhado (abaixo de 75rem) o título vem logo depois da foto e a
-   abertura logo depois dele. Sem isto, o recuo inferior da cena e o
-   superior das etapas se somavam e o título ficava ilhado. */
+/* Empilhado (abaixo de 75rem) a abertura inteira — título, lead e
+   parágrafo — vem logo depois da foto, e as etapas começam na intro.
+   Sem isto o recuo inferior da cena e o superior das etapas se somavam
+   e abriam duas seções de vazio entre a abertura e a primeira etapa. */
 @media (max-width: 74.99rem) {
-  .cena--proc .cena__texto { padding-bottom: var(--s4); }
   .proc__passos { padding-top: 0; }
 }
 
