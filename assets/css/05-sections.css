@@ -1003,15 +1003,18 @@
 }
 .foot__brand { display: flex; align-items: center; gap: 0.85rem; }
 .foot__logo { width: auto; height: 3.4rem; }
+/* Gêmea de .emblema__assinatura: mesma marca, mesmo par de linhas, e
+   por isso a mesma Josefin Sans Light. Ver a nota lá sobre o tracking. */
 .foot__name {
-  font-family: var(--display);
-  font-size: 1.25rem; font-weight: 700;
+  font-family: var(--assinatura);
+  font-size: 1.25rem; font-weight: 300;
+  letter-spacing: 0.06em;
   line-height: 1.2;
 }
 .foot__name span {
   display: block;
-  font-family: var(--texto);
-  font-size: 0.5625rem; font-weight: 500;
+  font-family: var(--assinatura);
+  font-size: 0.5625rem; font-weight: 300;
   letter-spacing: 0.2em; text-transform: uppercase;
   color: var(--ouro-claro);
   margin-top: 0.25rem;

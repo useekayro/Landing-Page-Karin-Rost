@@ -66,13 +66,25 @@ RODAPÉ                        ardósia      assinatura
   altos as hastes ganham massa real ("robusta e chamativa").
 - **Texto/UI: Archivo** (400–700, variável). Grotesca de largura firme.
 - **Assinatura: Josefin Sans Light** (300, um peso só). Terceira voz, usada
-  exclusivamente na assinatura do emblema (`--assinatura`). Geométrica de
-  altura-x baixa: no mesmo corpo lê menor que o Bodoni, e o 300 tira ainda
-  mais massa, então leva `letter-spacing: 0.06em` — tratamento de logotipo,
-  não de parágrafo. O tracking devolve o porte sem alargar a pegada: a 375px
-  a linha mede 322px contra os 324px do Bodoni 700 que havia antes, e cabe
-  nos 335px disponíveis. Sem a web font, o Archivo assume e quebra em duas
-  linhas, o que é aceitável.
+  só onde a marca se assina por extenso (`--assinatura`): a assinatura do
+  emblema e o `.foot__name` do rodapé — o mesmo par de linhas, nome sobre
+  subtítulo dourado em caixa alta, em dois tamanhos. Geométrica de altura-x
+  baixa: no mesmo corpo lê menor que o Bodoni, e o 300 tira ainda mais massa,
+  então leva `letter-spacing: 0.06em` na linha grande — tratamento de
+  logotipo, não de parágrafo. O tracking devolve o porte sem alargar a
+  pegada; medido contra o Bodoni 700 que havia antes:
+
+  | | antes | agora | disponível |
+  |---|---|---|---|
+  | emblema a 375px | 324px | 322px | 335px |
+  | rodapé, "Karin Rost" | 103px | 101px | 265px a 375px |
+  | rodapé, subtítulo | 162px | 161px | 265px a 375px |
+
+  Sem a web font, o Archivo assume e quebra em duas linhas, o que é aceitável.
+  O ponto a vigiar é o subtítulo do rodapé: 9px no peso 300 é a linha mais
+  fina do site. O contraste não mudou (dourado sobre `--ardosia`, ~11:1), é
+  massa de traço; se um dia pedir corpo, o ajuste é `font-weight: 400`
+  naquele `span` só, mantendo a família.
 
 Eixo de contraste: didone × grotesca. Nenhuma da lista de fontes-reflexo
 (Playfair, Cormorant, Fraunces, Inter, DM Serif…).
