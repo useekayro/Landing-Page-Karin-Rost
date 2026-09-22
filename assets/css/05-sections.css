@@ -629,16 +629,11 @@
   }
   .cena--emblema .emblema__h { font-size: clamp(2rem, 2.9vw, 2.75rem); }
 
-  /* A CTA deixou de ser exceção quando a chamada saiu da arte e virou
-     texto. A Karin senta à direita do quadro e a metade esquerda é
-     estúdio vazio — a janela é essa. Termina em 46% para a tipografia
-     não encostar no braço da poltrona, que começa por volta de 48%. */
-  .cena--cta .cena__caixa {
-    left: 0; right: 54%; top: 0; bottom: 0;
-    padding-left: var(--gutter);
-    align-content: center;
-    gap: var(--s4);
-  }
+  /* A CTA é a exceção: não há texto para pousar dentro da foto —
+     a chamada já está gravada nela —, então o botão volta ao fluxo,
+     centrado no campo claro logo abaixo. */
+  .cena--cta .cena__texto { position: static; padding: var(--s7) var(--gutter); }
+  .cena--cta .cena__caixa { position: static; max-width: 44rem; margin-inline: auto; }
 }
 
 /* No limite de 1200px a coluna lateral fica com 290px: o texto de
@@ -647,31 +642,13 @@
   .emblema__p { display: none; }
 }
 
-/* ═══════════ CTA — a chamada voltou a ser texto ═══════════
-   A arte anterior trazia "Vamos conversar?" gravado; esta é uma
-   fotografia limpa de estúdio, então a seção volta ao padrão das
-   outras cenas: tipografia pousada sobre a foto, no vazio que a
-   composição deixa. Empilhado, o texto vem antes da foto — a
-   chamada é o assunto da seção e não deve esperar a rolagem. */
+/* ═══════════ CTA — a foto já traz a chamada ═══════════
+   "Vamos conversar?" está gravado no próprio arquivo, então a
+   seção não repete nada: a foto sangra e o botão vem logo abaixo,
+   centrado no campo claro. Sem texto sobre a foto, não há zona de
+   silêncio a respeitar aqui. */
 .cena--cta .cena__texto { padding-block: var(--s7); }
-.cena--cta .cena__caixa { justify-items: start; }
-
-.cta__h {
-  font-family: var(--display);
-  font-size: var(--t-4);
-  font-weight: 400; line-height: 1.02;
-  letter-spacing: -0.02em;
-  color: var(--tinta-escura);
-}
-/* Bronze, não o ouro da página: sobre campo claro o --ouro dá 1,9:1.
-   --ouro-fundo foi criado exatamente para isto e mede 5,4:1. */
-.cta__q { color: var(--ouro-fundo); }
-.cta__lead {
-  font-size: var(--t-1); line-height: 1.55;
-  color: var(--tinta-suave);
-  max-width: 34ch;
-  text-wrap: pretty;
-}
+.cena--cta .cena__caixa { justify-items: center; }
 
 /* ═══════════════════════ DIFERENCIAIS ═══════════════════════ */
 .dif {
@@ -855,11 +832,8 @@
 }
 
 /* ═══════════════════════ CTA ═══════════════════════ */
-/* Era centrado porque o botão estava sozinho na seção. Agora tem
-   chamada e lead acima dele: alinhado à esquerda, os três dividem a
-   mesma margem e o olho desce em linha reta até a ação. */
 .cena--cta .btn {
-  justify-self: start;
+  justify-self: center;
   font-size: 0.9375rem;
   padding: 1.15rem 2rem;
 }
@@ -1218,11 +1192,11 @@
   .cena--emblema { --borda-base: #09111C; --campo: var(--ardosia); }
   .cena--sobre   { --borda-base: #DBCEC7; --campo: var(--luz); --ponte: 6rem; }
   .cena--proc    { --borda-base: #0B131B; --campo: var(--azul); }   /* base de karin-processo-m */
-  /* A arte nova é estúdio branco: a base mede #ECE9E8, a um passo do
+  /* A arte nova é estúdio claro: a base mede #EBE6E2, a um passo do
      --luz (#F2EFED) que é o campo da seção. A ponte de 8rem existia
      para dissolver o pêssego #D1B4A3 da arte anterior; com esta
      diferença, 3rem já não deixam aresta. */
-  .cena--cta     { --borda-base: #ECE9E8; --campo: var(--luz); --ponte: 3rem; }
+  .cena--cta     { --borda-base: #EBE6E2; --campo: var(--luz); --ponte: 3rem; }
 
   .cena__foto { position: relative; }
 
@@ -1323,25 +1297,26 @@
 }
 
 /* ═══════════════ GALERIA DE PROFUNDIDADE ═══════════════
-   Retratos da Karin emergindo entre as seções de texto. A lógica de
-   fade/desfoque está em assets/js/galeria.js, que também explica o
-   que foi deixado de fora do componente de referência e por quê.
+   Os seis retratos da Karin, agora num cacho unico dentro do
+   manifesto — antes estavam espalhados por seis secoes. A logica de
+   fade/desfoque esta em assets/js/galeria.js, que tambem explica o
+   que foi deixado de fora do componente de referencia e por que.
 
    REGRA DE OURO DESTE BLOCO: o retrato nunca encosta na coluna de
    texto. Ele vive na margem que sobra ao lado de .wrap, e quando
-   essa margem é menor que ele, o excedente sangra para FORA da tela
-   — nunca para dentro do conteúdo. Por isso o ancoramento é
-   calculado a partir da borda interna, não da externa:
+   essa margem e menor que ele, o excedente sangra para FORA da tela
+   — nunca para dentro do conteudo. Por isso o ancoramento e
+   calculado a partir da borda interna, nao da externa:
 
      margem livre = (100vw - largura do .wrap) / 2
      borda interna do retrato = margem - um respiro
      borda externa = borda interna - largura   (pode ficar negativa)
 
-   Em 1440px sobram 112px de margem e o retrato mede 187px: 96px
-   aparecem, 91px saem pela lateral. Em 1920px a margem é 352px e
-   ele cabe inteiro. Abaixo de 64rem não há margem nenhuma, então o
-   bloco inteiro não existe — a página já tem cinco fotografias
-   sangradas no mobile, esta camada é um extra de tela larga. */
+   Em 1512px sobram ~141px de margem e o retrato mede 197px: parte
+   aparece, parte sai pela lateral. Abaixo de 64rem nao ha margem
+   nenhuma, entao o bloco inteiro nao existe — a pagina ja tem cinco
+   fotografias sangradas no mobile, esta camada e um extra de tela
+   larga, e o display:none corta antes da rede. */
 .retrato { display: none; }
 
 @media (min-width: 64rem) {
@@ -1349,7 +1324,7 @@
     --r-larg: clamp(7rem, 13vw, 15rem);
     --r-margem: calc((100vw - min(100vw - var(--gutter) * 2, var(--wrap))) / 2);
     /* Valores iniciais: sem JS (ou antes do primeiro quadro) o
-       retrato aparece nítido e parado, nunca invisível. */
+       retrato aparece nitido e parado, nunca invisivel. */
     --r-o: 0.9;
     --r-b: 0px;
     --r-s: 1;
@@ -1357,7 +1332,6 @@
 
     display: block;
     position: absolute;
-    z-index: var(--z-deco);
     width: var(--r-larg);
     margin: 0;
     pointer-events: none;
@@ -1369,38 +1343,46 @@
   .retrato img {
     width: 100%; height: auto;
     border-radius: var(--raio-sm);
-    /* A sombra dá o descolamento do campo sem precisar de moldura.
-       Em seção clara ela é o único recurso que separa a foto do
-       fundo, já que os retratos são de um estúdio branco. */
+    /* A sombra da o descolamento do campo sem precisar de moldura.
+       Os retratos sao de um estudio claro sobre a ardosia escura. */
     box-shadow: 0 30px 60px -32px rgb(10 14 20 / 0.75);
   }
 
   /* --s5 e nao --s4: o retrato cresce ate 1,08 no fim da curva e a
-     folga precisa sobreviver a esse ganho de 8px por lado. */
+     folga precisa sobreviver a esse ganho de ~8px por lado. */
   .retrato--esq { left:  calc(var(--r-margem) - var(--r-larg) - var(--s5)); }
   .retrato--dir { right: calc(var(--r-margem) - var(--r-larg) - var(--s5)); }
 
-  /* A altura de cada seção é diferente, então a âncora vertical é
-     declarada caso a caso, sempre em percentual da seção. */
-  .retrato--manifesto { top: 16%; }
-  .retrato--areas     { top: 24%; }
-  .retrato--banda     { top: 12%; }
-  .retrato--dif       { top: 30%; }
-  .retrato--proc      { top: 8%;  }
-  .retrato--onde      { top: 18%; }
+  /* O cacho ocupa a altura inteira do manifesto (899px em 1512),
+     tres retratos de cada lado, intercalados na vertical. Eles se
+     tocam de leve no eixo Y — e isso e o efeito, nao um defeito:
+     planos em profundidades diferentes se sobrepoem.
 
-  /* Os hospedeiros precisam ser o bloco de contenção e precisam
-     cortar o que sangra. .manifesto e .banda já eram relative com
-     overflow hidden; os outros três passam a ser. O corte acontece
-     na borda da seção, longe de qualquer sombra de card. */
-  .areas, .dif, .onde {
-    position: relative;
-    overflow: clip;
+     O z-index cresce com a ordem porque a curva e a mesma para
+     todos, mas cada um a percorre deslocado: quem esta mais abaixo
+     na secao entra na janela depois, e nesse instante esta maior e
+     mais nitido que os de cima. Pintar na ordem do DOM ja poe o
+     mais proximo por cima. */
+  .retrato--p1 { top:  2%; z-index: 1; --r-larg: clamp(6rem, 11vw, 13rem); }
+  .retrato--p2 { top: 14%; z-index: 2; }
+  .retrato--p3 { top: 36%; z-index: 3; --r-larg: clamp(6.5rem, 12vw, 14rem); }
+  .retrato--p4 { top: 48%; z-index: 4; }
+  .retrato--p5 { top: 68%; z-index: 5; --r-larg: clamp(6rem, 11vw, 13rem); }
+  .retrato--p6 { top: 78%; z-index: 6; }
+
+  /* O manifesto ja era relative com overflow hidden, que e
+     exatamente o que o cacho precisa: bloco de contencao para o
+     posicionamento e corte do que sangra pela lateral. */
+  .galeria {
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-deco);
+    pointer-events: none;
   }
 }
 
-/* Sem movimento: o JS já congela os valores, mas a transição de
-   entrada também sai de cena — nada pulsa, nada desliza. */
+/* Sem movimento: o JS ja congela os valores, mas a transicao de
+   entrada tambem sai de cena — nada pulsa, nada desliza. */
 @media (prefers-reduced-motion: reduce) {
   .retrato { transition: none !important; }
 }

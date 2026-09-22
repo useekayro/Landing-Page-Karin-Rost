@@ -207,19 +207,74 @@
 
 <!-- ══════════════════════════ MANIFESTO ══════════════════════════ -->
 <section class="manifesto" aria-labelledby="manifesto-h">
-  <!-- Retrato 1 da galeria de profundidade: decorativo, por isso
-       alt vazio e aria-hidden. A Karin ja e apresentada com alt
-       descritivo nas cinco fotografias principais. -->
-  <figure class="retrato retrato--esq retrato--manifesto" data-retrato aria-hidden="true">
-    <picture>
-      <source type="image/webp"
-              srcset="assets/img/karin-retrato-1-480.webp 480w,
-                      assets/img/karin-retrato-1-720.webp 720w"
-              sizes="(min-width: 120rem) 15rem, 13vw">
-      <img src="assets/img/karin-retrato-1.jpeg" alt=""
-           width="853" height="1280" loading="lazy" decoding="async">
-    </picture>
-  </figure>
+  <!-- Galeria de profundidade: os seis retratos vivem TODOS aqui, num
+       cacho de profundidade, e nao mais espalhados pela pagina. Sao
+       decorativos (alt vazio, aria-hidden) porque a Karin ja e
+       apresentada com alt descritivo nas fotografias principais.
+       A ordem no DOM e a ordem de pintura: os mais proximos por
+       ultimo. Ver .retrato em 05-sections.css e assets/js/galeria.js. -->
+  <div class="galeria" aria-hidden="true">
+    <figure class="retrato retrato--esq retrato--p1" data-retrato aria-hidden="true">
+      <picture>
+        <source type="image/webp"
+                srcset="assets/img/karin-retrato-1-480.webp 480w,
+                        assets/img/karin-retrato-1-720.webp 720w"
+                sizes="(min-width: 120rem) 15rem, 13vw">
+        <img src="assets/img/karin-retrato-1.jpeg" alt=""
+             width="853" height="1280" loading="lazy" decoding="async">
+      </picture>
+    </figure>
+    <figure class="retrato retrato--dir retrato--p2" data-retrato aria-hidden="true">
+      <picture>
+        <source type="image/webp"
+                srcset="assets/img/karin-retrato-2-480.webp 480w,
+                        assets/img/karin-retrato-2-720.webp 720w"
+                sizes="(min-width: 120rem) 15rem, 13vw">
+        <img src="assets/img/karin-retrato-2.jpeg" alt=""
+             width="853" height="1280" loading="lazy" decoding="async">
+      </picture>
+    </figure>
+    <figure class="retrato retrato--esq retrato--p3" data-retrato aria-hidden="true">
+      <picture>
+        <source type="image/webp"
+                srcset="assets/img/karin-retrato-3-480.webp 480w,
+                        assets/img/karin-retrato-3-720.webp 720w"
+                sizes="(min-width: 120rem) 15rem, 13vw">
+        <img src="assets/img/karin-retrato-3.jpeg" alt=""
+             width="853" height="1280" loading="lazy" decoding="async">
+      </picture>
+    </figure>
+    <figure class="retrato retrato--dir retrato--p4" data-retrato aria-hidden="true">
+      <picture>
+        <source type="image/webp"
+                srcset="assets/img/karin-retrato-4-480.webp 480w,
+                        assets/img/karin-retrato-4-720.webp 720w"
+                sizes="(min-width: 120rem) 15rem, 13vw">
+        <img src="assets/img/karin-retrato-4.jpeg" alt=""
+             width="853" height="1280" loading="lazy" decoding="async">
+      </picture>
+    </figure>
+    <figure class="retrato retrato--esq retrato--p5" data-retrato aria-hidden="true">
+      <picture>
+        <source type="image/webp"
+                srcset="assets/img/karin-retrato-5-480.webp 480w,
+                        assets/img/karin-retrato-5-720.webp 720w"
+                sizes="(min-width: 120rem) 15rem, 13vw">
+        <img src="assets/img/karin-retrato-5.jpeg" alt=""
+             width="853" height="1280" loading="lazy" decoding="async">
+      </picture>
+    </figure>
+    <figure class="retrato retrato--dir retrato--p6" data-retrato aria-hidden="true">
+      <picture>
+        <source type="image/webp"
+                srcset="assets/img/karin-retrato-6-480.webp 480w,
+                        assets/img/karin-retrato-6-720.webp 720w"
+                sizes="(min-width: 120rem) 15rem, 13vw">
+        <img src="assets/img/karin-retrato-6.jpeg" alt=""
+             width="853" height="1280" loading="lazy" decoding="async">
+      </picture>
+    </figure>
+  </div>
 
   <div class="wrap">
     <!-- credencial e escopo, vindos do hero: aqui funcionam como
@@ -330,20 +385,6 @@
 
 <!-- ══════════════════════════ ÁREAS ══════════════════════════ -->
 <section class="areas" id="areas" aria-labelledby="areas-h">
-  <!-- Retrato 2 da galeria de profundidade: decorativo, por isso
-       alt vazio e aria-hidden. A Karin ja e apresentada com alt
-       descritivo nas cinco fotografias principais. -->
-  <figure class="retrato retrato--dir retrato--areas" data-retrato aria-hidden="true">
-    <picture>
-      <source type="image/webp"
-              srcset="assets/img/karin-retrato-2-480.webp 480w,
-                      assets/img/karin-retrato-2-720.webp 720w"
-              sizes="(min-width: 120rem) 15rem, 13vw">
-      <img src="assets/img/karin-retrato-2.jpeg" alt=""
-           width="853" height="1280" loading="lazy" decoding="async">
-    </picture>
-  </figure>
-
   <div class="wrap">
     <div class="areas__head">
       <h2 class="sec-h reveal" id="areas-h">Áreas de <span class="mk-ul" data-mk>atuação</span></h2>
@@ -413,20 +454,6 @@
 
 <!-- ══════════════════════════ BANDA EDITORIAL ══════════════════════════ -->
 <section class="banda" aria-labelledby="banda-h">
-  <!-- Retrato 3 da galeria de profundidade: decorativo, por isso
-       alt vazio e aria-hidden. A Karin ja e apresentada com alt
-       descritivo nas cinco fotografias principais. -->
-  <figure class="retrato retrato--esq retrato--banda" data-retrato aria-hidden="true">
-    <picture>
-      <source type="image/webp"
-              srcset="assets/img/karin-retrato-3-480.webp 480w,
-                      assets/img/karin-retrato-3-720.webp 720w"
-              sizes="(min-width: 120rem) 15rem, 13vw">
-      <img src="assets/img/karin-retrato-3.jpeg" alt=""
-           width="853" height="1280" loading="lazy" decoding="async">
-    </picture>
-  </figure>
-
   <div class="wrap banda__grade">
     <div class="banda__texto">
       <h2 class="banda__h reveal" id="banda-h">
@@ -513,20 +540,6 @@
 
 <!-- ══════════════════════════ DIFERENCIAIS ══════════════════════════ -->
 <section class="dif" aria-labelledby="dif-h">
-  <!-- Retrato 4 da galeria de profundidade: decorativo, por isso
-       alt vazio e aria-hidden. A Karin ja e apresentada com alt
-       descritivo nas cinco fotografias principais. -->
-  <figure class="retrato retrato--dir retrato--dif" data-retrato aria-hidden="true">
-    <picture>
-      <source type="image/webp"
-              srcset="assets/img/karin-retrato-4-480.webp 480w,
-                      assets/img/karin-retrato-4-720.webp 720w"
-              sizes="(min-width: 120rem) 15rem, 13vw">
-      <img src="assets/img/karin-retrato-4.jpeg" alt=""
-           width="853" height="1280" loading="lazy" decoding="async">
-    </picture>
-  </figure>
-
   <div class="wrap">
     <h2 class="sec-h sec-h--dark reveal" id="dif-h">O que define o nosso <span class="mk-ul mk-ul--dark" data-mk>trabalho</span></h2>
 
@@ -589,20 +602,6 @@
   </div>
 
   <div class="proc__passos">
-  <!-- Retrato 5 da galeria de profundidade: decorativo, por isso
-       alt vazio e aria-hidden. A Karin ja e apresentada com alt
-       descritivo nas cinco fotografias principais. -->
-  <figure class="retrato retrato--esq retrato--proc" data-retrato aria-hidden="true">
-    <picture>
-      <source type="image/webp"
-              srcset="assets/img/karin-retrato-5-480.webp 480w,
-                      assets/img/karin-retrato-5-720.webp 720w"
-              sizes="(min-width: 120rem) 15rem, 13vw">
-      <img src="assets/img/karin-retrato-5.jpeg" alt=""
-           width="853" height="1280" loading="lazy" decoding="async">
-    </picture>
-  </figure>
-
     <span class="proc__grade" aria-hidden="true"></span>
     <span class="proc__arco" data-parallax="-0.07" aria-hidden="true"></span>
 
@@ -676,40 +675,33 @@
 </section>
 
 <!-- ══════════════════════════ CTA ══════════════════════════ -->
-<section class="cena cena--cta" id="contato" aria-labelledby="cta-h">
+<section class="cena cena--cta" id="contato" aria-label="Contato">
   <figure class="cena__foto">
     <picture>
       <source media="(max-width: 60rem)" type="image/webp" width="940" height="1672"
-              srcset="assets/img/karin-convite-m-640.webp 640w,
-                      assets/img/karin-convite-m-940.webp 940w"
+              srcset="assets/img/karin-chamada-m-640.webp 640w,
+                      assets/img/karin-chamada-m-940.webp 940w"
               sizes="100vw">
       <source media="(max-width: 60rem)" width="940" height="1672"
-              srcset="assets/img/karin-convite-m-640.png 640w,
-                      assets/img/karin-convite-m-940.png 940w"
+              srcset="assets/img/karin-chamada-m-640.png 640w,
+                      assets/img/karin-chamada-m-940.png 940w"
               sizes="100vw">
-      <source type="image/webp" srcset="assets/img/karin-convite.webp">
-      <!-- 940x1672 e 1672x940: a arte nova tem um pixel a menos que as
-           anteriores em cada eixo. Os números aqui são os reais. -->
-      <img src="assets/img/karin-convite.png"
-           alt="Karin Rost sentada em uma poltrona de couro escuro, blazer claro sobre roupa preta, diante de um fundo branco de estúdio."
-           width="1672" height="940" loading="lazy" decoding="async">
+      <source type="image/webp" srcset="assets/img/karin-chamada.webp">
+      <!-- A vertical tem 940 de largura, a horizontal 941 de altura: um
+           pixel a menos que as artes mais antigas. Os números são os reais.
+           O alt carrega a chamada porque ela está DENTRO da imagem — sem
+           isso, quem usa leitor de tela não recebe a pergunta. -->
+      <img src="assets/img/karin-chamada.png"
+           alt="“Vamos conversar?” — Karin Rost sentada em uma poltrona de couro escuro, blazer claro sobre roupa preta, diante de um fundo claro de estúdio."
+           width="1672" height="941" loading="lazy" decoding="async">
     </picture>
   </figure>
 
-  <!-- A arte anterior trazia “Vamos conversar?” gravado no arquivo; esta
-       é uma fotografia limpa de estúdio, então a chamada voltou a ser
-       texto. Ganho de acessibilidade: agora é um h2 de verdade, lido por
-       leitor de tela e redimensionável. -->
+  <!-- A chamada voltou a vir gravada na arte, então a seção não a repete:
+       só o botão, centrado no campo claro logo abaixo da foto. -->
   <div class="cena__texto">
     <div class="cena__caixa">
-      <!-- O “?” só muda de cor; fica DENTRO do nome acessível, senão o
-           leitor de tela anuncia “Vamos conversar” como afirmação. -->
-      <h2 class="cta__h reveal" id="cta-h">Vamos conversar<span class="cta__q">?</span></h2>
-      <p class="cta__lead reveal" data-reveal-delay="1">
-        A primeira conversa serve para entender a sua situação — sem compromisso
-        e sem juridiquês.
-      </p>
-      <a class="btn btn--dark reveal" data-reveal-delay="2" href="https://wa.me/5551993965299" target="_blank" rel="noopener">
+      <a class="btn btn--dark reveal" href="https://wa.me/5551993965299" target="_blank" rel="noopener">
         Falar com a Karin
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
       </a>
@@ -719,20 +711,6 @@
 
 <!-- ══════════════════════ ONDE NOS ACHAR ══════════════════════ -->
 <section class="onde" id="onde" aria-labelledby="onde-h">
-  <!-- Retrato 6 da galeria de profundidade: decorativo, por isso
-       alt vazio e aria-hidden. A Karin ja e apresentada com alt
-       descritivo nas cinco fotografias principais. -->
-  <figure class="retrato retrato--dir retrato--onde" data-retrato aria-hidden="true">
-    <picture>
-      <source type="image/webp"
-              srcset="assets/img/karin-retrato-6-480.webp 480w,
-                      assets/img/karin-retrato-6-720.webp 720w"
-              sizes="(min-width: 120rem) 15rem, 13vw">
-      <img src="assets/img/karin-retrato-6.jpeg" alt=""
-           width="853" height="1280" loading="lazy" decoding="async">
-    </picture>
-  </figure>
-
   <div class="wrap">
     <h2 class="onde__h reveal" id="onde-h">Onde nos achar</h2>
 

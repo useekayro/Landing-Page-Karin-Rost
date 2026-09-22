@@ -61,12 +61,13 @@ const VERTICAIS = [
   ['karin processo 9,16.png', 'karin-processo', 941],
   ['karin foto 2 9,16.png', 'karin-conversa', 941],
   ['karin convite 9,16.png', 'karin-convite', 940],
+  ['karin chamada 9,16.png', 'karin-chamada', 940],
 ]
 
 const HORIZONTAIS = [
   'hero-colunas', 'emblema',
   'karin-escritorio', 'karin-processo', 'karin-conversa',
-  'karin-convite',
+  'karin-convite', 'karin-chamada',
 ]
 
 /* Fotos da galeria de profundidade. Aparecem pequenas na tela (nunca

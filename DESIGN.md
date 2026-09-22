@@ -121,9 +121,10 @@ da página. Nenhuma das outras fotos mudou.
 | ~~`justica-direito.png`~~ | ~~Banda editorial~~ | removida em 2026-09-19: a banda virou marquee vertical sobre `--ardosia` |
 | `karin-escritorio.png` | Sobre | sangria total; texto sobre a foto |
 | `karin-processo.png` | Processo | sangria total; **só o título** sobre a foto (substituiu `karin-azul.png` em 2026-09-19) |
-| ~~`karin-conversa.png`~~ | ~~CTA~~ | substituída em 2026-09-22 por `karin-convite.png` |
-| `karin-convite.png` | CTA | sangria total; fotografia limpa de estúdio, chamada em texto na metade esquerda |
-| `karin-retrato-1..6` | galeria | seis retratos flutuando entre as seções de texto, só acima de 64rem |
+| ~~`karin-conversa.png`~~ | ~~CTA~~ | substituída em 2026-09-22 |
+| ~~`karin-convite.png`~~ | ~~CTA~~ | arte sem texto; viveu algumas horas em 2026-09-22 |
+| `karin-chamada.png` | CTA | sangria total; a chamada volta a vir gravada no arquivo |
+| `karin-retrato-1..6` | galeria | seis retratos num cacho dentro do manifesto, só acima de 64rem |
 
 Uma única imagem foi **editada**, e por coerência de paleta: o ponto de
 interrogação de `karin-conversa.png` era magenta `#EC004F`, resto do tempo em
@@ -645,3 +646,36 @@ Os retratos são a única classe de imagem em WebP **com perda** (q90). Eles
 chegaram como JPEG, já comprimidos: em lossless o retrato 2 sai de 84KB para
 407KB, preservando apenas os artefatos do próprio JPEG. Sem corte, sem proporção
 forçada, sem filtro — a regra do cliente vale onde ela importa.
+
+
+### 2026-09-22, fim do dia — duas correções do cliente
+
+**O CTA volta a ter a chamada gravada.** O cliente entregou `karin-chamada`,
+a mesma poltrona mas com "VAMOS CONVERSAR?" já na arte. Some o `h2` em texto,
+some o lead, some a janela na metade esquerda: a seção volta ao arranjo que
+tinha antes — foto sangrando e botão centrado no campo claro logo abaixo.
+
+Nome novo (`karin-chamada`, não `karin-convite`) para nenhum navegador servir
+a arte sem texto do cache. A ponte do mobile foi remedida: a base agora é
+`#EBE6E2`, ainda a um passo do `--luz`, então os 3rem continuam valendo.
+
+O `alt` passou a carregar a pergunta — ela está DENTRO da imagem, e sem isso
+quem usa leitor de tela não a recebe. É o mesmo cuidado que o `h2` dava de
+graça; o ganho de acessibilidade do texto real se perde aqui, e o `alt` é o
+que sobra para compensar.
+
+**A galeria virou um cacho só, no manifesto.** Estava espalhada em seis seções;
+o cliente pediu em uma. Os seis retratos agora ocupam a altura inteira do
+manifesto (899px em 1512), três de cada lado, intercalados na vertical.
+
+Eles se tocam de leve no eixo Y, e isso é o efeito e não um defeito: planos em
+profundidades diferentes se sobrepõem. Como cada um entra na janela num momento
+distinto, cada um percorre a curva deslocado dos outros — o que estiver mais
+abaixo está maior e mais nítido quando aparece. O `z-index` cresce com a ordem
+do DOM para que o mais próximo pinte por cima.
+
+O `overflow: clip` que `.areas`, `.dif` e `.onde` tinham ganhado saiu junto:
+só o manifesto precisa cortar agora, e ele já era `relative` com
+`overflow: hidden`. A regra de ouro continua valendo e foi remedida — o
+`.wrap` vai de 141 a 1357, os retratos da esquerda terminam em 116 e os da
+direita começam em 1381. **Zero** invadem a coluna de texto.
