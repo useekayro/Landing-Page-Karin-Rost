@@ -66,19 +66,22 @@ RODAPÉ                        ardósia      assinatura
   altos as hastes ganham massa real ("robusta e chamativa").
 - **Texto/UI: Archivo** (400–700, variável). Grotesca de largura firme.
 - **Assinatura: Josefin Sans Light** (300, um peso só). Terceira voz, usada
-  só onde a marca se assina por extenso (`--assinatura`): a assinatura do
-  emblema e o `.foot__name` do rodapé — o mesmo par de linhas, nome sobre
-  subtítulo dourado em caixa alta, em dois tamanhos. Geométrica de altura-x
-  baixa: no mesmo corpo lê menor que o Bodoni, e o 300 tira ainda mais massa,
-  então leva `letter-spacing: 0.06em` na linha grande — tratamento de
-  logotipo, não de parágrafo. O tracking devolve o porte sem alargar a
-  pegada; medido contra o Bodoni 700 que havia antes:
+  só onde a marca se assina por extenso (`--assinatura`), que são **três**
+  lugares: a assinatura do emblema, o `.foot__name` do rodapé e o
+  `.nav__word` da navbar. Sempre o mesmo par de linhas — nome sobre subtítulo
+  dourado em caixa alta —, em três tamanhos. Geométrica de altura-x baixa: no
+  mesmo corpo lê menor que o Bodoni, e o 300 tira ainda mais massa, então leva
+  `letter-spacing: 0.06em` na linha grande — tratamento de logotipo, não de
+  parágrafo. O tracking devolve o porte sem alargar a pegada; medido contra o
+  Bodoni 700 que havia antes:
 
   | | antes | agora | disponível |
   |---|---|---|---|
   | emblema a 375px | 324px | 322px | 335px |
   | rodapé, "Karin Rost" | 103px | 101px | 265px a 375px |
   | rodapé, subtítulo | 162px | 161px | 265px a 375px |
+  | navbar, "Karin Rost" | 90px | 86px | 443px de folga a 1440px |
+  | navbar, subtítulo | 166px | 165px | idem |
 
   Sem a web font, o Archivo assume e quebra em duas linhas, o que é aceitável.
   O ponto a vigiar é o subtítulo do rodapé: 9px no peso 300 é a linha mais

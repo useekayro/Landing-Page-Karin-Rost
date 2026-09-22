@@ -114,14 +114,19 @@
 }
 .nav__brand:hover .nav__logo { transform: scale(1.05) rotate(-2deg); }
 
+/* Terceira ocorrência do mesmo lockup — nome sobre subtítulo dourado
+   em caixa alta —, depois da assinatura do emblema e do .foot__name.
+   Por isso a mesma Josefin Sans Light: onde a marca se assina por
+   extenso, é sempre --assinatura. Ver a nota em 05-sections.css. */
 .nav__word { display: grid; line-height: 1.1; }
 .nav__word-a {
-  font-family: var(--display);
-  font-size: 1.0625rem; font-weight: 700;
-  letter-spacing: 0.01em; color: var(--tinta-clara);
+  font-family: var(--assinatura);
+  font-size: 1.0625rem; font-weight: 300;
+  letter-spacing: 0.06em; color: var(--tinta-clara);
 }
 .nav__word-b {
-  font-size: 0.5625rem; font-weight: 500;
+  font-family: var(--assinatura);
+  font-size: 0.5625rem; font-weight: 300;
   letter-spacing: 0.22em; text-transform: uppercase;
   color: var(--ouro-claro);
 }
