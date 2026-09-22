@@ -50,6 +50,11 @@ const MAX_VERTICAL_OFFSET = 8;
    saíram — o ritmo do loop vem do +0,3/s do autoplay. */
 const VISIBLE_COUNT = 12;
 
+/* Raio do canto em UNIDADES DE MUNDO, não em pixels: os planos têm
+   2 de largura, então 0,12 é 6% dela — o mesmo peso visual do
+   --raio-sm do site, e constante para qualquer distância da câmera. */
+const RAIO_CANTO = 0.12;
+
 /* Defaults do export default de InfiniteGallery. */
 const fadeSettings = {
   fadeIn: { start: 0.05, end: 0.25 },
@@ -67,6 +72,11 @@ const createClothMaterial = () =>
     uniforms: {
       map: { value: null },
       mapSize: { value: new THREE.Vector2(1, 1) },
+      /* Tamanho do plano em unidades de mundo e raio do canto na
+         mesma unidade — é o que deixa o arredondamento igual nos
+         quatro cantos mesmo com o plano sendo 2x3, e não 1x1. */
+      quadSize: { value: new THREE.Vector2(2, 2) },
+      raio: { value: RAIO_CANTO },
       opacity: { value: 1.0 },
       blurAmount: { value: 0.0 },
       scrollForce: { value: 0.0 },
@@ -122,11 +132,21 @@ const createClothMaterial = () =>
     fragmentShader: `
       uniform sampler2D map;
       uniform vec2 mapSize;
+      uniform vec2 quadSize;
+      uniform float raio;
       uniform float opacity;
       uniform float blurAmount;
       uniform float scrollForce;
       varying vec2 vUv;
       varying vec3 vNormal;
+
+      /* SDF de retângulo arredondado: negativo dentro, positivo fora.
+         Trabalha em unidades de mundo, não em UV, senão o raio sairia
+         achatado na horizontal num plano que é mais alto que largo. */
+      float caixaArredondada(vec2 p, vec2 meia, float r) {
+        vec2 q = abs(p) - meia + r;
+        return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - r;
+      }
 
       void main() {
         vec4 color = texture2D(map, vUv);
@@ -152,7 +172,16 @@ const createClothMaterial = () =>
         float curveHighlight = abs(scrollForce) * 0.05;
         color.rgb += vec3(curveHighlight * 0.1);
 
-        gl_FragColor = vec4(color.rgb, color.a * opacity);
+        /* Cantos arredondados. A suavização é derivada do tamanho do
+           plano em vez de fwidth(): fwidth é GLSL ES 3.00 ou precisa
+           da extensão OES_standard_derivatives, e este shader compila
+           em GLSL1 — o mesmo motivo que tirou textureSize daqui. */
+        vec2 p = (vUv - 0.5) * quadSize;
+        float d = caixaArredondada(p, quadSize * 0.5, raio);
+        float suave = quadSize.x * 0.004;
+        float mascara = 1.0 - smoothstep(-suave, suave, d);
+
+        gl_FragColor = vec4(color.rgb, color.a * opacity * mascara);
       }
     `,
   });
@@ -406,6 +435,10 @@ function iniciar(raiz) {
         const malha = malhas[i];
         if (aspect > 1) malha.scale.set(2 * aspect, 2, 1);
         else malha.scale.set(2, 2 / aspect, 1);
+        /* O shader precisa do tamanho do plano para arredondar os
+           quatro cantos com o mesmo raio; sem isso o canto sairia
+           oval num plano 2x3. */
+        material.uniforms.quadSize.value.set(malha.scale.x, malha.scale.y);
 
         malha.position.set(plane.x, plane.y, plane.z - halfRange);
       });

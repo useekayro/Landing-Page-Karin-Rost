@@ -12,7 +12,7 @@ const FOTOS = [
   ['karin foto 4 9,16.png', 'emblema'],
   ['karin foto 3 9,16.png', 'karin-escritorio'],
   ['karin processo 9,16.png', 'karin-processo'],
-  ['karin foto 2 9,16.png', 'karin-conversa'],
+  ['karin convidar 9,16.jpeg', 'karin-convidar'],
 ]
 
 const kb = n => Math.round(n / 1024)

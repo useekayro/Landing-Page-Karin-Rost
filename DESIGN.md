@@ -792,3 +792,31 @@ flag, o carimbo de última interação e o `setInterval` de 1s que os vigiava.
 Sumiu também o `SPEED`, que só multiplicava a roda e as setas — o ritmo do loop
 vem do `+0,3/s`. Efeito colateral bem-vindo: **acabou a captura de rolagem**, e
 a página passa pela galeria como por qualquer outra seção.
+
+### 2026-09-22, sexta volta — faxina e cantos arredondados
+
+**Saíram 25,1 MB de arte morta**, em 21 arquivos: `karin-conversa*`,
+`karin-convite*` e `karin-chamada*`. O CTA passou pelas três num único dia
+antes de fechar em `karin-convidar`, e nenhuma era referenciada pela página —
+só pelas listas das ferramentas, que teriam regenerado tudo na próxima
+execução. Por isso a limpeza mexeu em `gerar-mobile.mjs`, `medir-bordas.mjs` e
+`medir-webp.mjs` junto com a pasta.
+
+Nada se perdeu: os masters seguem na raiz do projeto (ignorada pelo git, mas
+presente em disco) e os arquivos gerados estão no histórico. Conferido rodando
+`gerar-mobile.mjs` depois da faxina — nenhum dos apagados voltou.
+
+**Os planos da galeria ganharam cantos arredondados.** É máscara no shader, não
+CSS: o plano é um quad de WebGL, e `border-radius` não alcança ali.
+
+O SDF de retângulo arredondado trabalha em **unidades de mundo**, não em UV. Em
+UV o raio sairia achatado na horizontal, porque os planos são 2×3 e não 1×1 —
+daí o uniform `quadSize`, atualizado por plano a cada quadro a partir da escala
+da malha, que já é função do aspecto da foto.
+
+O raio é `0,12` em unidades de mundo, 6% da largura do plano: o mesmo peso
+visual do `--raio-sm` da página, e constante a qualquer distância da câmera.
+
+A suavização da borda é derivada de `quadSize` em vez de `fwidth()`. Pelo mesmo
+motivo que tirou `textureSize` daqui: `fwidth` é GLSL ES 3.00 ou depende da
+extensão `OES_standard_derivatives`, e este shader compila em GLSL1.

@@ -21,7 +21,6 @@ const FOTOS = [
   ['karin foto 4 9,16.png', 'emblema',          '.cena--emblema'],
   ['karin foto 3 9,16.png', 'karin-escritorio', '.cena--sobre'],
   ['karin processo 9,16.png', 'karin-processo', '.cena--proc'],
-  ['karin foto 2 9,16.png', 'karin-conversa',   '.cena--cta'],
   ['karin convidar 9,16.jpeg', 'karin-convidar',  '.cena--cta'],
 ]
 

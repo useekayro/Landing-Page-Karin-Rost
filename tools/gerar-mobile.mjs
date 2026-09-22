@@ -48,9 +48,12 @@ const img = join(raiz, 'assets', 'img')
    nunca montando string de shell. */
 /* justica-direito saiu (a banda virou marquee, sem foto) e karin-azul
    foi substituída por karin-processo, com nome novo para nenhum
-   navegador servir a foto antiga do cache. */
+   navegador servir a foto antiga do cache.
+   O CTA passou por karin-conversa, karin-convite e karin-chamada em
+   2026-09-22 antes de fechar em karin-convidar; as três saíram da
+   pasta e daqui. Os masters seguem na raiz do projeto. */
 /* A largura nativa é declarada por foto porque as artes não chegam
-   todas iguais: karin-convite veio com 940, não 941. Antes isso era
+   todas iguais: karin-convidar veio com 853, não 941. Antes isso era
    uma constante global e o script quebrava na primeira arte fora do
    padrão — agora o número entra no nome do arquivo e o HTML aponta
    para ele, sem arredondar nada. */
@@ -59,16 +62,12 @@ const VERTICAIS = [
   ['karin foto 4 9,16.png', 'emblema', 941],
   ['karin foto 3 9,16.png', 'karin-escritorio', 941],
   ['karin processo 9,16.png', 'karin-processo', 941],
-  ['karin foto 2 9,16.png', 'karin-conversa', 941],
-  ['karin convite 9,16.png', 'karin-convite', 940],
-  ['karin chamada 9,16.png', 'karin-chamada', 940],
   ['karin convidar 9,16.jpeg', 'karin-convidar', 853],
 ]
 
 const HORIZONTAIS = [
   'hero-colunas', 'emblema',
-  'karin-escritorio', 'karin-processo', 'karin-conversa',
-  'karin-convite', 'karin-chamada', 'karin-convidar',
+  'karin-escritorio', 'karin-processo', 'karin-convidar',
 ]
 
 /* Fotos da galeria de profundidade. Aparecem pequenas na tela (nunca
