@@ -56,13 +56,16 @@ Uma conversa iniciada no WhatsApp. Tudo na página existe para tornar esse passo
       áreas) e para por completo sob `prefers-reduced-motion`.
 
    b. **2026-09-22** — a seção `.g3d`, galeria 3D de fotografias da advogada.
-      Esta é uma exceção maior e vale registrar o que ela custa: a galeria
-      **anda sozinha** (retoma 3s após a última interação), o loop de imagens
-      é **infinito**, e com o cursor sobre ela a **roda do mouse alimenta a
-      galeria em vez de rolar a página**. A decisão foi do cliente, tomada
-      depois de ver uma versão sem autoplay e sem loop, que foi recusada: ele
-      pediu o efeito idêntico ao componente de referência. O `prefers-reduced-
-      motion` ainda é respeitado no autoplay; a captura da roda não.
+      A galeria **anda sozinha** e o loop de imagens é **infinito**. A decisão
+      foi do cliente, tomada depois de ver uma versão sem autoplay e sem loop,
+      que foi recusada: ele pediu o efeito idêntico ao componente de
+      referência. O `prefers-reduced-motion` para o avanço.
+
+      **A captura de rolagem saiu** no mesmo dia, também a pedido. O
+      componente original dirigia a galeria pela roda do mouse e pelas setas,
+      com `preventDefault` na roda — numa landing isso prendia a navegação
+      dentro da seção. Agora o loop anda sozinho e ponto: a rolagem não altera
+      a galeria, e a galeria não altera a rolagem.
 
    A regra continua valendo para todo o resto: nada correndo na horizontal,
    nenhum outro carrossel.

@@ -10,17 +10,17 @@
    O QUE FOI MANTIDO IDÊNTICO ao original:
      • os dois shaders (cloth ripple, flag wave no hover, blur 5x5);
      • DEPTH_RANGE 50, offsets 8/8, distribuição por ângulo áureo;
-     • autoplay (+0,3·delta) e retomada 3s após a última interação;
+     • o avanço contínuo do autoplay (+0,3·delta) e o amortecimento;
      • wrapping infinito dos planos e o avanço de imageIndex;
      • amortecimento 0,95 e z += velocidade·delta·10;
      • as curvas de fade e blur, com as MESMAS paradas do export
        default: fade 0,05-0,25 e 0,40-0,43; blur 0-0,1 e 0,40-0,43,
        teto 8;
      • escala pelo aspecto, câmera em [0,0,0] com fov 55;
-     • roda do mouse, setas do teclado e o hover plano a plano;
+     • o hover plano a plano, com a bandeira no shader;
      • a checagem de WebGL com a grade de fallback.
 
-   AS DUAS ÚNICAS MUDANÇAS, e por quê:
+   AS MUDANÇAS, e por quê:
 
    1. textureSize(map, 0) é GLSL ES 3.00. O ShaderMaterial do three
       compila em GLSL1 por padrão, onde essa função não existe e o
@@ -31,27 +31,23 @@
       aqui é uma variável comum. Mesma aritmética, um quadro por
       quadro, sem o re-render do React no meio.
 
-   ── ATENÇÃO, CAPTURA DE ROLAGEM ──────────────────────────────
-   CAPTURA_RODA reproduz o preventDefault do original: com o cursor
-   sobre a galeria, a roda alimenta a galeria em vez de rolar a
-   página. No demo isso faz sentido, porque a galeria É a página.
-   Aqui ela é uma seção no meio de uma landing: quem parar o cursor
-   em cima e rolar não passa para a seção seguinte enquanto não tirar
-   o cursor dali. Está fiel ao pedido; para desligar, é este
-   booleano — a galeria continua andando sozinha e pelas setas.
+   3. A ENTRADA DO USUÁRIO SAIU, a pedido. O original dirigia a
+      galeria pela roda do mouse e pelas setas, com o autoplay
+      retomando 3s depois. Aqui o loop anda sozinho e ponto: a
+      rolagem não altera a galeria, e a galeria não altera a rolagem.
+      Com isso saíram também o autoplay condicional, o carimbo de
+      última interação e o setInterval que os vigiava.
    ════════════════════════════════════════════════════════════════ */
 
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
-
-const CAPTURA_RODA = true;
 
 /* ── Constantes do original ─────────────────────────────────── */
 const DEFAULT_DEPTH_RANGE = 50;
 const MAX_HORIZONTAL_OFFSET = 8;
 const MAX_VERTICAL_OFFSET = 8;
 
-/* Props do demo. */
-const SPEED = 1.2;
+/* Props do demo. `speed` valia só para a roda e as setas, que
+   saíram — o ritmo do loop vem do +0,3/s do autoplay. */
 const VISIBLE_COUNT = 12;
 
 /* Defaults do export default de InfiniteGallery. */
@@ -256,30 +252,23 @@ function iniciar(raiz) {
       material.uniforms.mapSize.value.set(im.width, im.height);
     };
 
-    /* ── Entrada ────────────────────────────────────────────── */
+    /* ── Entrada: nenhuma ───────────────────────────────────────
+       O original dirigia a galeria pela roda do mouse e pelas setas,
+       e voltava ao autoplay 3s depois. Os dois foram retirados a
+       pedido: o loop continua, mas a rolagem não mexe nele.
+
+       Saíram juntos, e não só a roda, porque as setas TAMBÉM são
+       rolagem — o handler ficava no document e respondia a
+       ArrowUp/Down em qualquer ponto da página, de modo que quem
+       navegasse de teclado daria um tranco na galeria sem querer.
+
+       Com ninguém interrompendo, o autoplay não precisa mais ser
+       reativado: some o `autoPlay`, some o `lastInteraction` e some o
+       setInterval de 1s que os vigiava. O laço só acelera e amortece.
+
+       Efeito colateral bem-vindo: acabou a captura de rolagem. A
+       página passa por baixo da galeria como por qualquer seção. */
     let scrollVelocity = 0;
-    let autoPlay = true;
-    let lastInteraction = Date.now();
-
-    const aoRolar = (ev) => {
-      if (CAPTURA_RODA) ev.preventDefault();
-      scrollVelocity += ev.deltaY * 0.01 * SPEED;
-      autoPlay = false;
-      lastInteraction = Date.now();
-    };
-    render.domElement.addEventListener('wheel', aoRolar, { passive: !CAPTURA_RODA });
-
-    document.addEventListener('keydown', (ev) => {
-      if (ev.key === 'ArrowUp' || ev.key === 'ArrowLeft') {
-        scrollVelocity -= 2 * SPEED; autoPlay = false; lastInteraction = Date.now();
-      } else if (ev.key === 'ArrowDown' || ev.key === 'ArrowRight') {
-        scrollVelocity += 2 * SPEED; autoPlay = false; lastInteraction = Date.now();
-      }
-    });
-
-    setInterval(() => {
-      if (Date.now() - lastInteraction > 3000) autoPlay = true;
-    }, 1000);
 
     /* Hover: o onPointerEnter/Leave do R3F é um raycast por trás. */
     const raio = new THREE.Raycaster();
@@ -318,7 +307,7 @@ function iniciar(raiz) {
       const delta = relogio.getDelta();
       if (!visivel) return;
 
-      if (autoPlay && !calmo.matches) scrollVelocity += 0.3 * delta;
+      if (!calmo.matches) scrollVelocity += 0.3 * delta;
       scrollVelocity *= 0.95;
 
       const time = relogio.getElapsedTime();

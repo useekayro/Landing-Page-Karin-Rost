@@ -752,3 +752,43 @@ do topo do arquivo em 1440px. Funciona e o contraste é folgado (14,77:1 no
 título, 4,97:1 no "?"), mas é apertado por limite da fotografia, não por
 escolha — se um dia incomodar, o caminho é uma faixa de `--luz` acima da foto,
 com a chamada centrada nela.
+
+### 2026-09-22, quinta volta — chamada ao lado e galeria sem entrada
+
+**A chamada do CTA foi para o lado, junto com o botão.** Estava centrada acima
+da Karin; virou um bloco único (`.cta__bloco`) com chamada e botão, ao lado
+dela. O `.cena__texto` que existia abaixo da foto saiu, e a seção ganhou
+`padding-bottom` para a ponte do mobile ainda ter campo claro onde pousar.
+
+Onde há espaço, medido em `tools/medir-escuro.mjs` (novo — a massa escura da
+foto é o que derruba texto escuro; o fundo de estúdio não):
+
+| arte | massa escura | livre à esquerda | livre à direita |
+|---|---|---|---|
+| 1672×941 (desktop) | 27,0% a 78,3% | 451px | 362px |
+| 853×1280 (mobile) | 11,4% a 81,7% | **97px** | 156px |
+
+Por isso o bloco muda de lugar entre os dois. No desktop cabe na coluna da
+esquerda, centrado na altura, com a largura fechada em `25% - gutter` para
+parar antes dos 27%. No celular 97px não comportam nem uma palavra, então ele
+sobe para a faixa livre acima da cabeça dela — alinhado à esquerda, que é o
+"ao lado" possível ali.
+
+Verificado: desktop x 5,1%–25,0% (massa escura começa em 27,0%), mobile
+y 6,9%–27,9% (cabelo em 34,7%). Contraste do título **13,65:1** no desktop e
+**14,94:1** no mobile; o "?" em `--ouro-fundo` dá 4,59:1 e 5,02:1.
+
+**A galeria perdeu a entrada do usuário.** O original a dirigia pela roda do
+mouse e pelas setas, com o autoplay retomando 3s depois. Saíram os dois: o loop
+anda sozinho e a rolagem não mexe nele.
+
+As setas saíram junto com a roda, e não só ela, porque **as setas também são
+rolagem** — o handler vivia no `document` e respondia a `ArrowUp`/`ArrowDown` em
+qualquer ponto da página, de modo que quem navegasse de teclado daria um tranco
+na galeria sem querer.
+
+Com ninguém interrompendo, o autoplay deixou de ser condicional: sumiram a
+flag, o carimbo de última interação e o `setInterval` de 1s que os vigiava.
+Sumiu também o `SPEED`, que só multiplicava a roda e as setas — o ritmo do loop
+vem do `+0,3/s`. Efeito colateral bem-vindo: **acabou a captura de rolagem**, e
+a página passa pela galeria como por qualquer outra seção.

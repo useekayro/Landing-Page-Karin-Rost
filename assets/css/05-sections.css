@@ -629,11 +629,6 @@
   }
   .cena--emblema .emblema__h { font-size: clamp(2rem, 2.9vw, 2.75rem); }
 
-  /* A CTA é a exceção: não há texto para pousar dentro da foto —
-     a chamada já está gravada nela —, então o botão volta ao fluxo,
-     centrado no campo claro logo abaixo. */
-  .cena--cta .cena__texto { position: static; padding: var(--s7) var(--gutter); }
-  .cena--cta .cena__caixa { position: static; max-width: 44rem; margin-inline: auto; }
 }
 
 /* No limite de 1200px a coluna lateral fica com 290px: o texto de
@@ -642,42 +637,50 @@
   .emblema__p { display: none; }
 }
 
-/* ═══════════ CTA — a chamada pousa sobre a foto ═══════════
-   A arte nova é fotografia limpa, sem texto gravado. "Vamos
-   conversar?" é HTML de novo e fica centrado acima da Karin, nos
-   dois breakpoints. O botão segue no campo claro abaixo.
+/* ═══════════ CTA — chamada e botão ao lado dela ═══════════
+   A arte é fotografia limpa, sem texto gravado. "Vamos conversar?" e
+   o botão ficam JUNTOS, num bloco só, ao lado da Karin — e não
+   centrados por cima dela.
 
-   A âncora vertical é por `bottom`, não por `top`: assim a chamada
-   fica presa à LINHA DO CABELO dela, que é o que não pode ser
-   coberto, e não a uma distância qualquer do topo do arquivo.
-   Medido em tools/medir-sujeito.mjs, sobre os pixels:
+   Onde há espaço, medido em tools/medir-escuro.mjs (a massa escura
+   da foto é o que derruba texto escuro; o fundo de estúdio, não):
 
-     vertical   853x1280 — cabeça começa em 34,7%  → 444px livres
-     horizontal 1672x941 — cabeça começa em  7,3%  →  69px livres
+     horizontal 1672x941 — massa escura de 27,0% a 78,3%
+                           sobram 451px à esquerda, 362px à direita
+     vertical    853x1280 — massa escura de 11,4% a 81,7%
+                           sobram  97px à esquerda, 156px à direita
 
-   Essa diferença é a razão de o corpo do tipo mudar tanto entre os
-   dois: no celular a chamada tem um terço do quadro e cabe em duas
-   linhas; no desktop ela divide 7% da altura e só cabe em uma. */
-.cena--cta .cena__texto { padding-block: var(--s7); }
-.cena--cta .cena__caixa { justify-items: center; }
+   Por isso o bloco muda de lugar entre os dois: no desktop cabe na
+   coluna da esquerda, que é o lado de onde se lê; no celular 97px não
+   comportam nem uma palavra, então ele sobe para a faixa livre acima
+   da cabeça dela (34,7% da altura, medida em medir-sujeito.mjs) —
+   alinhado à esquerda, que é o "ao lado" possível ali.
+
+   A seção ganhou padding-bottom porque o bloco de texto que existia
+   abaixo da foto saiu: sem ele a ponte do mobile (--ponte, colada em
+   top:100% da figura) não teria campo claro onde pousar. */
+.cena--cta { padding-bottom: var(--s7); }
 
 .cta__quadro { position: relative; }
 
-/* Centrada NA FAIXA LIVRE, não colada na cabeça nem no topo do
-   arquivo: a âncora é o meio da faixa e o translate faz o resto, de
-   modo que o número não precisa saber a altura do tipo nem quantas
-   linhas ele vai ocupar. Meio da faixa = 34,7% / 2. */
-.cta__h {
+.cta__bloco {
   position: absolute;
   left: var(--gutter); right: var(--gutter);
-  top: 17.38%;         /* meio da faixa livre, de tools/medir-sujeito.mjs */
+  /* meio da faixa livre acima da cabeça, de medir-sujeito.mjs; o
+     translate evita que o número dependa da altura do bloco */
+  top: 17.38%;
   transform: translateY(-50%);
+  display: grid;
+  justify-items: start;
+  gap: var(--s4);
+}
+
+.cta__h {
   margin: 0;
   font-family: var(--display);
   font-size: var(--t-4);
   font-weight: 400; line-height: 1.02;
   letter-spacing: -0.02em;
-  text-align: center;
   text-wrap: balance;
   color: var(--tinta-escura);
 }
@@ -685,16 +688,17 @@
    --ouro-fundo foi criado exatamente para isto e mede 5,4:1. */
 .cta__q { color: var(--ouro-fundo); }
 
-/* Acima de 60rem entra a arte horizontal e a faixa livre despenca de
-   34,7% para 7,3% da altura. O corpo passa a ser função da largura da
-   viewport, porque a altura da foto também é: 1672x941 => 0,5628vw.
-   6,5% disso ≈ 3,1vw, que é o teto de uma linha dentro da faixa. */
+/* Acima de 60rem entra a arte horizontal e o bloco desce para a
+   coluna da esquerda, centrado na altura. A largura para antes dos
+   27% onde a massa escura começa: o gutter já come a borda, então
+   sobra 25% menos ele. */
 @media (min-width: 60.01rem) {
-  .cta__h {
-    top: 3.67%;                /* idem, para a arte 16:9 */
-    font-size: clamp(1.5rem, 3.1vw, 2.75rem);
-    line-height: 1;
+  .cta__bloco {
+    right: auto;
+    width: calc(25% - var(--gutter));
+    top: 50%;
   }
+  .cta__h { font-size: clamp(1.75rem, 3.4vw, 3.25rem); line-height: 1.04; }
 }
 
 /* ═══════════════════════ DIFERENCIAIS ═══════════════════════ */
@@ -879,8 +883,10 @@
 }
 
 /* ═══════════════════════ CTA ═══════════════════════ */
+/* justify-self: start, nao center: o botao divide a margem esquerda
+   com a chamada, e os dois descem em linha reta ate a acao. */
 .cena--cta .btn {
-  justify-self: center;
+  justify-self: start;
   font-size: 0.9375rem;
   padding: 1.15rem 2rem;
 }
