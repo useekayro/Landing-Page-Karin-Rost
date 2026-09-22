@@ -12,12 +12,23 @@
                         cliente sobre a alternativa com perda (q90, que
                         daria 0,71 MB em vez de 7,65 MB).
 
+   EXCEÇÃO, os RETRATOS: as seis fotos da galeria chegaram como JPEG,
+   não PNG — já vêm comprimidas com perda. Recomprimir lossless não
+   preserva nada além dos artefatos do próprio JPEG, e a conta prova:
+   o retrato 2 sai de 84KB para 407KB em lossless e para 73KB em q90.
+   Guardar 5x o peso para conservar artefato não serve a ninguém, então
+   esta classe vai em q90. A regra do cliente continua respeitada onde
+   ela importa: nenhum corte, nenhuma proporção forçada, nenhum filtro.
+
    Saídas por foto vertical (mobile, ≤60rem):
-     -m-941.png / .webp   cópia da largura nativa entregue
-     -m-640.png / .webp   redução para telas estreitas
+     -m-<nativa>.png / .webp  cópia da largura nativa entregue
+     -m-640.png / .webp       redução para telas estreitas
 
    Saídas por foto horizontal (desktop, >60rem):
      .webp                mesma resolução, só recomprimido
+
+   Saídas por retrato (galeria de profundidade):
+     -480.webp / -720.webp    duas larguras, q90
 
    Logo: 1276px de origem para exibir a 56px. Uma variante de 256px
    cobre 4× DPI com folga. O arquivo original continua na pasta.
@@ -38,24 +49,35 @@ const img = join(raiz, 'assets', 'img')
 /* justica-direito saiu (a banda virou marquee, sem foto) e karin-azul
    foi substituída por karin-processo, com nome novo para nenhum
    navegador servir a foto antiga do cache. */
+/* A largura nativa é declarada por foto porque as artes não chegam
+   todas iguais: karin-convite veio com 940, não 941. Antes isso era
+   uma constante global e o script quebrava na primeira arte fora do
+   padrão — agora o número entra no nome do arquivo e o HTML aponta
+   para ele, sem arredondar nada. */
 const VERTICAIS = [
-  ['karin foto 6 9,16.png', 'hero-colunas'],
-  ['karin foto 4 9,16.png', 'emblema'],
-  ['karin foto 3 9,16.png', 'karin-escritorio'],
-  ['karin processo 9,16.png', 'karin-processo'],
-  ['karin foto 2 9,16.png', 'karin-conversa'],
+  ['karin foto 6 9,16.png', 'hero-colunas', 941],
+  ['karin foto 4 9,16.png', 'emblema', 941],
+  ['karin foto 3 9,16.png', 'karin-escritorio', 941],
+  ['karin processo 9,16.png', 'karin-processo', 941],
+  ['karin foto 2 9,16.png', 'karin-conversa', 941],
+  ['karin convite 9,16.png', 'karin-convite', 940],
 ]
 
 const HORIZONTAIS = [
   'hero-colunas', 'emblema',
   'karin-escritorio', 'karin-processo', 'karin-conversa',
+  'karin-convite',
 ]
 
-const NATIVA = 941
+/* Fotos da galeria de profundidade. Aparecem pequenas na tela (nunca
+   passam de ~340px de largura exibida), então 720 cobre 2x DPI. */
+const RETRATOS = { nome: 'karin-retrato', quantos: 6, larguras: [480, 720] }
+
 const REDUZIDA = 640
 const LOGO = 256
 
 const SEM_PERDA = { lossless: true, effort: 6 }
+const COM_PERDA = { quality: 90, effort: 6 }
 
 const kb = (n) => Math.round(n / 1024)
 const tam = async (p) => (await stat(p)).size
@@ -63,11 +85,11 @@ const tam = async (p) => (await stat(p)).size
 let antes = 0, depois = 0
 
 console.log('── verticais (mobile) ' + '─'.repeat(46))
-for (const [arquivo, nome] of VERTICAIS) {
+for (const [arquivo, nome, NATIVA] of VERTICAIS) {
   const origem = join(img, arquivo)
   const meta = await sharp(origem).metadata()
   if (meta.width !== NATIVA) {
-    throw new Error(`${arquivo}: largura ${meta.width}, esperava ${NATIVA}`)
+    throw new Error(`${arquivo}: largura ${meta.width}, declarada ${NATIVA}`)
   }
 
   // Largura nativa: cópia exata em PNG, e o mesmo conteúdo em WebP.
@@ -86,7 +108,7 @@ for (const [arquivo, nome] of VERTICAIS) {
   const [a, b] = [await tam(png941), await tam(webp941)]
   antes += a; depois += b
   console.log(
-    `${nome.padEnd(18)} 941: ${String(kb(a)).padStart(5)}KB png -> ${String(kb(b)).padStart(5)}KB webp` +
+    `${nome.padEnd(18)} ${String(NATIVA).padStart(3)}: ${String(kb(a)).padStart(5)}KB png -> ${String(kb(b)).padStart(5)}KB webp` +
     `   640: ${String(kb(await tam(png640))).padStart(5)}KB png -> ${String(kb(await tam(webp640))).padStart(4)}KB webp`
   )
 }
@@ -99,6 +121,35 @@ for (const nome of HORIZONTAIS) {
   const [a, b] = [await tam(origem), await tam(saida)]
   antes += a; depois += b
   console.log(`${nome.padEnd(18)} ${String(kb(a)).padStart(5)}KB png -> ${String(kb(b)).padStart(5)}KB webp`)
+}
+
+console.log('\n── retratos (galeria) ' + '─'.repeat(46))
+{
+  let origemTotal = 0, saidaTotal = 0
+  for (let n = 1; n <= RETRATOS.quantos; n++) {
+    const origem = join(img, `${RETRATOS.nome}-${n}.jpeg`)
+    const meta = await sharp(origem).metadata()
+    const linha = []
+    for (const largura of RETRATOS.larguras) {
+      const saida = join(img, `${RETRATOS.nome}-${n}-${largura}.webp`)
+      await sharp(origem)
+        .resize({ width: largura, withoutEnlargement: true })
+        .webp(COM_PERDA)
+        .toFile(saida)
+      const b = await tam(saida)
+      saidaTotal += b
+      linha.push(`${largura}: ${String(kb(b)).padStart(3)}KB`)
+    }
+    const a = await tam(origem)
+    origemTotal += a
+    console.log(
+      `${RETRATOS.nome}-${n}`.padEnd(18) +
+      ` ${meta.width}x${meta.height} ${String(kb(a)).padStart(3)}KB jpeg  ->  ${linha.join('   ')}`
+    )
+  }
+  console.log(
+    `${''.padEnd(18)} origem ${kb(origemTotal)}KB  ->  ${kb(saidaTotal)}KB nas duas larguras (q90)`
+  )
 }
 
 console.log('\n── logo ' + '─'.repeat(60))

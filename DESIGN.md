@@ -121,7 +121,9 @@ da página. Nenhuma das outras fotos mudou.
 | ~~`justica-direito.png`~~ | ~~Banda editorial~~ | removida em 2026-09-19: a banda virou marquee vertical sobre `--ardosia` |
 | `karin-escritorio.png` | Sobre | sangria total; texto sobre a foto |
 | `karin-processo.png` | Processo | sangria total; **só o título** sobre a foto (substituiu `karin-azul.png` em 2026-09-19) |
-| `karin-conversa.png` | CTA | sangria total; a chamada já vem gravada no arquivo |
+| ~~`karin-conversa.png`~~ | ~~CTA~~ | substituída em 2026-09-22 por `karin-convite.png` |
+| `karin-convite.png` | CTA | sangria total; fotografia limpa de estúdio, chamada em texto na metade esquerda |
+| `karin-retrato-1..6` | galeria | seis retratos flutuando entre as seções de texto, só acima de 64rem |
 
 Uma única imagem foi **editada**, e por coerência de paleta: o ponto de
 interrogação de `karin-conversa.png` era magenta `#EC004F`, resto do tempo em
@@ -590,3 +592,56 @@ Marquee (exceção única: o vertical da banda, ver PRODUCT.md) · carrossel aut
 gradient text · glassmorphism decorativo · borda lateral colorida ·
 kicker minúsculo em caixa alta acima de toda seção · grid de cards idênticos ·
 sombra pesada.
+
+## 2026-09-22 — arte nova no CTA e a galeria de profundidade
+
+**O CTA trocou de fotografia.** `karin-conversa` trazia "Vamos conversar?"
+gravado no arquivo; `karin-convite` é uma fotografia limpa de estúdio. Três
+consequências, todas resolvidas:
+
+1. **A chamada virou texto.** Passou a ser um `h2` de verdade (`.cta__h`), com
+   lead e botão abaixo. Ganho de acessibilidade: é lido por leitor de tela e
+   redimensiona. O "?" em `--ouro-fundo` fica *dentro* do nome acessível — fora
+   dele, o leitor anunciaria a pergunta como afirmação.
+2. **A seção deixou de ser exceção.** O texto voltou a pousar sobre a foto,
+   como nas outras cenas: a Karin senta à direita do quadro e a janela é a
+   metade esquerda, fechada em 46% para não encostar no braço da poltrona.
+   Medido sobre os retângulos de linha reais, o pixel mais escuro da janela é
+   `#E3E1DF` — título 14,29:1, lead 6,21:1, "?" 4,80:1. Todos passam.
+3. **A ponte mobile encurtou.** A base da arte mede `#ECE9E8`, a um passo do
+   `--luz` (`#F2EFED`). Os 8rem existiam para dissolver o pêssego `#D1B4A3`
+   da arte anterior; 3rem já não deixam aresta.
+
+`gerar-mobile.mjs` passou a declarar a largura nativa por foto — `karin-convite`
+veio com 940, não 941, e a constante global quebrava o script na primeira arte
+fora do padrão.
+
+**A galeria de profundidade.** Seis retratos da Karin emergindo entre as seções
+de texto, um em cada: manifesto, áreas, banda, diferenciais, processo e onde nos
+achar. A referência era um componente React + three.js; foi refeito em CSS e um
+`galeria.js` de ~120 linhas, sem dependência e sem build. Duas coisas do
+original ficaram de fora **por causa do item 3 do PRODUCT.md**:
+
+- o `autoPlay`, que voltava a andar sozinho 3s após a última interação;
+- o wrapping infinito, que reciclava as imagens para sempre.
+
+Cada retrato aparece uma vez, quando a sua seção passa pela janela. Nada se move
+sozinho. O original também chamava `preventDefault` no `wheel` — numa landing
+page isso prenderia a rolagem dentro do efeito; aqui o scroll é só lido.
+
+As curvas são as do componente: fade 0,05→0,25 entrando e 0,75→0,95 saindo,
+desfoque 0→0,15 e 0,85→1,00 com teto de 8px, escala 0,74→1,08. Resultado: a
+foto fica totalmente nítida e opaca nos 50% centrais do percurso.
+
+**Regra de ouro do bloco:** o retrato nunca encosta na coluna de texto. Ele vive
+na margem que sobra ao lado do `.wrap` e o excedente sangra para *fora* da tela,
+nunca para dentro do conteúdo — por isso o ancoramento parte da borda interna.
+Em 1512px o `.wrap` vai de 141 a 1357 e os retratos ficam em 99 e 1373. Abaixo
+de 64rem não há margem, então `display: none` — e isso corta antes da rede:
+medido com `performance.getEntriesByType('resource')`, rolando a página inteira
+a 375px, **zero** retratos baixados.
+
+Os retratos são a única classe de imagem em WebP **com perda** (q90). Eles
+chegaram como JPEG, já comprimidos: em lossless o retrato 2 sai de 84KB para
+407KB, preservando apenas os artefatos do próprio JPEG. Sem corte, sem proporção
+forçada, sem filtro — a regra do cliente vale onde ela importa.
