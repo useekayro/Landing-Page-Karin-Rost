@@ -642,13 +642,60 @@
   .emblema__p { display: none; }
 }
 
-/* ═══════════ CTA — a foto já traz a chamada ═══════════
-   "Vamos conversar?" está gravado no próprio arquivo, então a
-   seção não repete nada: a foto sangra e o botão vem logo abaixo,
-   centrado no campo claro. Sem texto sobre a foto, não há zona de
-   silêncio a respeitar aqui. */
+/* ═══════════ CTA — a chamada pousa sobre a foto ═══════════
+   A arte nova é fotografia limpa, sem texto gravado. "Vamos
+   conversar?" é HTML de novo e fica centrado acima da Karin, nos
+   dois breakpoints. O botão segue no campo claro abaixo.
+
+   A âncora vertical é por `bottom`, não por `top`: assim a chamada
+   fica presa à LINHA DO CABELO dela, que é o que não pode ser
+   coberto, e não a uma distância qualquer do topo do arquivo.
+   Medido em tools/medir-sujeito.mjs, sobre os pixels:
+
+     vertical   853x1280 — cabeça começa em 34,7%  → 444px livres
+     horizontal 1672x941 — cabeça começa em  7,3%  →  69px livres
+
+   Essa diferença é a razão de o corpo do tipo mudar tanto entre os
+   dois: no celular a chamada tem um terço do quadro e cabe em duas
+   linhas; no desktop ela divide 7% da altura e só cabe em uma. */
 .cena--cta .cena__texto { padding-block: var(--s7); }
 .cena--cta .cena__caixa { justify-items: center; }
+
+.cta__quadro { position: relative; }
+
+/* Centrada NA FAIXA LIVRE, não colada na cabeça nem no topo do
+   arquivo: a âncora é o meio da faixa e o translate faz o resto, de
+   modo que o número não precisa saber a altura do tipo nem quantas
+   linhas ele vai ocupar. Meio da faixa = 34,7% / 2. */
+.cta__h {
+  position: absolute;
+  left: var(--gutter); right: var(--gutter);
+  top: 17.38%;         /* meio da faixa livre, de tools/medir-sujeito.mjs */
+  transform: translateY(-50%);
+  margin: 0;
+  font-family: var(--display);
+  font-size: var(--t-4);
+  font-weight: 400; line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-align: center;
+  text-wrap: balance;
+  color: var(--tinta-escura);
+}
+/* Bronze, não o ouro da página: sobre campo claro o --ouro dá 1,9:1.
+   --ouro-fundo foi criado exatamente para isto e mede 5,4:1. */
+.cta__q { color: var(--ouro-fundo); }
+
+/* Acima de 60rem entra a arte horizontal e a faixa livre despenca de
+   34,7% para 7,3% da altura. O corpo passa a ser função da largura da
+   viewport, porque a altura da foto também é: 1672x941 => 0,5628vw.
+   6,5% disso ≈ 3,1vw, que é o teto de uma linha dentro da faixa. */
+@media (min-width: 60.01rem) {
+  .cta__h {
+    top: 3.67%;                /* idem, para a arte 16:9 */
+    font-size: clamp(1.5rem, 3.1vw, 2.75rem);
+    line-height: 1;
+  }
+}
 
 /* ═══════════════════════ DIFERENCIAIS ═══════════════════════ */
 .dif {
@@ -1192,11 +1239,11 @@
   .cena--emblema { --borda-base: #09111C; --campo: var(--ardosia); }
   .cena--sobre   { --borda-base: #DBCEC7; --campo: var(--luz); --ponte: 6rem; }
   .cena--proc    { --borda-base: #0B131B; --campo: var(--azul); }   /* base de karin-processo-m */
-  /* A arte nova é estúdio claro: a base mede #EBE6E2, a um passo do
-     --luz (#F2EFED) que é o campo da seção. A ponte de 8rem existia
-     para dissolver o pêssego #D1B4A3 da arte anterior; com esta
-     diferença, 3rem já não deixam aresta. */
-  .cena--cta     { --borda-base: #EBE6E2; --campo: var(--luz); --ponte: 3rem; }
+  /* Estúdio claro: a base da arte mede #E8E4E1 (mediana, desvio 1,0x
+     — a borda é chapada), a um passo do --luz (#F2EFED) que é o campo
+     da seção. A ponte de 8rem existia para dissolver o pêssego
+     #D1B4A3 de uma arte antiga; com esta diferença, 3rem bastam. */
+  .cena--cta     { --borda-base: #E8E4E1; --campo: var(--luz); --ponte: 3rem; }
 
   .cena__foto { position: relative; }
 
@@ -1339,12 +1386,6 @@
   color: #fff;
   mix-blend-mode: exclusion;
 }
-.g3d__dica {
-  font-size: 0.6875rem; font-weight: 600;
-  letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--ouro-claro);
-}
-
 /* Fallback sem WebGL: a grade de miniaturas do componente original. */
 .g3d__fallback {
   display: grid;

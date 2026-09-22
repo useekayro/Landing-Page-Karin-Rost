@@ -508,10 +508,11 @@
 
   <div class="g3d__frente">
     <h2 class="g3d__h" id="g3d-h">No dia a dia</h2>
-    <p class="g3d__dica">
-      <span aria-hidden="true">Use a roda do mouse ou as setas</span>
-      <span class="sr-only">Galeria decorativa de fotografias da advogada.</span>
-    </p>
+    <!-- A dica visível saiu a pedido. A descrição para leitor de tela
+         fica: o canvas não expõe conteúdo nenhum, então sem esta linha
+         a seção seria só um título seguido de silêncio. Como .sr-only é
+         posicionada em absoluto, ela não ocupa espaço no grid. -->
+    <p class="sr-only">Galeria decorativa de fotografias da advogada.</p>
   </div>
 </section>
 
@@ -630,30 +631,36 @@
 </section>
 
 <!-- ══════════════════════════ CTA ══════════════════════════ -->
-<section class="cena cena--cta" id="contato" aria-label="Contato">
-  <figure class="cena__foto">
+<section class="cena cena--cta" id="contato" aria-labelledby="cta-h">
+  <!-- A arte voltou a ser fotografia limpa, sem a chamada gravada, então
+       "Vamos conversar?" é texto de novo — e mora DENTRO da figura, não
+       no bloco de texto abaixo, para poder pousar sobre a foto tanto no
+       celular quanto no desktop. O posicionamento vertical de cada
+       breakpoint saiu da medição da própria arte; ver .cta__h no CSS. -->
+  <figure class="cena__foto cta__quadro">
     <picture>
-      <source media="(max-width: 60rem)" type="image/webp" width="940" height="1672"
-              srcset="assets/img/karin-chamada-m-640.webp 640w,
-                      assets/img/karin-chamada-m-940.webp 940w"
+      <!-- A vertical é 853x1280 (2:3) e chegou em JPEG; a horizontal é
+           1672x941. Os números aqui são os reais dos arquivos. -->
+      <source media="(max-width: 60rem)" type="image/webp" width="853" height="1280"
+              srcset="assets/img/karin-convidar-m-640.webp 640w,
+                      assets/img/karin-convidar-m-853.webp 853w"
               sizes="100vw">
-      <source media="(max-width: 60rem)" width="940" height="1672"
-              srcset="assets/img/karin-chamada-m-640.png 640w,
-                      assets/img/karin-chamada-m-940.png 940w"
+      <source media="(max-width: 60rem)" width="853" height="1280"
+              srcset="assets/img/karin-convidar-m-640.jpeg 640w,
+                      assets/img/karin-convidar-m-853.jpeg 853w"
               sizes="100vw">
-      <source type="image/webp" srcset="assets/img/karin-chamada.webp">
-      <!-- A vertical tem 940 de largura, a horizontal 941 de altura: um
-           pixel a menos que as artes mais antigas. Os números são os reais.
-           O alt carrega a chamada porque ela está DENTRO da imagem — sem
-           isso, quem usa leitor de tela não recebe a pergunta. -->
-      <img src="assets/img/karin-chamada.png"
-           alt="“Vamos conversar?” — Karin Rost sentada em uma poltrona de couro escuro, blazer claro sobre roupa preta, diante de um fundo claro de estúdio."
+      <source type="image/webp" srcset="assets/img/karin-convidar.webp">
+      <img src="assets/img/karin-convidar.png"
+           alt="Karin Rost sentada em uma poltrona de couro escuro, blazer claro sobre roupa preta, diante de um fundo branco de estúdio."
            width="1672" height="941" loading="lazy" decoding="async">
     </picture>
+
+    <!-- O “?” só muda de cor; fica DENTRO do nome acessível, senão o
+         leitor de tela anuncia “Vamos conversar” como afirmação. -->
+    <h2 class="cta__h" id="cta-h">Vamos conversar<span class="cta__q">?</span></h2>
   </figure>
 
-  <!-- A chamada voltou a vir gravada na arte, então a seção não a repete:
-       só o botão, centrado no campo claro logo abaixo da foto. -->
+  <!-- Só o botão no campo claro abaixo da foto: a chamada já está por cima. -->
   <div class="cena__texto">
     <div class="cena__caixa">
       <a class="btn btn--dark reveal" href="https://wa.me/5551993965299" target="_blank" rel="noopener">

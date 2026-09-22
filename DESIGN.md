@@ -123,7 +123,8 @@ da página. Nenhuma das outras fotos mudou.
 | `karin-processo.png` | Processo | sangria total; **só o título** sobre a foto (substituiu `karin-azul.png` em 2026-09-19) |
 | ~~`karin-conversa.png`~~ | ~~CTA~~ | substituída em 2026-09-22 |
 | ~~`karin-convite.png`~~ | ~~CTA~~ | arte sem texto; viveu algumas horas em 2026-09-22 |
-| `karin-chamada.png` | CTA | sangria total; a chamada volta a vir gravada no arquivo |
+| ~~`karin-chamada.png`~~ | ~~CTA~~ | arte com texto gravado; trocada em 2026-09-22 |
+| `karin-convidar.png` | CTA | sangria total; fotografia limpa, chamada em HTML centrada acima dela |
 | `karin-retrato-1..6` | Galeria 3D | texturas dos planos em profundidade, seção `.g3d` |
 
 Uma única imagem foi **editada**, e por coerência de paleta: o ponto de
@@ -715,3 +716,39 @@ infinito e a roda do mouse é capturada enquanto o cursor estiver sobre ela — 
 três coisas que o item 3 do PRODUCT.md proíbe. Está lá como exceção (b),
 decidida pelo cliente. `CAPTURA_RODA`, no topo de `galeria3d.js`, é o booleano
 que desliga só a captura da roda, caso a navegação da página passe a incomodar.
+
+
+### 2026-09-22, quarta volta — a chamada em HTML e o brilho da galeria
+
+**As fotos da galeria estavam escuras, e a culpa era de uma linha minha.** Eu
+havia marcado as texturas como `SRGBColorSpace`, coisa que o componente original
+não faz. O shader é cru: escreve direto em `gl_FragColor`, e o three só injeta a
+conversão de saída em shaders que incluem `<colorspace_fragment>`. Com a marca, a
+GPU decodificava sRGB→linear ao amostrar e ninguém recodificava na saída — o
+valor linear ia para a tela como se fosse sRGB, e tudo escurecia. Sem a marca os
+bytes passam intactos, que é o comportamento do componente.
+
+**`karin-convidar` no lugar de `karin-chamada`.** A arte voltou a ser fotografia
+limpa, então "Vamos conversar?" é HTML outra vez — e agora mora dentro da
+`<figure>`, não no bloco de texto abaixo, para poder pousar sobre a foto nos dois
+breakpoints.
+
+A vertical desta leva chegou em **2:3 (853x1280)**, não 9:16, e em **JPEG**, não
+PNG. O `gerar-mobile.mjs` passou a respeitar a extensão da origem: renomear um
+JPEG para `.png` entregaria um arquivo com o rótulo errado, e recomprimir sem
+perda uma fonte já com perda só guardaria o artefato.
+
+**Onde a chamada pousa.** A âncora é o meio da faixa livre acima da cabeça dela,
+medida em `tools/medir-sujeito.mjs` sobre os pixels:
+
+| arte | cabeça começa em | faixa livre | corpo | folga até o cabelo |
+|---|---|---|---|---|
+| 853x1280 (mobile) | 34,7% | 444px | 39px | 13,9% |
+| 1672x941 (desktop) | 7,3% | 69px | 44px | 0,9% |
+
+Essa diferença é a razão de o corpo mudar tanto entre os dois. **No desktop a
+arte não tem headroom**: 69px de 941. A chamada cabe em uma linha e fica a 7px
+do topo do arquivo em 1440px. Funciona e o contraste é folgado (14,77:1 no
+título, 4,97:1 no "?"), mas é apertado por limite da fotografia, não por
+escolha — se um dia incomodar, o caminho é uma faixa de `--luz` acima da foto,
+com a chamada centrada nela.

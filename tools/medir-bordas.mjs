@@ -22,7 +22,7 @@ const FOTOS = [
   ['karin foto 3 9,16.png', 'karin-escritorio', '.cena--sobre'],
   ['karin processo 9,16.png', 'karin-processo', '.cena--proc'],
   ['karin foto 2 9,16.png', 'karin-conversa',   '.cena--cta'],
-  ['karin chamada 9,16.png', 'karin-chamada',  '.cena--cta'],
+  ['karin convidar 9,16.jpeg', 'karin-convidar',  '.cena--cta'],
 ]
 
 const FAIXA = 6   // linhas de pixel amostradas em cada borda

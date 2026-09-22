@@ -62,12 +62,13 @@ const VERTICAIS = [
   ['karin foto 2 9,16.png', 'karin-conversa', 941],
   ['karin convite 9,16.png', 'karin-convite', 940],
   ['karin chamada 9,16.png', 'karin-chamada', 940],
+  ['karin convidar 9,16.jpeg', 'karin-convidar', 853],
 ]
 
 const HORIZONTAIS = [
   'hero-colunas', 'emblema',
   'karin-escritorio', 'karin-processo', 'karin-conversa',
-  'karin-convite', 'karin-chamada',
+  'karin-convite', 'karin-chamada', 'karin-convidar',
 ]
 
 /* Fotos da galeria de profundidade. Aparecem pequenas na tela (nunca
@@ -93,18 +94,28 @@ for (const [arquivo, nome, NATIVA] of VERTICAIS) {
     throw new Error(`${arquivo}: largura ${meta.width}, declarada ${NATIVA}`)
   }
 
-  // Largura nativa: cópia exata em PNG, e o mesmo conteúdo em WebP.
-  const png941 = join(img, `${nome}-m-${NATIVA}.png`)
+  /* A cópia da largura nativa guarda a extensão da ORIGEM. Nem toda
+     arte chega em PNG — karin-convidar veio em JPEG, e renomear um
+     JPEG para .png entregaria um arquivo com o rótulo errado.
+     O mesmo motivo vale para a recompressão: fonte já com perda vai
+     em q90, porque lossless só preservaria o artefato do JPEG. */
+  const ext = origem.slice(origem.lastIndexOf('.') + 1).toLowerCase()
+  const daOrigemComPerda = ext === 'jpg' || ext === 'jpeg'
+  const wOpts = daOrigemComPerda ? COM_PERDA : SEM_PERDA
+
+  const png941 = join(img, `${nome}-m-${NATIVA}.${ext}`)
   await copyFile(origem, png941)
   const webp941 = join(img, `${nome}-m-${NATIVA}.webp`)
-  await sharp(origem).webp(SEM_PERDA).toFile(webp941)
+  await sharp(origem).webp(wOpts).toFile(webp941)
 
   // Reduzida: só resize, proporção calculada pelo sharp.
   const menor = sharp(origem).resize({ width: REDUZIDA, withoutEnlargement: true })
-  const png640 = join(img, `${nome}-m-${REDUZIDA}.png`)
-  await menor.clone().png({ compressionLevel: 9 }).toFile(png640)
+  const png640 = join(img, `${nome}-m-${REDUZIDA}.${ext}`)
+  await (daOrigemComPerda
+    ? menor.clone().jpeg({ quality: 90 }).toFile(png640)
+    : menor.clone().png({ compressionLevel: 9 }).toFile(png640))
   const webp640 = join(img, `${nome}-m-${REDUZIDA}.webp`)
-  await menor.clone().webp(SEM_PERDA).toFile(webp640)
+  await menor.clone().webp(wOpts).toFile(webp640)
 
   const [a, b] = [await tam(png941), await tam(webp941)]
   antes += a; depois += b

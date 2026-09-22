@@ -207,7 +207,13 @@ function iniciar(raiz) {
   ).then((texturas) => {
     const texturasOk = texturas.filter(Boolean);
     if (!texturasOk.length) { semWebgl(raiz, imagens); return; }
-    for (const t of texturasOk) t.colorSpace = THREE.SRGBColorSpace;
+    /* NÃO marcar as texturas como SRGBColorSpace. O original não marca,
+       e marcar aqui escurecia tudo: o shader é cru, escreve direto em
+       gl_FragColor e o three só injeta a conversão de saída em shaders
+       que incluem <colorspace_fragment>. Com a marca, a GPU decodifica
+       sRGB->linear ao amostrar e ninguém recodifica na saída — o valor
+       linear vai para a tela como se fosse sRGB. Sem a marca os bytes
+       passam intactos, que é o comportamento do componente. */
 
     const totalImages = texturasOk.length;
     const depthRange = DEFAULT_DEPTH_RANGE;
