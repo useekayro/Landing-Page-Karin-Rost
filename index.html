@@ -207,75 +207,6 @@
 
 <!-- ══════════════════════════ MANIFESTO ══════════════════════════ -->
 <section class="manifesto" aria-labelledby="manifesto-h">
-  <!-- Galeria de profundidade: os seis retratos vivem TODOS aqui, num
-       cacho de profundidade, e nao mais espalhados pela pagina. Sao
-       decorativos (alt vazio, aria-hidden) porque a Karin ja e
-       apresentada com alt descritivo nas fotografias principais.
-       A ordem no DOM e a ordem de pintura: os mais proximos por
-       ultimo. Ver .retrato em 05-sections.css e assets/js/galeria.js. -->
-  <div class="galeria" aria-hidden="true">
-    <figure class="retrato retrato--esq retrato--p1" data-retrato aria-hidden="true">
-      <picture>
-        <source type="image/webp"
-                srcset="assets/img/karin-retrato-1-480.webp 480w,
-                        assets/img/karin-retrato-1-720.webp 720w"
-                sizes="(min-width: 120rem) 15rem, 13vw">
-        <img src="assets/img/karin-retrato-1.jpeg" alt=""
-             width="853" height="1280" loading="lazy" decoding="async">
-      </picture>
-    </figure>
-    <figure class="retrato retrato--dir retrato--p2" data-retrato aria-hidden="true">
-      <picture>
-        <source type="image/webp"
-                srcset="assets/img/karin-retrato-2-480.webp 480w,
-                        assets/img/karin-retrato-2-720.webp 720w"
-                sizes="(min-width: 120rem) 15rem, 13vw">
-        <img src="assets/img/karin-retrato-2.jpeg" alt=""
-             width="853" height="1280" loading="lazy" decoding="async">
-      </picture>
-    </figure>
-    <figure class="retrato retrato--esq retrato--p3" data-retrato aria-hidden="true">
-      <picture>
-        <source type="image/webp"
-                srcset="assets/img/karin-retrato-3-480.webp 480w,
-                        assets/img/karin-retrato-3-720.webp 720w"
-                sizes="(min-width: 120rem) 15rem, 13vw">
-        <img src="assets/img/karin-retrato-3.jpeg" alt=""
-             width="853" height="1280" loading="lazy" decoding="async">
-      </picture>
-    </figure>
-    <figure class="retrato retrato--dir retrato--p4" data-retrato aria-hidden="true">
-      <picture>
-        <source type="image/webp"
-                srcset="assets/img/karin-retrato-4-480.webp 480w,
-                        assets/img/karin-retrato-4-720.webp 720w"
-                sizes="(min-width: 120rem) 15rem, 13vw">
-        <img src="assets/img/karin-retrato-4.jpeg" alt=""
-             width="853" height="1280" loading="lazy" decoding="async">
-      </picture>
-    </figure>
-    <figure class="retrato retrato--esq retrato--p5" data-retrato aria-hidden="true">
-      <picture>
-        <source type="image/webp"
-                srcset="assets/img/karin-retrato-5-480.webp 480w,
-                        assets/img/karin-retrato-5-720.webp 720w"
-                sizes="(min-width: 120rem) 15rem, 13vw">
-        <img src="assets/img/karin-retrato-5.jpeg" alt=""
-             width="853" height="1280" loading="lazy" decoding="async">
-      </picture>
-    </figure>
-    <figure class="retrato retrato--dir retrato--p6" data-retrato aria-hidden="true">
-      <picture>
-        <source type="image/webp"
-                srcset="assets/img/karin-retrato-6-480.webp 480w,
-                        assets/img/karin-retrato-6-720.webp 720w"
-                sizes="(min-width: 120rem) 15rem, 13vw">
-        <img src="assets/img/karin-retrato-6.jpeg" alt=""
-             width="853" height="1280" loading="lazy" decoding="async">
-      </picture>
-    </figure>
-  </div>
-
   <div class="wrap">
     <!-- credencial e escopo, vindos do hero: aqui funcionam como
          ficha técnica antes da declaração, sem disputar com a foto -->
@@ -557,6 +488,30 @@
         <p>Do pedido administrativo à ação judicial, quando necessária.</p>
       </li>
     </ul>
+  </div>
+</section>
+
+
+<!-- ══════════════════════ GALERIA 3D ══════════════════════
+     Port fiel de InfiniteGallery (3d-gallery-photography): planos em
+     profundidade com shader de tecido, autoplay e loop infinito. A
+     logica inteira esta em assets/js/galeria3d.js, que documenta o
+     que foi mantido identico ao original e as duas adaptacoes que o
+     three.js puro exigiu.
+
+     Esta secao e a UNICA excecao ao item 3 do PRODUCT.md ("sem
+     carrosseis automaticos ou scroll infinito"), decidida pelo
+     cliente em 2026-09-22 depois de ver a versao sem autoplay. -->
+<section class="g3d" aria-labelledby="g3d-h">
+  <div class="g3d__palco" data-galeria3d
+       data-imagens='[{"src":"assets/img/karin-retrato-1-720.webp","alt":""},{"src":"assets/img/karin-retrato-2-720.webp","alt":""},{"src":"assets/img/karin-retrato-3-720.webp","alt":""},{"src":"assets/img/karin-retrato-4-720.webp","alt":""},{"src":"assets/img/karin-retrato-5-720.webp","alt":""},{"src":"assets/img/karin-retrato-6-720.webp","alt":""}]'src\":\"assets/img/karin-retrato-1-720.webp\",\"alt\":\"\"},{\"src\":\"assets/img/karin-retrato-2-720.webp\",\"alt\":\"\"},{\"src\":\"assets/img/karin-retrato-3-720.webp\",\"alt\":\"\"},{\"src\":\"assets/img/karin-retrato-4-720.webp\",\"alt\":\"\"},{\"src\":\"assets/img/karin-retrato-5-720.webp\",\"alt\":\"\"},{\"src\":\"assets/img/karin-retrato-6-720.webp\",\"alt\":\"\"}]"></div>
+
+  <div class="g3d__frente">
+    <h2 class="g3d__h" id="g3d-h">No dia a dia</h2>
+    <p class="g3d__dica">
+      <span aria-hidden="true">Use a roda do mouse ou as setas</span>
+      <span class="sr-only">Galeria decorativa de fotografias da advogada.</span>
+    </p>
   </div>
 </section>
 
@@ -856,6 +811,6 @@
 <script src="assets/js/areas.js" defer></script>
 <script src="assets/js/canais.js" defer></script>
 <script src="assets/js/marquee.js" defer></script>
-<script src="assets/js/galeria.js" defer></script>
+<script src="assets/js/galeria3d.js" type="module"></script>
 </body>
 </html>

@@ -1296,93 +1296,70 @@
   .area::after { display: none; }
 }
 
-/* ═══════════════ GALERIA DE PROFUNDIDADE ═══════════════
-   Os seis retratos da Karin, agora num cacho unico dentro do
-   manifesto — antes estavam espalhados por seis secoes. A logica de
-   fade/desfoque esta em assets/js/galeria.js, que tambem explica o
-   que foi deixado de fora do componente de referencia e por que.
+/* ═══════════════════════ GALERIA 3D ═══════════════════════
+   Seção inteira para o efeito de profundidade. O canvas ocupa a
+   dobra toda, como no demo do componente; a tipografia pousa por
+   cima em mix-blend-mode, também como lá.
 
-   REGRA DE OURO DESTE BLOCO: o retrato nunca encosta na coluna de
-   texto. Ele vive na margem que sobra ao lado de .wrap, e quando
-   essa margem e menor que ele, o excedente sangra para FORA da tela
-   — nunca para dentro do conteudo. Por isso o ancoramento e
-   calculado a partir da borda interna, nao da externa:
+   O palco tem altura própria (não depende do canvas, que o three
+   dimensiona por JS) para a seção não colapsar antes do primeiro
+   quadro nem provocar layout shift quando ele chega. */
+.g3d {
+  position: relative;
+  background: var(--ardosia);
+  border-top: 1px solid var(--linha-clara);
+  overflow: hidden;
+}
+.g3d__palco {
+  position: relative;
+  height: 100svh;
+  min-height: 34rem;
+}
+.g3d__palco canvas { display: block; width: 100%; height: 100%; }
 
-     margem livre = (100vw - largura do .wrap) / 2
-     borda interna do retrato = margem - um respiro
-     borda externa = borda interna - largura   (pode ficar negativa)
-
-   Em 1512px sobram ~141px de margem e o retrato mede 197px: parte
-   aparece, parte sai pela lateral. Abaixo de 64rem nao ha margem
-   nenhuma, entao o bloco inteiro nao existe — a pagina ja tem cinco
-   fotografias sangradas no mobile, esta camada e um extra de tela
-   larga, e o display:none corta antes da rede. */
-.retrato { display: none; }
-
-@media (min-width: 64rem) {
-  .retrato {
-    --r-larg: clamp(7rem, 13vw, 15rem);
-    --r-margem: calc((100vw - min(100vw - var(--gutter) * 2, var(--wrap))) / 2);
-    /* Valores iniciais: sem JS (ou antes do primeiro quadro) o
-       retrato aparece nitido e parado, nunca invisivel. */
-    --r-o: 0.9;
-    --r-b: 0px;
-    --r-s: 1;
-    --r-y: 0px;
-
-    display: block;
-    position: absolute;
-    width: var(--r-larg);
-    margin: 0;
-    pointer-events: none;
-    opacity: var(--r-o);
-    filter: blur(var(--r-b));
-    transform: translate3d(0, var(--r-y), 0) scale(var(--r-s));
-    will-change: opacity, filter, transform;
-  }
-  .retrato img {
-    width: 100%; height: auto;
-    border-radius: var(--raio-sm);
-    /* A sombra da o descolamento do campo sem precisar de moldura.
-       Os retratos sao de um estudio claro sobre a ardosia escura. */
-    box-shadow: 0 30px 60px -32px rgb(10 14 20 / 0.75);
-  }
-
-  /* --s5 e nao --s4: o retrato cresce ate 1,08 no fim da curva e a
-     folga precisa sobreviver a esse ganho de ~8px por lado. */
-  .retrato--esq { left:  calc(var(--r-margem) - var(--r-larg) - var(--s5)); }
-  .retrato--dir { right: calc(var(--r-margem) - var(--r-larg) - var(--s5)); }
-
-  /* O cacho ocupa a altura inteira do manifesto (899px em 1512),
-     tres retratos de cada lado, intercalados na vertical. Eles se
-     tocam de leve no eixo Y — e isso e o efeito, nao um defeito:
-     planos em profundidades diferentes se sobrepoem.
-
-     O z-index cresce com a ordem porque a curva e a mesma para
-     todos, mas cada um a percorre deslocado: quem esta mais abaixo
-     na secao entra na janela depois, e nesse instante esta maior e
-     mais nitido que os de cima. Pintar na ordem do DOM ja poe o
-     mais proximo por cima. */
-  .retrato--p1 { top:  2%; z-index: 1; --r-larg: clamp(6rem, 11vw, 13rem); }
-  .retrato--p2 { top: 14%; z-index: 2; }
-  .retrato--p3 { top: 36%; z-index: 3; --r-larg: clamp(6.5rem, 12vw, 14rem); }
-  .retrato--p4 { top: 48%; z-index: 4; }
-  .retrato--p5 { top: 68%; z-index: 5; --r-larg: clamp(6rem, 11vw, 13rem); }
-  .retrato--p6 { top: 78%; z-index: 6; }
-
-  /* O manifesto ja era relative com overflow hidden, que e
-     exatamente o que o cacho precisa: bloco de contencao para o
-     posicionamento e corte do que sangra pela lateral. */
-  .galeria {
-    position: absolute;
-    inset: 0;
-    z-index: var(--z-deco);
-    pointer-events: none;
-  }
+/* A frente não intercepta ponteiro: o hover do shader e a roda
+   precisam chegar ao canvas por baixo. */
+.g3d__frente {
+  position: absolute; inset: 0;
+  z-index: var(--z-conteudo);
+  display: grid;
+  align-content: center; justify-items: center;
+  gap: var(--s4);
+  padding: var(--gutter);
+  pointer-events: none;
+  text-align: center;
+}
+/* exclusion como no demo: a tipografia inverte sobre a fotografia
+   que estiver passando, em vez de sumir sobre as claras. */
+.g3d__h {
+  font-family: var(--display);
+  font-size: var(--t-5);
+  font-weight: 400; line-height: 1;
+  letter-spacing: -0.02em;
+  color: #fff;
+  mix-blend-mode: exclusion;
+}
+.g3d__dica {
+  font-size: 0.6875rem; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ouro-claro);
 }
 
-/* Sem movimento: o JS ja congela os valores, mas a transicao de
-   entrada tambem sai de cena — nada pulsa, nada desliza. */
-@media (prefers-reduced-motion: reduce) {
-  .retrato { transition: none !important; }
+/* Fallback sem WebGL: a grade de miniaturas do componente original. */
+.g3d__fallback {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: var(--s3);
+  padding: var(--sec) var(--gutter);
 }
+.g3d__fallback img {
+  width: 100%; height: auto;
+  border-radius: var(--raio-sm);
+}
+/* Sem WebGL o palco não precisa de uma dobra inteira, e a chamada
+   sobreposta não teria fotografia por baixo para inverter. A classe
+   vem do JS só nesse caso — NÃO pode ser :not(.g3d--pronta), senão o
+   palco colapsa nos milissegundos entre o HTML e o primeiro quadro. */
+.g3d__palco.g3d--sem-webgl { height: auto; min-height: 0; }
+.g3d__palco.g3d--sem-webgl + .g3d__frente { position: static; padding-top: var(--sec); }
+.g3d__palco.g3d--sem-webgl + .g3d__frente .g3d__h { mix-blend-mode: normal; }

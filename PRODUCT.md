@@ -47,13 +47,25 @@ Uma conversa iniciada no WhatsApp. Tudo na página existe para tornar esse passo
 1. **As fotografias não podem ser modificadas** — sem corte, sem mudança de
    proporção, sem filtro, sem `object-fit: cover`. O layout se adapta à imagem.
 2. **O logo é usado exatamente como fornecido** — só o tamanho de exibição muda.
-3. **Sem marquees**, carrosséis automáticos ou scroll infinito — **com uma
-   exceção decidida pelo cliente em 2026-09-19**: o marquee *vertical* da banda
-   "A lei é a mesma para todos", que lista as seis áreas de atuação. Ele é
-   lento (26s por volta), decorativo (`aria-hidden`, repete conteúdo que já
-   está na seção de áreas) e para por completo sob `prefers-reduced-motion`.
+3. **Sem marquees**, carrosséis automáticos ou scroll infinito — **com duas
+   exceções, ambas decididas pelo cliente**:
+
+   a. **2026-09-19** — o marquee *vertical* da banda "A lei é a mesma para
+      todos", que lista as seis áreas de atuação. Ele é lento (26s por volta),
+      decorativo (`aria-hidden`, repete conteúdo que já está na seção de
+      áreas) e para por completo sob `prefers-reduced-motion`.
+
+   b. **2026-09-22** — a seção `.g3d`, galeria 3D de fotografias da advogada.
+      Esta é uma exceção maior e vale registrar o que ela custa: a galeria
+      **anda sozinha** (retoma 3s após a última interação), o loop de imagens
+      é **infinito**, e com o cursor sobre ela a **roda do mouse alimenta a
+      galeria em vez de rolar a página**. A decisão foi do cliente, tomada
+      depois de ver uma versão sem autoplay e sem loop, que foi recusada: ele
+      pediu o efeito idêntico ao componente de referência. O `prefers-reduced-
+      motion` ainda é respeitado no autoplay; a captura da roda não.
+
    A regra continua valendo para todo o resto: nada correndo na horizontal,
-   nenhum carrossel.
+   nenhum outro carrossel.
 4. A navbar e o dock **não aparecem durante o hero**.
 5. Removidos a pedido: "Atendimento presencial e online", "Contato direto com a
    advogada", "Análise antes de qualquer contrato".

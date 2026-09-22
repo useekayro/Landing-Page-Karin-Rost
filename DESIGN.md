@@ -124,7 +124,7 @@ da página. Nenhuma das outras fotos mudou.
 | ~~`karin-conversa.png`~~ | ~~CTA~~ | substituída em 2026-09-22 |
 | ~~`karin-convite.png`~~ | ~~CTA~~ | arte sem texto; viveu algumas horas em 2026-09-22 |
 | `karin-chamada.png` | CTA | sangria total; a chamada volta a vir gravada no arquivo |
-| `karin-retrato-1..6` | galeria | seis retratos num cacho dentro do manifesto, só acima de 64rem |
+| `karin-retrato-1..6` | Galeria 3D | texturas dos planos em profundidade, seção `.g3d` |
 
 Uma única imagem foi **editada**, e por coerência de paleta: o ponto de
 interrogação de `karin-conversa.png` era magenta `#EC004F`, resto do tempo em
@@ -679,3 +679,39 @@ só o manifesto precisa cortar agora, e ele já era `relative` com
 `overflow: hidden`. A regra de ouro continua valendo e foi remedida — o
 `.wrap` vai de 141 a 1357, os retratos da esquerda terminam em 116 e os da
 direita começam em 1381. **Zero** invadem a coluna de texto.
+
+
+### 2026-09-22, terceira volta — a galeria vira WebGL, em seção própria
+
+O cliente recusou as duas versões anteriores e pediu o efeito **idêntico** ao
+componente de referência (`3d-gallery-photography`), numa seção só para ele.
+Entrou entre Diferenciais e Processo, ocupando uma dobra inteira.
+
+**Por que three.js puro e não React.** O componente é React + @react-three/fiber
++ drei, mas o efeito é três.js do começo ao fim — R3F só fornece o laço de render
+e o grafo de cena. `assets/js/galeria3d.js` faz esse papel em ~340 linhas, sem
+build, sem bundler, sem TypeScript. Os dois shaders vieram linha por linha.
+
+**As duas únicas adaptações**, ambas documentadas no topo do arquivo:
+
+1. `textureSize(map, 0)` é GLSL ES 3.00. O `ShaderMaterial` do three compila em
+   GLSL1 por padrão, onde a função não existe e o shader não linka. O tamanho da
+   textura passou a entrar por uniform (`mapSize`); a conta do blur é a mesma.
+2. `scrollVelocity` era `useState` atualizado dentro do `useFrame`; virou uma
+   variável comum. Mesma aritmética, sem o re-render do React no meio.
+
+Tudo o mais é o original: `DEPTH_RANGE` 50, offsets 8/8, distribuição por ângulo
+áureo, autoplay `+0,3·delta` com retomada em 3s, amortecimento `0,95`,
+`z += v·delta·10`, wrapping infinito, escala pelo aspecto, câmera em `[0,0,0]`
+com `fov 55`, roda, setas, hover com a bandeira, e o fallback sem WebGL.
+
+As paradas de fade e blur são as do `export default` (não as do `GalleryScene`):
+fade 0,05–0,25 e 0,40–0,43; blur 0–0,1 e 0,40–0,43, teto 8. Isso deixa cada plano
+visível numa janela estreita — com 12 planos em `DEPTH_RANGE` 50, são 4 ou 5 na
+tela ao mesmo tempo, e uma volta completa leva ~50s no autoplay.
+
+**O que esta seção custa, registrado de propósito:** ela anda sozinha, o loop é
+infinito e a roda do mouse é capturada enquanto o cursor estiver sobre ela — as
+três coisas que o item 3 do PRODUCT.md proíbe. Está lá como exceção (b),
+decidida pelo cliente. `CAPTURA_RODA`, no topo de `galeria3d.js`, é o booleano
+que desliga só a captura da roda, caso a navegação da página passe a incomodar.
